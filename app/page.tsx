@@ -52,6 +52,13 @@ export default async function Home() {
               Recipes
             </Link>
 
+            <Link
+              href="/favorites"
+              className="font-medium text-gray-600 transition hover:text-orange-600"
+            >
+              Favorites
+            </Link>
+
             <a
               href="#categories"
               className="font-medium text-gray-600 transition hover:text-orange-600"
