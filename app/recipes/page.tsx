@@ -1,8 +1,54 @@
 import Link from "next/link";
 import { prisma } from "../../lib/prisma";
 
-export default async function RecipesPage() {
+type RecipesPageProps = {
+  searchParams: Promise<{
+    category?: string;
+    search?: string;
+  }>;
+};
+
+export default async function RecipesPage({
+  searchParams,
+}: RecipesPageProps) {
+  const params = await searchParams;
+  const selectedCategory = params.category;
+  const search = params.search?.trim();
+
+  const categories = await prisma.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
+
   const recipes = await prisma.recipe.findMany({
+    where: {
+      ...(selectedCategory
+        ? {
+            category: {
+              slug: selectedCategory,
+            },
+          }
+        : {}),
+      ...(search
+        ? {
+            OR: [
+              {
+                title: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+              {
+                description: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          }
+        : {}),
+    },
     include: {
       category: true,
     },
@@ -11,32 +57,78 @@ export default async function RecipesPage() {
     },
   });
 
+  const activeCategory = categories.find(
+    (category) => category.slug === selectedCategory
+  );
+
+  let heading = "All Recipes";
+
+  if (activeCategory && search) {
+    heading = `${activeCategory.name} Recipes`;
+  } else if (activeCategory) {
+    heading = `${activeCategory.name} Recipes`;
+  } else if (search) {
+    heading = `Search Results for "${search}"`;
+  }
+
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="mb-10">
-          <h1 className="text-4xl font-bold text-gray-900">
-            All Recipes
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-900">{heading}</h1>
+
           <p className="mt-2 text-gray-600">
-            Discover delicious recipes for every occasion.
+            {activeCategory?.description ||
+              (search
+                ? `Showing recipes matching "${search}".`
+                : "Discover delicious recipes for every occasion.")}
           </p>
+        </div>
+
+        <div className="mb-10 flex flex-wrap gap-3">
+          <Link
+            href="/recipes"
+            className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+              !selectedCategory
+                ? "bg-orange-600 text-white"
+                : "bg-white text-gray-700 shadow-sm hover:bg-orange-50"
+            }`}
+          >
+            All Recipes
+          </Link>
+
+          {categories.map((category) => (
+            <Link
+              href={`/recipes?category=${category.slug}${search ? `&search=${encodeURIComponent(search)}` : ""}`}
+              key={category.id}
+              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+                selectedCategory === category.slug
+                  ? "bg-orange-600 text-white"
+                  : "bg-white text-gray-700 shadow-sm hover:bg-orange-50"
+              }`}
+            >
+              {category.name}
+            </Link>
+          ))}
         </div>
 
         {recipes.length === 0 ? (
           <div className="rounded-xl bg-white p-12 text-center shadow-sm">
             <h2 className="text-xl font-semibold text-gray-900">
-              No recipes yet
+              No recipes found
             </h2>
+
             <p className="mt-2 text-gray-600">
-              Recipes you create in the admin panel will appear here.
+              {search
+                ? `No recipes matched "${search}".`
+                : "There are no recipes in this category yet."}
             </p>
 
             <Link
-              href="/admin/recipes/new"
+              href="/recipes"
               className="mt-6 inline-block rounded-lg bg-black px-5 py-3 text-sm font-semibold text-white hover:bg-gray-800"
             >
-              Add Your First Recipe
+              View All Recipes
             </Link>
           </div>
         ) : (
@@ -46,7 +138,7 @@ export default async function RecipesPage() {
                 href={`/recipes/${recipe.slug}`}
                 key={recipe.id}
                 className="block overflow-hidden rounded-xl bg-white shadow-sm transition hover:shadow-md"
-               >
+              >
                 {recipe.image ? (
                   <img
                     src={recipe.image}
@@ -61,7 +153,7 @@ export default async function RecipesPage() {
 
                 <div className="p-6">
                   {recipe.category && (
-                    <p className="text-sm font-medium text-gray-500">
+                    <p className="text-sm font-medium text-orange-600">
                       {recipe.category.name}
                     </p>
                   )}
@@ -80,7 +172,6 @@ export default async function RecipesPage() {
                     {recipe.prepTime !== null && (
                       <span>Prep: {recipe.prepTime} min</span>
                     )}
-
                     {recipe.cookTime !== null && (
                       <span>Cook: {recipe.cookTime} min</span>
                     )}

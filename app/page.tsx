@@ -1,58 +1,56 @@
-const recipes = [
-  {
-    name: "Creamy Garlic Pasta",
-    category: "Dinner",
-    description: "Creamy, comforting pasta with garlic and parmesan.",
-    image:
-      "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    name: "Classic Chicken Curry",
-    category: "Dinner",
-    description: "A flavorful chicken curry packed with warm spices.",
-    image:
-      "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    name: "Fresh Garden Salad",
-    category: "Healthy",
-    description: "Fresh vegetables tossed together for a light meal.",
-    image:
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80",
-  },
-];
+import Link from "next/link";
+import { prisma } from "../lib/prisma";
 
-const categories = [
-  { name: "Breakfast", icon: "🍳" },
-  { name: "Lunch", icon: "🥗" },
-  { name: "Dinner", icon: "🍝" },
-  { name: "Desserts", icon: "🍰" },
-];
+const categoryIcons: Record<string, string> = {
+  Breakfast: "🍳",
+  Lunch: "🥗",
+  Dinner: "🍝",
+  Desserts: "🍰",
+};
 
-export default function Home() {
+export default async function Home() {
+  const recipes = await prisma.recipe.findMany({
+    where: {
+      featured: true,
+    },
+    include: {
+      category: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 3,
+  });
+
+  const categories = await prisma.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
+
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <a href="#" className="text-2xl font-bold tracking-tight">
+          <Link href="/" className="text-2xl font-bold tracking-tight">
             Recipe<span className="text-orange-600">CMS</span>
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
-            <a
-              href="#"
+            <Link
+              href="/"
               className="font-medium text-orange-600"
             >
               Home
-            </a>
+            </Link>
 
-            <a
-              href="#recipes"
+            <Link
+              href="/recipes"
               className="font-medium text-gray-600 transition hover:text-orange-600"
             >
               Recipes
-            </a>
+            </Link>
 
             <a
               href="#categories"
@@ -69,9 +67,12 @@ export default function Home() {
             </a>
           </nav>
 
-          <button className="rounded-full bg-orange-600 px-5 py-2.5 font-semibold text-white transition hover:bg-orange-700">
+          <Link
+            href="/admin"
+            className="rounded-full bg-orange-600 px-5 py-2.5 font-semibold text-white transition hover:bg-orange-700"
+          >
             Admin
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -91,18 +92,25 @@ export default function Home() {
             meal.
           </p>
 
-          {/* Search */}
-          <div className="mx-auto mt-10 flex max-w-2xl overflow-hidden rounded-full border border-gray-200 bg-white shadow-sm">
+          <form
+            action="/recipes"
+            method="get"
+            className="mx-auto mt-10 flex max-w-2xl overflow-hidden rounded-full border border-gray-200 bg-white shadow-sm"
+          >
             <input
               type="text"
+              name="search"
               placeholder="Search recipes..."
-              className="min-w-0 flex-1 px-6 py-4 outline-none"
+              className="min-w-0 flex-1 px-6 py-4 text-gray-900 outline-none"
             />
 
-            <button className="bg-orange-600 px-8 font-semibold text-white transition hover:bg-orange-700">
+            <button
+              type="submit"
+              className="bg-orange-600 px-8 font-semibold text-white transition hover:bg-orange-700"
+            >
               Search
             </button>
-          </div>
+          </form>
         </div>
       </section>
 
@@ -119,48 +127,78 @@ export default function Home() {
             </h2>
           </div>
 
-          <a
-            href="#"
+          <Link
+            href="/recipes"
             className="hidden font-semibold text-orange-600 transition hover:text-orange-700 sm:block"
           >
             View all →
-          </a>
+          </Link>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
-          {recipes.map((recipe) => (
-            <article
-              key={recipe.name}
-              className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+        {recipes.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-12 text-center">
+            <h3 className="text-xl font-bold">
+              No featured recipes yet
+            </h3>
+
+            <p className="mt-2 text-gray-600">
+              Add a recipe from the admin dashboard and mark it as featured.
+            </p>
+
+            <Link
+              href="/admin/recipes/new"
+              className="mt-6 inline-block rounded-full bg-orange-600 px-6 py-3 font-semibold text-white transition hover:bg-orange-700"
             >
-              <div className="h-64 overflow-hidden">
-                <img
-                  src={recipe.image}
-                  alt={recipe.name}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-              </div>
+              Add Recipe
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-8 md:grid-cols-3">
+            {recipes.map((recipe) => (
+              <Link
+                href={`/recipes/${recipe.slug}`}
+                key={recipe.id}
+                className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div className="h-64 overflow-hidden bg-gray-100">
+                  {recipe.image ? (
+                    <img
+                      src={recipe.image}
+                      alt={recipe.title}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-gray-400">
+                      No image
+                    </div>
+                  )}
+                </div>
 
-              <div className="p-6">
-                <p className="text-sm font-semibold text-orange-600">
-                  {recipe.category}
-                </p>
+                <div className="p-6">
+                  {recipe.category && (
+                    <p className="text-sm font-semibold text-orange-600">
+                      {recipe.category.name}
+                    </p>
+                  )}
 
-                <h3 className="mt-2 text-2xl font-bold">
-                  {recipe.name}
-                </h3>
+                  <h3 className="mt-2 text-2xl font-bold">
+                    {recipe.title}
+                  </h3>
 
-                <p className="mt-3 leading-7 text-gray-600">
-                  {recipe.description}
-                </p>
+                  {recipe.description && (
+                    <p className="mt-3 leading-7 text-gray-600">
+                      {recipe.description}
+                    </p>
+                  )}
 
-                <button className="mt-5 font-semibold text-orange-600 transition hover:text-orange-700">
-                  View Recipe →
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
+                  <p className="mt-5 font-semibold text-orange-600">
+                    View Recipe →
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Categories */}
@@ -182,12 +220,14 @@ export default function Home() {
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {categories.map((category) => (
-              <a
-                href="#recipes"
-                key={category.name}
+              <Link
+                href={`/recipes?category=${category.slug}`}
+                key={category.id}
                 className="group rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
-                <div className="text-5xl">{category.icon}</div>
+                <div className="text-5xl">
+                  {categoryIcons[category.name] ?? "🍽️"}
+                </div>
 
                 <h3 className="mt-5 text-xl font-bold group-hover:text-orange-600">
                   {category.name}
@@ -196,7 +236,7 @@ export default function Home() {
                 <p className="mt-2 text-gray-500">
                   Explore recipes →
                 </p>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
