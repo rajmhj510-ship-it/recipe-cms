@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../lib/prisma";
+import FavoriteButton from "./FavoriteButton";
 
 type RecipePageProps = {
   params: Promise<{
@@ -63,6 +64,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 {recipe.description}
               </p>
             )}
+
+            <div className="mt-6">
+              <FavoriteButton initialFavorite={recipe.favorite} slug={recipe.slug} />
+            </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
               {recipe.prepTime !== null && (
