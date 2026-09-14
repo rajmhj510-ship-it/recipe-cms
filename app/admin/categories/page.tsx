@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, revalidatePath } from "next/cache";
 import { prisma } from "../../../lib/prisma";
 
 async function deleteCategory(formData: FormData) {
@@ -28,6 +28,8 @@ async function deleteCategory(formData: FormData) {
       id,
     },
   });
+revalidatePath("/");
+revalidatePath("/recipes");
 
   redirect("/admin/categories");
 }
