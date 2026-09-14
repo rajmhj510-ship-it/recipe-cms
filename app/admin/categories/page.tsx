@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { redirect, revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "../../../lib/prisma";
 
 async function deleteCategory(formData: FormData) {
