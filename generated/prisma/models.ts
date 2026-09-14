@@ -10,4 +10,8 @@
  */
 export type * from './models/Recipe'
 export type * from './models/Category'
+export type * from './models/IngredientSection'
+export type * from './models/IngredientItem'
+export type * from './models/InstructionSection'
+export type * from './models/InstructionStep'
 export type * from './commonInputTypes'

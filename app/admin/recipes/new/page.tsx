@@ -10,15 +10,15 @@ async function createRecipe(formData: FormData) {
   const slug = String(formData.get("slug") || "").trim();
   const description = String(formData.get("description") || "").trim();
   const image = String(formData.get("image") || "").trim();
-  const ingredients = String(formData.get("ingredients") || "").trim();
-  const instructions = String(formData.get("instructions") || "").trim();
+  const ingredientsText = String(formData.get("ingredients") || "").trim();
+  const instructionsText = String(formData.get("instructions") || "").trim();
 
   const categoryIdValue = String(formData.get("categoryId") || "");
   const prepTimeValue = String(formData.get("prepTime") || "");
   const cookTimeValue = String(formData.get("cookTime") || "");
   const servingsValue = String(formData.get("servings") || "");
 
-  if (!title || !slug || !ingredients || !instructions) {
+  if (!title || !slug || !ingredientsText || !instructionsText) {
     throw new Error(
       "Title, slug, ingredients, and instructions are required."
     );
@@ -29,14 +29,22 @@ async function createRecipe(formData: FormData) {
   const cookTime = cookTimeValue ? Number(cookTimeValue) : null;
   const servings = servingsValue ? Number(servingsValue) : null;
 
-  await prisma.recipe.create({
+  const ingredients = ingredientsText
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const instructions = instructionsText
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const recipe = await prisma.recipe.create({
     data: {
       title,
       slug,
       description: description || null,
       image: image || null,
-      ingredients,
-      instructions,
       prepTime,
       cookTime,
       servings,
@@ -44,6 +52,38 @@ async function createRecipe(formData: FormData) {
       favorite: formData.get("favorite") === "on",
       categoryId,
     },
+  });
+
+  const ingredientSection = await prisma.ingredientSection.create({
+    data: {
+      title: "Ingredients",
+      position: 0,
+      recipeId: recipe.id,
+    },
+  });
+
+  await prisma.ingredientItem.createMany({
+    data: ingredients.map((text, index) => ({
+      text,
+      position: index,
+      sectionId: ingredientSection.id,
+    })),
+  });
+
+  const instructionSection = await prisma.instructionSection.create({
+    data: {
+      title: "Instructions",
+      position: 0,
+      recipeId: recipe.id,
+    },
+  });
+
+  await prisma.instructionStep.createMany({
+    data: instructions.map((text, index) => ({
+      text,
+      position: index,
+      sectionId: instructionSection.id,
+    })),
   });
 
   redirect("/admin/recipes");
@@ -170,6 +210,9 @@ export default async function NewRecipePage() {
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Ingredients
             </label>
+            <p className="mb-2 text-sm text-gray-500">
+              Enter one ingredient per line.
+            </p>
             <textarea
               name="ingredients"
               rows={8}
@@ -183,11 +226,14 @@ export default async function NewRecipePage() {
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Instructions
             </label>
+            <p className="mb-2 text-sm text-gray-500">
+              Enter one instruction step per line.
+            </p>
             <textarea
               name="instructions"
               rows={8}
               placeholder={
-                "1. Prepare the ingredients.\n2. Cook according to the recipe.\n3. Serve and enjoy."
+                "Prepare the ingredients.\nCook according to the recipe.\nServe and enjoy."
               }
               required
               className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"

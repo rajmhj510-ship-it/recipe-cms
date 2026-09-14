@@ -18,6 +18,30 @@ export default async function RecipePage({ params }: RecipePageProps) {
     },
     include: {
       category: true,
+      ingredientSections: {
+        orderBy: {
+          position: "asc",
+        },
+        include: {
+          items: {
+            orderBy: {
+              position: "asc",
+            },
+          },
+        },
+      },
+      instructionSections: {
+        orderBy: {
+          position: "asc",
+        },
+        include: {
+          steps: {
+            orderBy: {
+              position: "asc",
+            },
+          },
+        },
+      },
     },
   });
 
@@ -66,7 +90,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
             )}
 
             <div className="mt-6">
-              <FavoriteButton initialFavorite={recipe.favorite} slug={recipe.slug} />
+              <FavoriteButton
+                initialFavorite={recipe.favorite}
+                slug={recipe.slug}
+              />
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -110,8 +137,29 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   Ingredients
                 </h2>
 
-                <div className="mt-5 whitespace-pre-line rounded-2xl bg-gray-50 p-6 leading-8 text-gray-700">
-                  {recipe.ingredients}
+                <div className="mt-5 space-y-8">
+                  {recipe.ingredientSections.map((section) => (
+                    <div
+                      key={section.id}
+                      className="rounded-2xl bg-gray-50 p-6"
+                    >
+                      <h3 className="text-lg font-bold text-gray-900">
+                        {section.title}
+                      </h3>
+
+                      <ul className="mt-4 space-y-3">
+                        {section.items.map((item) => (
+                          <li
+                            key={item.id}
+                            className="flex gap-3 leading-7 text-gray-700"
+                          >
+                            <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-500" />
+                            <span>{item.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </section>
 
@@ -120,11 +168,75 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   Instructions
                 </h2>
 
-                <div className="mt-5 whitespace-pre-line rounded-2xl bg-gray-50 p-6 leading-8 text-gray-700">
-                  {recipe.instructions}
+                <div className="mt-5 space-y-8">
+                  {recipe.instructionSections.map((section) => (
+                    <div
+                      key={section.id}
+                      className="rounded-2xl bg-gray-50 p-6"
+                    >
+                      <h3 className="text-lg font-bold text-gray-900">
+                        {section.title}
+                      </h3>
+
+                      <ol className="mt-4 space-y-5">
+                        {section.steps.map((step, index) => (
+                          <li
+                            key={step.id}
+                            className="flex gap-4 leading-7 text-gray-700"
+                          >
+                            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange-100 text-sm font-bold text-orange-700">
+                              {index + 1}
+                            </span>
+
+                            <span>{step.text}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  ))}
                 </div>
               </section>
             </div>
+
+            {recipe.servingSuggestions &&
+              typeof recipe.servingSuggestions === "object" && (
+                <section className="mt-12 rounded-2xl bg-orange-50 p-6">
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Serving Suggestions
+                  </h2>
+
+                  <div className="mt-4 text-gray-700">
+                    {Array.isArray(
+                      (recipe.servingSuggestions as { items?: unknown }).items
+                    ) &&
+                      (
+                        recipe.servingSuggestions as {
+                          items: unknown[];
+                        }
+                      ).items.map((item, index) => (
+                        <p key={index} className="mb-2">
+                          • {String(item)}
+                        </p>
+                      ))}
+                  </div>
+                </section>
+              )}
+
+            {recipe.chefTips &&
+              Array.isArray(recipe.chefTips) &&
+              recipe.chefTips.length > 0 && (
+                <section className="mt-8 rounded-2xl bg-gray-50 p-6">
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Chef Tips
+                  </h2>
+
+                  <ul className="mt-4 space-y-3 text-gray-700">
+                    {recipe.chefTips.map((tip, index) => (
+                      <li key={index}>• {String(tip)}</li>
+                    ))}
+                  </ul>
+                </section>
+              )}
           </div>
         </article>
       </div>

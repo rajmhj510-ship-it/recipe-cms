@@ -9,22 +9,31 @@ datasource db {
 
 model Recipe {
   id          Int      @id @default(autoincrement())
+  githubId    Int?     @unique
   title       String
   slug        String   @unique
   description String?
   image       String?
+  imagePath   String?
+  time        String?
+  difficulty  String?
   prepTime    Int?
   cookTime    Int?
   servings    Int?
-  ingredients String
-  instructions String
   featured    Boolean  @default(false)
   favorite    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  categoryId  Int?
-  category    Category? @relation(fields: [categoryId], references: [id])
+  servingSuggestions Json?
+  chefTips           Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  ingredientSections IngredientSection[]
+  instructionSections InstructionSection[]
 }
 
 model Category {
@@ -36,5 +45,53 @@ model Category {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  recipes     Recipe[]
+  recipes Recipe[]
+}
+
+model IngredientSection {
+  id       Int    @id @default(autoincrement())
+  title    String
+  position Int
+
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  items IngredientItem[]
+
+  @@index([recipeId])
+}
+
+model IngredientItem {
+  id       Int    @id @default(autoincrement())
+  text     String
+  position Int
+
+  sectionId Int
+  section   IngredientSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId])
+}
+
+model InstructionSection {
+  id       Int    @id @default(autoincrement())
+  title    String
+  position Int
+
+  recipeId Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  steps InstructionStep[]
+
+  @@index([recipeId])
+}
+
+model InstructionStep {
+  id       Int    @id @default(autoincrement())
+  text     String
+  position Int
+
+  sectionId Int
+  section   InstructionSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId])
 }

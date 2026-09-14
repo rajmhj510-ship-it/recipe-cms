@@ -9,35 +9,34 @@ async function updateRecipe(id: number, formData: FormData) {
   const slug = String(formData.get("slug") || "").trim();
   const description = String(formData.get("description") || "").trim();
   const image = String(formData.get("image") || "").trim();
-  const ingredients = String(formData.get("ingredients") || "").trim();
-  const instructions = String(formData.get("instructions") || "").trim();
+  const ingredientsText = String(formData.get("ingredients") || "").trim();
+  const instructionsText = String(formData.get("instructions") || "").trim();
 
   const categoryIdValue = String(formData.get("categoryId") || "");
   const prepTimeValue = String(formData.get("prepTime") || "");
   const cookTimeValue = String(formData.get("cookTime") || "");
   const servingsValue = String(formData.get("servings") || "");
 
-  if (!title || !slug || !ingredients || !instructions) {
+  if (!title || !slug || !ingredientsText || !instructionsText) {
     throw new Error(
       "Title, slug, ingredients, and instructions are required."
     );
   }
 
-  const categoryId = categoryIdValue
-    ? Number(categoryIdValue)
-    : null;
+  const categoryId = categoryIdValue ? Number(categoryIdValue) : null;
+  const prepTime = prepTimeValue ? Number(prepTimeValue) : null;
+  const cookTime = cookTimeValue ? Number(cookTimeValue) : null;
+  const servings = servingsValue ? Number(servingsValue) : null;
 
-  const prepTime = prepTimeValue
-    ? Number(prepTimeValue)
-    : null;
+  const ingredients = ingredientsText
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
 
-  const cookTime = cookTimeValue
-    ? Number(cookTimeValue)
-    : null;
-
-  const servings = servingsValue
-    ? Number(servingsValue)
-    : null;
+  const instructions = instructionsText
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
 
   await prisma.recipe.update({
     where: {
@@ -48,8 +47,6 @@ async function updateRecipe(id: number, formData: FormData) {
       slug,
       description: description || null,
       image: image || null,
-      ingredients,
-      instructions,
       prepTime,
       cookTime,
       servings,
@@ -57,6 +54,50 @@ async function updateRecipe(id: number, formData: FormData) {
       favorite: formData.get("favorite") === "on",
       categoryId,
     },
+  });
+
+  await prisma.ingredientSection.deleteMany({
+    where: {
+      recipeId: id,
+    },
+  });
+
+  const ingredientSection = await prisma.ingredientSection.create({
+    data: {
+      title: "Ingredients",
+      position: 0,
+      recipeId: id,
+    },
+  });
+
+  await prisma.ingredientItem.createMany({
+    data: ingredients.map((text, index) => ({
+      text,
+      position: index,
+      sectionId: ingredientSection.id,
+    })),
+  });
+
+  await prisma.instructionSection.deleteMany({
+    where: {
+      recipeId: id,
+    },
+  });
+
+  const instructionSection = await prisma.instructionSection.create({
+    data: {
+      title: "Instructions",
+      position: 0,
+      recipeId: id,
+    },
+  });
+
+  await prisma.instructionStep.createMany({
+    data: instructions.map((text, index) => ({
+      text,
+      position: index,
+      sectionId: instructionSection.id,
+    })),
   });
 
   redirect("/admin/recipes");
@@ -73,6 +114,32 @@ export default async function EditRecipePage({
   const recipe = await prisma.recipe.findUnique({
     where: {
       id: recipeId,
+    },
+    include: {
+      ingredientSections: {
+        orderBy: {
+          position: "asc",
+        },
+        include: {
+          items: {
+            orderBy: {
+              position: "asc",
+            },
+          },
+        },
+      },
+      instructionSections: {
+        orderBy: {
+          position: "asc",
+        },
+        include: {
+          steps: {
+            orderBy: {
+              position: "asc",
+            },
+          },
+        },
+      },
     },
   });
 
@@ -100,6 +167,14 @@ export default async function EditRecipePage({
       </main>
     );
   }
+
+  const ingredientText = recipe.ingredientSections
+    .flatMap((section) => section.items.map((item) => item.text))
+    .join("\n");
+
+  const instructionText = recipe.instructionSections
+    .flatMap((section) => section.steps.map((step) => step.text))
+    .join("\n");
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">
@@ -135,7 +210,7 @@ export default async function EditRecipePage({
               name="title"
               defaultValue={recipe.title}
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
             />
           </div>
 
@@ -149,7 +224,7 @@ export default async function EditRecipePage({
               name="slug"
               defaultValue={recipe.slug}
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
             />
           </div>
 
@@ -162,7 +237,7 @@ export default async function EditRecipePage({
               name="description"
               rows={4}
               defaultValue={recipe.description || ""}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
             />
           </div>
 
@@ -174,7 +249,7 @@ export default async function EditRecipePage({
             <select
               name="categoryId"
               defaultValue={recipe.categoryId?.toString() || ""}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
             >
               <option value="">Select a category</option>
 
@@ -197,7 +272,7 @@ export default async function EditRecipePage({
                 name="prepTime"
                 min="0"
                 defaultValue={recipe.prepTime ?? ""}
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
               />
             </div>
 
@@ -211,7 +286,7 @@ export default async function EditRecipePage({
                 name="cookTime"
                 min="0"
                 defaultValue={recipe.cookTime ?? ""}
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
               />
             </div>
 
@@ -225,7 +300,7 @@ export default async function EditRecipePage({
                 name="servings"
                 min="1"
                 defaultValue={recipe.servings ?? ""}
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
               />
             </div>
           </div>
@@ -239,7 +314,7 @@ export default async function EditRecipePage({
               type="url"
               name="image"
               defaultValue={recipe.image || ""}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
             />
           </div>
 
@@ -248,12 +323,16 @@ export default async function EditRecipePage({
               Ingredients
             </label>
 
+            <p className="mb-2 text-sm text-gray-500">
+              Enter one ingredient per line.
+            </p>
+
             <textarea
               name="ingredients"
               rows={8}
-              defaultValue={recipe.ingredients}
+              defaultValue={ingredientText}
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
             />
           </div>
 
@@ -262,12 +341,16 @@ export default async function EditRecipePage({
               Instructions
             </label>
 
+            <p className="mb-2 text-sm text-gray-500">
+              Enter one instruction step per line.
+            </p>
+
             <textarea
               name="instructions"
               rows={8}
-              defaultValue={recipe.instructions}
+              defaultValue={instructionText}
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
             />
           </div>
 

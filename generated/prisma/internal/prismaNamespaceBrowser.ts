@@ -52,7 +52,11 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Recipe: 'Recipe',
-  Category: 'Category'
+  Category: 'Category',
+  IngredientSection: 'IngredientSection',
+  IngredientItem: 'IngredientItem',
+  InstructionSection: 'InstructionSection',
+  InstructionStep: 'InstructionStep'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -73,17 +77,21 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const RecipeScalarFieldEnum = {
   id: 'id',
+  githubId: 'githubId',
   title: 'title',
   slug: 'slug',
   description: 'description',
   image: 'image',
+  imagePath: 'imagePath',
+  time: 'time',
+  difficulty: 'difficulty',
   prepTime: 'prepTime',
   cookTime: 'cookTime',
   servings: 'servings',
-  ingredients: 'ingredients',
-  instructions: 'instructions',
   featured: 'featured',
   favorite: 'favorite',
+  servingSuggestions: 'servingSuggestions',
+  chefTips: 'chefTips',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   categoryId: 'categoryId'
@@ -105,6 +113,46 @@ export const CategoryScalarFieldEnum = {
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
+export const IngredientSectionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  position: 'position',
+  recipeId: 'recipeId'
+} as const
+
+export type IngredientSectionScalarFieldEnum = (typeof IngredientSectionScalarFieldEnum)[keyof typeof IngredientSectionScalarFieldEnum]
+
+
+export const IngredientItemScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  position: 'position',
+  sectionId: 'sectionId'
+} as const
+
+export type IngredientItemScalarFieldEnum = (typeof IngredientItemScalarFieldEnum)[keyof typeof IngredientItemScalarFieldEnum]
+
+
+export const InstructionSectionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  position: 'position',
+  recipeId: 'recipeId'
+} as const
+
+export type InstructionSectionScalarFieldEnum = (typeof InstructionSectionScalarFieldEnum)[keyof typeof InstructionSectionScalarFieldEnum]
+
+
+export const InstructionStepScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  position: 'position',
+  sectionId: 'sectionId'
+} as const
+
+export type InstructionStepScalarFieldEnum = (typeof InstructionStepScalarFieldEnum)[keyof typeof InstructionStepScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -113,12 +161,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {
