@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import DeleteRecipeButton from "./DeleteRecipeButton";
+import CategorySection from "./CategorySection";
 
 export const dynamic = "force-dynamic";
 
@@ -96,27 +97,13 @@ export default async function AdminRecipesPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {categories.map(([categoryName, categoryRecipes]) => (
-              <details
-                key={categoryName}
-                open
-                className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
-              >
-                <summary className="cursor-pointer list-none bg-gray-100 px-6 py-4 hover:bg-gray-200">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h2 className="text-xl font-bold text-gray-900">
-                        {categoryName}
-                      </h2>
-                      <p className="text-sm text-gray-600">
-                        {categoryRecipes.length}{" "}
-                        {categoryRecipes.length === 1 ? "recipe" : "recipes"}
-                      </p>
-                    </div>
-
-                    <span className="text-gray-500">▼</span>
-                  </div>
-                </summary>
+           
+{categories.map(([categoryName, categoryRecipes]) => (
+  <CategorySection
+    key={categoryName}
+    categoryName={categoryName}
+    recipeCount={categoryRecipes.length}
+  >
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
@@ -201,7 +188,7 @@ export default async function AdminRecipesPage() {
                     </tbody>
                   </table>
                 </div>
-              </details>
+              </CategorySection>
             ))}
           </div>
         )}
