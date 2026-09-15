@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../../lib/prisma";
+import ImageUrlPreview from "../ImageUrlPreview";
 
 async function updateRecipe(id: number, formData: FormData) {
   "use server";
@@ -306,16 +307,7 @@ export default async function EditRecipePage({
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Image URL
-            </label>
-
-            <input
-              type="url"
-              name="image"
-              defaultValue={recipe.image || ""}
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
-            />
+            <ImageUrlPreview defaultValue={recipe.image || ""} />
           </div>
 
           <div>
