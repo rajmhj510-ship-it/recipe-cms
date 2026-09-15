@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import DeleteRecipeButton from "./DeleteRecipeButton";
 
 export const dynamic = "force-dynamic";
 
@@ -182,20 +183,10 @@ export default async function AdminRecipesPage() {
                                 View
                               </Link>
 
-                              <form action={deleteRecipe}>
-                                <input
-                                  type="hidden"
-                                  name="id"
-                                  value={recipe.id}
-                                />
-
-                                <button
-                                  type="submit"
-                                  className="rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
-                                >
-                                  Delete
-                                </button>
-                              </form>
+                              <DeleteRecipeButton
+                               recipeId={recipe.id}
+                              deleteRecipe={deleteRecipe}
+                             />
                             </div>
                           </td>
                         </tr>
