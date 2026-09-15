@@ -1,13 +1,17 @@
 export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { prisma } from "../../lib/prisma";
 
 export default async function AdminPage() {
   const recipeCount = await prisma.recipe.count();
+
   const categoryCount = await prisma.category.count();
+
   const featuredCount = await prisma.recipe.count({
     where: { featured: true },
   });
+
   const favoriteCount = await prisma.recipe.count({
     where: { favorite: true },
   });
@@ -15,30 +19,40 @@ export default async function AdminPage() {
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="mx-auto max-w-7xl">
-       
-<div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-  <div>
-    <h1 className="text-3xl font-bold text-gray-900">
-      Recipe CMS Admin
-    </h1>
-    <p className="mt-2 text-gray-600">
-      Manage your recipes, categories, and website content.
-    </p>
-  </div>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Recipe CMS Admin
+            </h1>
 
-  <form action="/api/admin/logout" method="POST">
-    <button
-      type="submit"
-      className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
-    >
-      Log Out
-    </button>
-  </form>
-</div>
+            <p className="mt-2 text-gray-600">
+              Manage your recipes, categories, and website content.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/"
+              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            >
+              View Website
+            </Link>
+
+            <form action="/api/admin/logout" method="POST">
+              <button
+                type="submit"
+                className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
+              >
+                Log Out
+              </button>
+            </form>
+          </div>
+        </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl bg-white p-6 shadow-sm">
             <p className="text-sm text-gray-500">Recipes</p>
+
             <p className="mt-2 text-3xl font-bold text-gray-900">
               {recipeCount}
             </p>
@@ -46,6 +60,7 @@ export default async function AdminPage() {
 
           <div className="rounded-xl bg-white p-6 shadow-sm">
             <p className="text-sm text-gray-500">Categories</p>
+
             <p className="mt-2 text-3xl font-bold text-gray-900">
               {categoryCount}
             </p>
@@ -53,6 +68,7 @@ export default async function AdminPage() {
 
           <div className="rounded-xl bg-white p-6 shadow-sm">
             <p className="text-sm text-gray-500">Featured</p>
+
             <p className="mt-2 text-3xl font-bold text-gray-900">
               {featuredCount}
             </p>
@@ -60,6 +76,7 @@ export default async function AdminPage() {
 
           <div className="rounded-xl bg-white p-6 shadow-sm">
             <p className="text-sm text-gray-500">Favorites</p>
+
             <p className="mt-2 text-3xl font-bold text-gray-900">
               {favoriteCount}
             </p>
@@ -79,6 +96,7 @@ export default async function AdminPage() {
               <h3 className="text-lg font-semibold text-gray-900">
                 Manage Recipes
               </h3>
+
               <p className="mt-2 text-sm text-gray-600">
                 Add, edit, and delete recipes.
               </p>
@@ -91,6 +109,7 @@ export default async function AdminPage() {
               <h3 className="text-lg font-semibold text-gray-900">
                 Manage Categories
               </h3>
+
               <p className="mt-2 text-sm text-gray-600">
                 Add, edit, and manage recipe categories.
               </p>
