@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { prisma } from "../lib/prisma";
-
-const categoryIcons: Record<string, string> = {
-  Breakfast: "🍳",
-  Lunch: "🥗",
-  Dinner: "🍝",
-  Desserts: "🍰",
-};
+import HomeSearch from "./HomeSearch";
 
 export default async function Home() {
   const recipes = await prisma.recipe.findMany({
@@ -22,6 +16,23 @@ export default async function Home() {
     take: 3,
   });
 
+  const searchRecipes = await prisma.recipe.findMany({
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      image: true,
+      category: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      title: "asc",
+    },
+  });
+
   const categories = await prisma.category.findMany({
     orderBy: {
       name: "asc",
@@ -33,7 +44,10 @@ export default async function Home() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link href="/" className="text-2xl font-bold tracking-tight">
+          <Link
+            href="/"
+            className="text-2xl font-bold tracking-tight"
+          >
             Recipe<span className="text-orange-600">CMS</span>
           </Link>
 
@@ -99,30 +113,15 @@ export default async function Home() {
             meal.
           </p>
 
-          <form
-            action="/recipes"
-            method="get"
-            className="mx-auto mt-10 flex max-w-2xl overflow-hidden rounded-full border border-gray-200 bg-white shadow-sm"
-          >
-            <input
-              type="text"
-              name="search"
-              placeholder="Search recipes..."
-              className="min-w-0 flex-1 px-6 py-4 text-gray-900 outline-none"
-            />
-
-            <button
-              type="submit"
-              className="bg-orange-600 px-8 font-semibold text-white transition hover:bg-orange-700"
-            >
-              Search
-            </button>
-          </form>
+          <HomeSearch recipes={searchRecipes} />
         </div>
       </section>
 
       {/* Featured Recipes */}
-      <section id="recipes" className="mx-auto max-w-7xl px-6 py-20">
+      <section
+        id="recipes"
+        className="mx-auto max-w-7xl px-6 py-20"
+      >
         <div className="mb-10 flex items-end justify-between">
           <div>
             <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
@@ -208,8 +207,11 @@ export default async function Home() {
         )}
       </section>
 
-      {/* Categories */}
-      <section id="categories" className="bg-gray-50">
+      {/* Popular Categories */}
+      <section
+        id="categories"
+        className="bg-gray-50"
+      >
         <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="text-center">
             <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
@@ -233,7 +235,7 @@ export default async function Home() {
                 className="group rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="text-5xl">
-                  {categoryIcons[category.name] ?? "🍽️"}
+                  🍽️
                 </div>
 
                 <h3 className="mt-5 text-xl font-bold group-hover:text-orange-600">
@@ -250,7 +252,10 @@ export default async function Home() {
       </section>
 
       {/* Newsletter */}
-      <section id="blog" className="mx-auto max-w-7xl px-6 py-20">
+      <section
+        id="blog"
+        className="mx-auto max-w-7xl px-6 py-20"
+      >
         <div className="rounded-3xl bg-orange-600 px-8 py-16 text-center text-white md:px-16">
           <p className="text-sm font-bold uppercase tracking-widest">
             Stay inspired
