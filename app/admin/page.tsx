@@ -91,11 +91,17 @@ export default async function AdminPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <Link
               href="/admin/recipes"
-              className="rounded-xl bg-white p-6 shadow-sm transition hover:shadow-md"
+              className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
-              <h3 className="text-lg font-semibold text-gray-900">
-                Manage Recipes
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Manage Recipes
+                </h3>
+
+                <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-orange-600">
+                  →
+                </span>
+              </div>
 
               <p className="mt-2 text-sm text-gray-600">
                 Add, edit, and delete recipes.
@@ -104,11 +110,17 @@ export default async function AdminPage() {
 
             <Link
               href="/admin/categories"
-              className="rounded-xl bg-white p-6 shadow-sm transition hover:shadow-md"
+              className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
-              <h3 className="text-lg font-semibold text-gray-900">
-                Manage Categories
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Manage Categories
+                </h3>
+
+                <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-orange-600">
+                  →
+                </span>
+              </div>
 
               <p className="mt-2 text-sm text-gray-600">
                 Add, edit, and manage recipe categories.
