@@ -51,9 +51,16 @@ export default async function AdminRecipesPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-10">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
+    <div className="mx-auto max-w-7xl">
+  <Link
+    href="/admin"
+    className="mb-6 inline-block text-sm font-semibold text-gray-700 hover:text-orange-600"
+  >
+    ← Back to Dashboard
+  </Link>
+
+  <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"> 
+           <div>
             <h1 className="text-3xl font-bold text-gray-900">
               Recipe Management
             </h1>

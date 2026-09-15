@@ -71,10 +71,18 @@ export default async function RecipesPage({
     heading = `Search Results for "${search}"`;
   }
 
-  return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-10">
+ return (
+  <main className="min-h-screen bg-gray-50">
+    <div className="mx-auto max-w-7xl px-6 py-12">
+      <Link
+        href="/"
+        className="mb-6 inline-block text-sm font-semibold text-gray-700 hover:text-orange-600"
+      >
+        ← Back to Home
+      </Link>
+
+      <div className="mb-10">
+
           <h1 className="text-4xl font-bold text-gray-900">{heading}</h1>
 
           <p className="mt-2 text-gray-600">

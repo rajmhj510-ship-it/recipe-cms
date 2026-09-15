@@ -15,14 +15,26 @@ export default async function AdminPage() {
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Recipe CMS Admin
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Manage your recipes, categories, and website content.
-          </p>
-        </div>
+       
+<div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+  <div>
+    <h1 className="text-3xl font-bold text-gray-900">
+      Recipe CMS Admin
+    </h1>
+    <p className="mt-2 text-gray-600">
+      Manage your recipes, categories, and website content.
+    </p>
+  </div>
+
+  <form action="/api/admin/logout" method="POST">
+    <button
+      type="submit"
+      className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
+    >
+      Log Out
+    </button>
+  </form>
+</div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl bg-white p-6 shadow-sm">
