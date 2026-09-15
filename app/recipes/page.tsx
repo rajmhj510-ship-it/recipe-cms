@@ -145,7 +145,7 @@ export default async function RecipesPage({
               <Link
                 href={`/recipes/${recipe.slug}`}
                 key={recipe.id}
-                className="block overflow-hidden rounded-xl bg-white shadow-sm transition hover:shadow-md"
+               className="group block overflow-hidden rounded-xl bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg"
               >
                 {recipe.image ? (
                   <img
