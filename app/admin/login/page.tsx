@@ -8,11 +8,14 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
+ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  setError("");
+  setLoading(true);
 
+  try {
     const response = await fetch("/api/admin/login", {
       method: "POST",
       headers: {
@@ -22,12 +25,17 @@ export default function AdminLoginPage() {
     });
 
     if (response.ok) {
-      router.push("/admin");
+      window.location.href = "/admin";
       router.refresh();
     } else {
       setError("Incorrect password.");
+      setLoading(false);
     }
+  } catch {
+    setError("Something went wrong. Please try again.");
+    setLoading(false);
   }
+}
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-50 px-6">
@@ -74,7 +82,7 @@ export default function AdminLoginPage() {
             type="submit"
             className="w-full rounded-lg bg-black px-5 py-3 font-semibold text-white hover:bg-gray-800"
           >
-            Log In
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
       </div>
