@@ -1,3 +1,4 @@
+import NewsletterForm from "./NewsletterForm";
 import Link from "next/link";
 import { prisma } from "../lib/prisma";
 import HomeSearch from "./HomeSearch";
@@ -270,18 +271,8 @@ export default async function Home() {
             inspiration.
           </p>
 
-          <div className="mx-auto mt-8 flex max-w-xl overflow-hidden rounded-full bg-white">
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="min-w-0 flex-1 px-6 py-4 text-gray-900 outline-none"
-            />
-
-            <button className="px-7 font-semibold text-orange-600">
-              Subscribe
-            </button>
+         <NewsletterForm />
           </div>
-        </div>
       </section>
 
       {/* Footer */}

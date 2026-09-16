@@ -8,32 +8,28 @@ datasource db {
 }
 
 model Recipe {
-  id          Int      @id @default(autoincrement())
-  githubId    Int?     @unique
-  title       String
-  slug        String   @unique
-  description String?
-  image       String?
-  imagePath   String?
-  time        String?
-  difficulty  String?
-  prepTime    Int?
-  cookTime    Int?
-  servings    Int?
-  featured    Boolean  @default(false)
-  favorite    Boolean  @default(false)
-
-  servingSuggestions Json?
-  chefTips           Json?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  categoryId Int?
-  category   Category? @relation(fields: [categoryId], references: [id])
-
-  ingredientSections IngredientSection[]
+  id                  Int                  @id @default(autoincrement())
+  title               String
+  slug                String               @unique
+  description         String?
+  image               String?
+  prepTime            Int?
+  cookTime            Int?
+  servings            Int?
+  featured            Boolean              @default(false)
+  favorite            Boolean              @default(false)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  categoryId          Int?
+  chefTips            Json?
+  difficulty          String?
+  githubId            Int?                 @unique
+  imagePath           String?
+  servingSuggestions  Json?
+  time                String?
+  ingredientSections  IngredientSection[]
   instructionSections InstructionSection[]
+  category            Category?            @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
@@ -44,28 +40,24 @@ model Category {
   image       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  recipes Recipe[]
+  recipes     Recipe[]
 }
 
 model IngredientSection {
-  id       Int    @id @default(autoincrement())
+  id       Int              @id @default(autoincrement())
   title    String
   position Int
-
   recipeId Int
-  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-
-  items IngredientItem[]
+  items    IngredientItem[]
+  recipe   Recipe           @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
   @@index([recipeId])
 }
 
 model IngredientItem {
-  id       Int    @id @default(autoincrement())
-  text     String
-  position Int
-
+  id        Int               @id @default(autoincrement())
+  text      String
+  position  Int
   sectionId Int
   section   IngredientSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
@@ -73,25 +65,28 @@ model IngredientItem {
 }
 
 model InstructionSection {
-  id       Int    @id @default(autoincrement())
+  id       Int               @id @default(autoincrement())
   title    String
   position Int
-
   recipeId Int
-  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-
-  steps InstructionStep[]
+  recipe   Recipe            @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  steps    InstructionStep[]
 
   @@index([recipeId])
 }
 
 model InstructionStep {
-  id       Int    @id @default(autoincrement())
-  text     String
-  position Int
-
+  id        Int                @id @default(autoincrement())
+  text      String
+  position  Int
   sectionId Int
   section   InstructionSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
   @@index([sectionId])
+}
+
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  createdAt DateTime @default(now())
 }
