@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const dynamic = "force-dynamic";
 
 export default async function SubscribersPage() {
@@ -12,8 +13,8 @@ export default async function SubscribersPage() {
       .trim()
       .toLowerCase();
 
-    if (!email || !email.includes("@")) {
-      return;
+    if (!emailRegex.test(email)) {
+  return;
     }
 
     try {
@@ -38,8 +39,8 @@ export default async function SubscribersPage() {
       .trim()
       .toLowerCase();
 
-    if (!id || !email || !email.includes("@")) {
-      return;
+    if (!id || !emailRegex.test(email)) {
+  return;
     }
 
     try {

@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const email = String(body.email || "").trim().toLowerCase();
 
-    if (!email || !email.includes("@")) {
+    if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: "Please enter a valid email address." },
         { status: 400 },
