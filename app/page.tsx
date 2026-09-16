@@ -1,10 +1,20 @@
 import NewsletterForm from "./NewsletterForm";
+import FeaturedCarousel from "./FeaturedCarousel";
 import Link from "next/link";
 import { prisma } from "../lib/prisma";
 import HomeSearch from "./HomeSearch";
 
 export default async function Home() {
   const recipes = await prisma.recipe.findMany({
+    include: {
+      category: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const featuredRecipes = await prisma.recipe.findMany({
     where: {
       featured: true,
     },
@@ -14,7 +24,6 @@ export default async function Home() {
     orderBy: {
       createdAt: "desc",
     },
-    take: 3,
   });
 
   const searchRecipes = await prisma.recipe.findMany({
@@ -142,70 +151,83 @@ export default async function Home() {
           </Link>
         </div>
 
-        {recipes.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-12 text-center">
-            <h3 className="text-xl font-bold">
-              No featured recipes yet
-            </h3>
+        <FeaturedCarousel
+          recipes={recipes.map((recipe) => ({
+            id: recipe.id,
+            title: recipe.title,
+            slug: recipe.slug,
+            image: recipe.image,
+            time: recipe.time,
+            difficulty: recipe.difficulty,
+            description: recipe.description,
+          }))}
+        />
 
-            <p className="mt-2 text-gray-600">
-              Add a recipe from the admin dashboard and mark it as featured.
+        <div className="mt-16">
+          <div className="mb-10">
+            <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
+              Our favorites
             </p>
-
-            <Link
-              href="/admin/recipes/new"
-              className="mt-6 inline-block rounded-full bg-orange-600 px-6 py-3 font-semibold text-white transition hover:bg-orange-700"
-            >
-              Add Recipe
-            </Link>
+            <h2 className="mt-2 text-4xl font-bold tracking-tight">
+              Top-Rated & Most Loved
+            </h2>
           </div>
-        ) : (
-          <div className="grid gap-8 md:grid-cols-3">
-            {recipes.map((recipe) => (
+
+          {featuredRecipes.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-12 text-center">
+              <h3 className="text-xl font-bold">
+                No featured recipes yet
+              </h3>
+
+              <p className="mt-2 text-gray-600">
+                Add a recipe from the admin dashboard and mark it as featured.
+              </p>
+
               <Link
-                href={`/recipes/${recipe.slug}`}
-                key={recipe.id}
-                className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                href="/admin/recipes/new"
+                className="mt-6 inline-block rounded-full bg-orange-600 px-6 py-3 font-semibold text-white transition hover:bg-orange-700"
               >
-                <div className="h-64 overflow-hidden bg-gray-100">
-                  {recipe.image ? (
-                    <img
-                      src={recipe.image}
-                      alt={recipe.title}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-gray-400">
-                      No image
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-6">
-                  {recipe.category && (
-                    <p className="text-sm font-semibold text-orange-600">
-                      {recipe.category.name}
-                    </p>
-                  )}
-
-                  <h3 className="mt-2 text-2xl font-bold">
-                    {recipe.title}
-                  </h3>
-
-                  {recipe.description && (
-                    <p className="mt-3 leading-7 text-gray-600">
-                      {recipe.description}
-                    </p>
-                  )}
-
-                  <p className="mt-5 font-semibold text-orange-600">
-                    View Recipe →
-                  </p>
-                </div>
+                Add Recipe
               </Link>
-            ))}
-          </div>
-        )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              {featuredRecipes.map((recipe) => (
+                <Link
+                  href={`/recipes/${recipe.slug}`}
+                  key={recipe.id}
+                  className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <div className="aspect-[4/3] overflow-hidden bg-gray-100">
+                    {recipe.image ? (
+                      <img
+                        src={recipe.image}
+                        alt={recipe.title}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-sm text-gray-400">
+                        No image
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-3">
+                    {recipe.category && (
+                      <p className="text-xs font-semibold text-orange-600">
+                        {recipe.category.name}
+                      </p>
+                    )}
+
+                    <h3 className="mt-1 line-clamp-2 text-sm font-bold leading-5 text-gray-900 group-hover:text-orange-600">
+                      {recipe.title}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Popular Categories */}
