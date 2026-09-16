@@ -4,6 +4,8 @@ import Link from "next/link";
 import { prisma } from "../lib/prisma";
 import HomeSearch from "./HomeSearch";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const recipes = await prisma.recipe.findMany({
     include: {
