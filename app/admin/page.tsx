@@ -1,39 +1,27 @@
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+
 export const dynamic = "force-dynamic";
 
-import Link from "next/link";
-import { prisma } from "../../lib/prisma";
-
-export default async function AdminPage() {
-  const recipeCount = await prisma.recipe.count();
-
-  const categoryCount = await prisma.category.count();
-
-  const featuredCount = await prisma.recipe.count({
-    where: { featured: true },
-  });
-
-  const favoriteCount = await prisma.recipe.count({
-    where: { favorite: true },
-  });
+export default async function AdminDashboard() {
+  const [recipeCount, categoryCount, subscriberCount] = await Promise.all([
+    prisma.recipe.count(),
+    prisma.category.count(),
+    prisma.subscriber.count(),
+  ]);
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Recipe CMS Admin
-            </h1>
+    <main className="min-h-screen bg-gray-50 text-gray-900">
+      <header className="border-b border-gray-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+          <Link href="/admin" className="text-2xl font-bold tracking-tight">
+            Recipe<span className="text-orange-600">CMS</span>
+          </Link>
 
-            <p className="mt-2 text-gray-600">
-              Manage your recipes, categories, and website content.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
+          <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+              className="rounded-full border border-gray-200 px-5 py-2.5 font-semibold text-gray-700 transition hover:border-orange-500 hover:text-orange-600"
             >
               View Website
             </Link>
@@ -41,94 +29,96 @@ export default async function AdminPage() {
             <form action="/api/admin/logout" method="POST">
               <button
                 type="submit"
-                className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
+                className="rounded-full bg-gray-900 px-5 py-2.5 font-semibold text-white transition hover:bg-gray-800"
               >
                 Log Out
               </button>
             </form>
           </div>
         </div>
+      </header>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-sm text-gray-500">Recipes</p>
+      <section className="mx-auto max-w-7xl px-6 py-12">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
+            Administration
+          </p>
 
-            <p className="mt-2 text-3xl font-bold text-gray-900">
-              {recipeCount}
-            </p>
-          </div>
+          <h1 className="mt-2 text-4xl font-bold tracking-tight">
+            Dashboard
+          </h1>
 
-          <div className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-sm text-gray-500">Categories</p>
-
-            <p className="mt-2 text-3xl font-bold text-gray-900">
-              {categoryCount}
-            </p>
-          </div>
-
-          <div className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-sm text-gray-500">Featured</p>
-
-            <p className="mt-2 text-3xl font-bold text-gray-900">
-              {featuredCount}
-            </p>
-          </div>
-
-          <div className="rounded-xl bg-white p-6 shadow-sm">
-            <p className="text-sm text-gray-500">Favorites</p>
-
-            <p className="mt-2 text-3xl font-bold text-gray-900">
-              {favoriteCount}
-            </p>
-          </div>
+          <p className="mt-3 text-gray-600">
+            Manage your recipes, categories, and newsletter subscribers.
+          </p>
         </div>
 
-        <div className="mt-8">
-          <h2 className="mb-4 text-xl font-semibold text-gray-900">
-            Quick Actions
-          </h2>
-
-          <div className="grid gap-4 sm:grid-cols-2">
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-semibold text-gray-500">Recipes</p>
+            <p className="mt-2 text-4xl font-bold">{recipeCount}</p>
             <Link
               href="/admin/recipes"
-              className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="mt-5 inline-block font-semibold text-orange-600 hover:text-orange-700"
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Manage Recipes
-                </h3>
-
-                <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-orange-600">
-                  →
-                </span>
-              </div>
-
-              <p className="mt-2 text-sm text-gray-600">
-                Add, edit, and delete recipes.
-              </p>
+              Manage Recipes →
             </Link>
+          </div>
 
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-semibold text-gray-500">Categories</p>
+            <p className="mt-2 text-4xl font-bold">{categoryCount}</p>
             <Link
               href="/admin/categories"
-              className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              className="mt-5 inline-block font-semibold text-orange-600 hover:text-orange-700"
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Manage Categories
-                </h3>
+              Manage Categories →
+            </Link>
+          </div>
 
-                <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-orange-600">
-                  →
-                </span>
-              </div>
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-semibold text-gray-500">
+              Subscribers
+            </p>
 
-              <p className="mt-2 text-sm text-gray-600">
-                Add, edit, and manage recipe categories.
-              </p>
+            <p className="mt-2 text-4xl font-bold">{subscriberCount}</p>
+
+            <Link
+              href="/admin/subscribers"
+              className="mt-5 inline-block font-semibold text-orange-600 hover:text-orange-700"
+            >
+              Manage Subscribers →
             </Link>
           </div>
         </div>
-      </div>
+
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold">Quick Actions</h2>
+
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <Link
+              href="/admin/recipes/new"
+              className="rounded-2xl bg-orange-600 p-6 font-semibold text-white transition hover:bg-orange-700"
+            >
+              Add New Recipe →
+            </Link>
+
+            <Link
+              href="/admin/categories/new"
+              className="rounded-2xl border border-gray-200 bg-white p-6 font-semibold text-gray-900 transition hover:border-orange-500 hover:text-orange-600"
+            >
+              Add New Category →
+            </Link>
+
+            <Link
+              href="/admin/subscribers"
+              className="rounded-2xl border border-gray-200 bg-white p-6 font-semibold text-gray-900 transition hover:border-orange-500 hover:text-orange-600"
+            >
+              View Subscribers →
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
