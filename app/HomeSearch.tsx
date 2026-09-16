@@ -23,15 +23,49 @@ export default function HomeSearch({
   const query = search.trim().toLowerCase();
 
   const results = recipes
-    .filter((recipe) => {
-      if (!query) return false;
+    .map((recipe) => {
+      const title = recipe.title.toLowerCase();
+      const category = recipe.category?.name.toLowerCase() ?? "";
 
-      return (
-        recipe.title.toLowerCase().includes(query) ||
-        recipe.category?.name.toLowerCase().includes(query)
-      );
+      let score = 0;
+
+      // Exact title match = highest priority
+      if (title === query) {
+        score += 100;
+      }
+
+      // Title starts with the search term
+      else if (title.startsWith(query)) {
+        score += 80;
+      }
+
+      // Title contains the search term
+      else if (title.includes(query)) {
+        score += 60;
+      }
+
+      // Category contains the search term
+      if (category.includes(query)) {
+        score += 30;
+      }
+
+      return {
+        recipe,
+        score,
+      };
     })
-    .slice(0, 5);
+    .filter((item) => item.score > 0)
+    .sort((a, b) => {
+      // Higher score first
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+
+      // If scores are equal, shorter title first
+      return a.recipe.title.length - b.recipe.title.length;
+    })
+    .slice(0, 10)
+    .map((item) => item.recipe);
 
   return (
     <div className="mx-auto mt-10 max-w-2xl">
