@@ -71,3 +71,8 @@ export type InstructionSection = Prisma.InstructionSectionModel
  * 
  */
 export type InstructionStep = Prisma.InstructionStepModel
+/**
+ * Model Subscriber
+ * 
+ */
+export type Subscriber = Prisma.SubscriberModel

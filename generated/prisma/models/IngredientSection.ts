@@ -216,8 +216,8 @@ export type IngredientSectionWhereInput = {
   title?: Prisma.StringFilter<"IngredientSection"> | string
   position?: Prisma.IntFilter<"IngredientSection"> | number
   recipeId?: Prisma.IntFilter<"IngredientSection"> | number
-  recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.RecipeWhereInput>
   items?: Prisma.IngredientItemListRelationFilter
+  recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.RecipeWhereInput>
 }
 
 export type IngredientSectionOrderByWithRelationInput = {
@@ -225,8 +225,8 @@ export type IngredientSectionOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   position?: Prisma.SortOrder
   recipeId?: Prisma.SortOrder
-  recipe?: Prisma.RecipeOrderByWithRelationInput
   items?: Prisma.IngredientItemOrderByRelationAggregateInput
+  recipe?: Prisma.RecipeOrderByWithRelationInput
 }
 
 export type IngredientSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -237,8 +237,8 @@ export type IngredientSectionWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"IngredientSection"> | string
   position?: Prisma.IntFilter<"IngredientSection"> | number
   recipeId?: Prisma.IntFilter<"IngredientSection"> | number
-  recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.RecipeWhereInput>
   items?: Prisma.IngredientItemListRelationFilter
+  recipe?: Prisma.XOR<Prisma.RecipeScalarRelationFilter, Prisma.RecipeWhereInput>
 }, "id">
 
 export type IngredientSectionOrderByWithAggregationInput = {
@@ -266,8 +266,8 @@ export type IngredientSectionScalarWhereWithAggregatesInput = {
 export type IngredientSectionCreateInput = {
   title: string
   position: number
-  recipe: Prisma.RecipeCreateNestedOneWithoutIngredientSectionsInput
   items?: Prisma.IngredientItemCreateNestedManyWithoutSectionInput
+  recipe: Prisma.RecipeCreateNestedOneWithoutIngredientSectionsInput
 }
 
 export type IngredientSectionUncheckedCreateInput = {
@@ -281,8 +281,8 @@ export type IngredientSectionUncheckedCreateInput = {
 export type IngredientSectionUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   position?: Prisma.IntFieldUpdateOperationsInput | number
-  recipe?: Prisma.RecipeUpdateOneRequiredWithoutIngredientSectionsNestedInput
   items?: Prisma.IngredientItemUpdateManyWithoutSectionNestedInput
+  recipe?: Prisma.RecipeUpdateOneRequiredWithoutIngredientSectionsNestedInput
 }
 
 export type IngredientSectionUncheckedUpdateInput = {
@@ -568,8 +568,8 @@ export type IngredientSectionSelect<ExtArgs extends runtime.Types.Extensions.Int
   title?: boolean
   position?: boolean
   recipeId?: boolean
-  recipe?: boolean | Prisma.RecipeDefaultArgs<ExtArgs>
   items?: boolean | Prisma.IngredientSection$itemsArgs<ExtArgs>
+  recipe?: boolean | Prisma.RecipeDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.IngredientSectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ingredientSection"]>
 
@@ -598,8 +598,8 @@ export type IngredientSectionSelectScalar = {
 
 export type IngredientSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "position" | "recipeId", ExtArgs["result"]["ingredientSection"]>
 export type IngredientSectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  recipe?: boolean | Prisma.RecipeDefaultArgs<ExtArgs>
   items?: boolean | Prisma.IngredientSection$itemsArgs<ExtArgs>
+  recipe?: boolean | Prisma.RecipeDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.IngredientSectionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type IngredientSectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -612,8 +612,8 @@ export type IngredientSectionIncludeUpdateManyAndReturn<ExtArgs extends runtime.
 export type $IngredientSectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "IngredientSection"
   objects: {
-    recipe: Prisma.$RecipePayload<ExtArgs>
     items: Prisma.$IngredientItemPayload<ExtArgs>[]
+    recipe: Prisma.$RecipePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1014,8 +1014,8 @@ readonly fields: IngredientSectionFieldRefs;
  */
 export interface Prisma__IngredientSectionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  recipe<T extends Prisma.RecipeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RecipeDefaultArgs<ExtArgs>>): Prisma.Prisma__RecipeClient<runtime.Types.Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.IngredientSection$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.IngredientSection$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IngredientItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recipe<T extends Prisma.RecipeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RecipeDefaultArgs<ExtArgs>>): Prisma.Prisma__RecipeClient<runtime.Types.Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

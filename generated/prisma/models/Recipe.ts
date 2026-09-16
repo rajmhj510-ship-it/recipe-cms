@@ -28,32 +28,28 @@ export type AggregateRecipe = {
 
 export type RecipeAvgAggregateOutputType = {
   id: number | null
-  githubId: number | null
   prepTime: number | null
   cookTime: number | null
   servings: number | null
   categoryId: number | null
+  githubId: number | null
 }
 
 export type RecipeSumAggregateOutputType = {
   id: number | null
-  githubId: number | null
   prepTime: number | null
   cookTime: number | null
   servings: number | null
   categoryId: number | null
+  githubId: number | null
 }
 
 export type RecipeMinAggregateOutputType = {
   id: number | null
-  githubId: number | null
   title: string | null
   slug: string | null
   description: string | null
   image: string | null
-  imagePath: string | null
-  time: string | null
-  difficulty: string | null
   prepTime: number | null
   cookTime: number | null
   servings: number | null
@@ -62,18 +58,18 @@ export type RecipeMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   categoryId: number | null
+  difficulty: string | null
+  githubId: number | null
+  imagePath: string | null
+  time: string | null
 }
 
 export type RecipeMaxAggregateOutputType = {
   id: number | null
-  githubId: number | null
   title: string | null
   slug: string | null
   description: string | null
   image: string | null
-  imagePath: string | null
-  time: string | null
-  difficulty: string | null
   prepTime: number | null
   cookTime: number | null
   servings: number | null
@@ -82,60 +78,60 @@ export type RecipeMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   categoryId: number | null
+  difficulty: string | null
+  githubId: number | null
+  imagePath: string | null
+  time: string | null
 }
 
 export type RecipeCountAggregateOutputType = {
   id: number
-  githubId: number
   title: number
   slug: number
   description: number
   image: number
-  imagePath: number
-  time: number
-  difficulty: number
   prepTime: number
   cookTime: number
   servings: number
   featured: number
   favorite: number
-  servingSuggestions: number
-  chefTips: number
   createdAt: number
   updatedAt: number
   categoryId: number
+  chefTips: number
+  difficulty: number
+  githubId: number
+  imagePath: number
+  servingSuggestions: number
+  time: number
   _all: number
 }
 
 
 export type RecipeAvgAggregateInputType = {
   id?: true
-  githubId?: true
   prepTime?: true
   cookTime?: true
   servings?: true
   categoryId?: true
+  githubId?: true
 }
 
 export type RecipeSumAggregateInputType = {
   id?: true
-  githubId?: true
   prepTime?: true
   cookTime?: true
   servings?: true
   categoryId?: true
+  githubId?: true
 }
 
 export type RecipeMinAggregateInputType = {
   id?: true
-  githubId?: true
   title?: true
   slug?: true
   description?: true
   image?: true
-  imagePath?: true
-  time?: true
-  difficulty?: true
   prepTime?: true
   cookTime?: true
   servings?: true
@@ -144,18 +140,18 @@ export type RecipeMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   categoryId?: true
+  difficulty?: true
+  githubId?: true
+  imagePath?: true
+  time?: true
 }
 
 export type RecipeMaxAggregateInputType = {
   id?: true
-  githubId?: true
   title?: true
   slug?: true
   description?: true
   image?: true
-  imagePath?: true
-  time?: true
-  difficulty?: true
   prepTime?: true
   cookTime?: true
   servings?: true
@@ -164,28 +160,32 @@ export type RecipeMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   categoryId?: true
+  difficulty?: true
+  githubId?: true
+  imagePath?: true
+  time?: true
 }
 
 export type RecipeCountAggregateInputType = {
   id?: true
-  githubId?: true
   title?: true
   slug?: true
   description?: true
   image?: true
-  imagePath?: true
-  time?: true
-  difficulty?: true
   prepTime?: true
   cookTime?: true
   servings?: true
   featured?: true
   favorite?: true
-  servingSuggestions?: true
-  chefTips?: true
   createdAt?: true
   updatedAt?: true
   categoryId?: true
+  chefTips?: true
+  difficulty?: true
+  githubId?: true
+  imagePath?: true
+  servingSuggestions?: true
+  time?: true
   _all?: true
 }
 
@@ -277,24 +277,24 @@ export type RecipeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type RecipeGroupByOutputType = {
   id: number
-  githubId: number | null
   title: string
   slug: string
   description: string | null
   image: string | null
-  imagePath: string | null
-  time: string | null
-  difficulty: string | null
   prepTime: number | null
   cookTime: number | null
   servings: number | null
   featured: boolean
   favorite: boolean
-  servingSuggestions: runtime.JsonValue | null
-  chefTips: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   categoryId: number | null
+  chefTips: runtime.JsonValue | null
+  difficulty: string | null
+  githubId: number | null
+  imagePath: string | null
+  servingSuggestions: runtime.JsonValue | null
+  time: string | null
   _count: RecipeCountAggregateOutputType | null
   _avg: RecipeAvgAggregateOutputType | null
   _sum: RecipeSumAggregateOutputType | null
@@ -322,102 +322,102 @@ export type RecipeWhereInput = {
   OR?: Prisma.RecipeWhereInput[]
   NOT?: Prisma.RecipeWhereInput | Prisma.RecipeWhereInput[]
   id?: Prisma.IntFilter<"Recipe"> | number
-  githubId?: Prisma.IntNullableFilter<"Recipe"> | number | null
   title?: Prisma.StringFilter<"Recipe"> | string
   slug?: Prisma.StringFilter<"Recipe"> | string
   description?: Prisma.StringNullableFilter<"Recipe"> | string | null
   image?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  imagePath?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  time?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  difficulty?: Prisma.StringNullableFilter<"Recipe"> | string | null
   prepTime?: Prisma.IntNullableFilter<"Recipe"> | number | null
   cookTime?: Prisma.IntNullableFilter<"Recipe"> | number | null
   servings?: Prisma.IntNullableFilter<"Recipe"> | number | null
   featured?: Prisma.BoolFilter<"Recipe"> | boolean
   favorite?: Prisma.BoolFilter<"Recipe"> | boolean
-  servingSuggestions?: Prisma.JsonNullableFilter<"Recipe">
-  chefTips?: Prisma.JsonNullableFilter<"Recipe">
   createdAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   categoryId?: Prisma.IntNullableFilter<"Recipe"> | number | null
-  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  chefTips?: Prisma.JsonNullableFilter<"Recipe">
+  difficulty?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  githubId?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  imagePath?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  servingSuggestions?: Prisma.JsonNullableFilter<"Recipe">
+  time?: Prisma.StringNullableFilter<"Recipe"> | string | null
   ingredientSections?: Prisma.IngredientSectionListRelationFilter
   instructionSections?: Prisma.InstructionSectionListRelationFilter
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
 }
 
 export type RecipeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  githubId?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
-  imagePath?: Prisma.SortOrderInput | Prisma.SortOrder
-  time?: Prisma.SortOrderInput | Prisma.SortOrder
-  difficulty?: Prisma.SortOrderInput | Prisma.SortOrder
   prepTime?: Prisma.SortOrderInput | Prisma.SortOrder
   cookTime?: Prisma.SortOrderInput | Prisma.SortOrder
   servings?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
   favorite?: Prisma.SortOrder
-  servingSuggestions?: Prisma.SortOrderInput | Prisma.SortOrder
-  chefTips?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
-  category?: Prisma.CategoryOrderByWithRelationInput
+  chefTips?: Prisma.SortOrderInput | Prisma.SortOrder
+  difficulty?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubId?: Prisma.SortOrderInput | Prisma.SortOrder
+  imagePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  servingSuggestions?: Prisma.SortOrderInput | Prisma.SortOrder
+  time?: Prisma.SortOrderInput | Prisma.SortOrder
   ingredientSections?: Prisma.IngredientSectionOrderByRelationAggregateInput
   instructionSections?: Prisma.InstructionSectionOrderByRelationAggregateInput
+  category?: Prisma.CategoryOrderByWithRelationInput
 }
 
 export type RecipeWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  githubId?: number
   slug?: string
+  githubId?: number
   AND?: Prisma.RecipeWhereInput | Prisma.RecipeWhereInput[]
   OR?: Prisma.RecipeWhereInput[]
   NOT?: Prisma.RecipeWhereInput | Prisma.RecipeWhereInput[]
   title?: Prisma.StringFilter<"Recipe"> | string
   description?: Prisma.StringNullableFilter<"Recipe"> | string | null
   image?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  imagePath?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  time?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  difficulty?: Prisma.StringNullableFilter<"Recipe"> | string | null
   prepTime?: Prisma.IntNullableFilter<"Recipe"> | number | null
   cookTime?: Prisma.IntNullableFilter<"Recipe"> | number | null
   servings?: Prisma.IntNullableFilter<"Recipe"> | number | null
   featured?: Prisma.BoolFilter<"Recipe"> | boolean
   favorite?: Prisma.BoolFilter<"Recipe"> | boolean
-  servingSuggestions?: Prisma.JsonNullableFilter<"Recipe">
-  chefTips?: Prisma.JsonNullableFilter<"Recipe">
   createdAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   categoryId?: Prisma.IntNullableFilter<"Recipe"> | number | null
-  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+  chefTips?: Prisma.JsonNullableFilter<"Recipe">
+  difficulty?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  imagePath?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  servingSuggestions?: Prisma.JsonNullableFilter<"Recipe">
+  time?: Prisma.StringNullableFilter<"Recipe"> | string | null
   ingredientSections?: Prisma.IngredientSectionListRelationFilter
   instructionSections?: Prisma.InstructionSectionListRelationFilter
-}, "id" | "githubId" | "slug">
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
+}, "id" | "slug" | "githubId">
 
 export type RecipeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  githubId?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
-  imagePath?: Prisma.SortOrderInput | Prisma.SortOrder
-  time?: Prisma.SortOrderInput | Prisma.SortOrder
-  difficulty?: Prisma.SortOrderInput | Prisma.SortOrder
   prepTime?: Prisma.SortOrderInput | Prisma.SortOrder
   cookTime?: Prisma.SortOrderInput | Prisma.SortOrder
   servings?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
   favorite?: Prisma.SortOrder
-  servingSuggestions?: Prisma.SortOrderInput | Prisma.SortOrder
-  chefTips?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  chefTips?: Prisma.SortOrderInput | Prisma.SortOrder
+  difficulty?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubId?: Prisma.SortOrderInput | Prisma.SortOrder
+  imagePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  servingSuggestions?: Prisma.SortOrderInput | Prisma.SortOrder
+  time?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RecipeCountOrderByAggregateInput
   _avg?: Prisma.RecipeAvgOrderByAggregateInput
   _max?: Prisma.RecipeMaxOrderByAggregateInput
@@ -430,225 +430,221 @@ export type RecipeScalarWhereWithAggregatesInput = {
   OR?: Prisma.RecipeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RecipeScalarWhereWithAggregatesInput | Prisma.RecipeScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Recipe"> | number
-  githubId?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
   title?: Prisma.StringWithAggregatesFilter<"Recipe"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Recipe"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
   image?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
-  imagePath?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
-  time?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
-  difficulty?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
   prepTime?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
   cookTime?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
   servings?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
   featured?: Prisma.BoolWithAggregatesFilter<"Recipe"> | boolean
   favorite?: Prisma.BoolWithAggregatesFilter<"Recipe"> | boolean
-  servingSuggestions?: Prisma.JsonNullableWithAggregatesFilter<"Recipe">
-  chefTips?: Prisma.JsonNullableWithAggregatesFilter<"Recipe">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Recipe"> | Date | string
   categoryId?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
+  chefTips?: Prisma.JsonNullableWithAggregatesFilter<"Recipe">
+  difficulty?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
+  githubId?: Prisma.IntNullableWithAggregatesFilter<"Recipe"> | number | null
+  imagePath?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
+  servingSuggestions?: Prisma.JsonNullableWithAggregatesFilter<"Recipe">
+  time?: Prisma.StringNullableWithAggregatesFilter<"Recipe"> | string | null
 }
 
 export type RecipeCreateInput = {
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  category?: Prisma.CategoryCreateNestedOneWithoutRecipesInput
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   ingredientSections?: Prisma.IngredientSectionCreateNestedManyWithoutRecipeInput
   instructionSections?: Prisma.InstructionSectionCreateNestedManyWithoutRecipeInput
+  category?: Prisma.CategoryCreateNestedOneWithoutRecipesInput
 }
 
 export type RecipeUncheckedCreateInput = {
   id?: number
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   categoryId?: number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   ingredientSections?: Prisma.IngredientSectionUncheckedCreateNestedManyWithoutRecipeInput
   instructionSections?: Prisma.InstructionSectionUncheckedCreateNestedManyWithoutRecipeInput
 }
 
 export type RecipeUpdateInput = {
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneWithoutRecipesNestedInput
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredientSections?: Prisma.IngredientSectionUpdateManyWithoutRecipeNestedInput
   instructionSections?: Prisma.InstructionSectionUpdateManyWithoutRecipeNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutRecipesNestedInput
 }
 
 export type RecipeUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredientSections?: Prisma.IngredientSectionUncheckedUpdateManyWithoutRecipeNestedInput
   instructionSections?: Prisma.InstructionSectionUncheckedUpdateManyWithoutRecipeNestedInput
 }
 
 export type RecipeCreateManyInput = {
   id?: number
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   categoryId?: number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
 }
 
 export type RecipeUpdateManyMutationInput = {
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RecipeUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RecipeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  githubId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   image?: Prisma.SortOrder
-  imagePath?: Prisma.SortOrder
-  time?: Prisma.SortOrder
-  difficulty?: Prisma.SortOrder
   prepTime?: Prisma.SortOrder
   cookTime?: Prisma.SortOrder
   servings?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   favorite?: Prisma.SortOrder
-  servingSuggestions?: Prisma.SortOrder
-  chefTips?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  chefTips?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
+  imagePath?: Prisma.SortOrder
+  servingSuggestions?: Prisma.SortOrder
+  time?: Prisma.SortOrder
 }
 
 export type RecipeAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  githubId?: Prisma.SortOrder
   prepTime?: Prisma.SortOrder
   cookTime?: Prisma.SortOrder
   servings?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
 }
 
 export type RecipeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  githubId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   image?: Prisma.SortOrder
-  imagePath?: Prisma.SortOrder
-  time?: Prisma.SortOrder
-  difficulty?: Prisma.SortOrder
   prepTime?: Prisma.SortOrder
   cookTime?: Prisma.SortOrder
   servings?: Prisma.SortOrder
@@ -657,18 +653,18 @@ export type RecipeMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
+  imagePath?: Prisma.SortOrder
+  time?: Prisma.SortOrder
 }
 
 export type RecipeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  githubId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   image?: Prisma.SortOrder
-  imagePath?: Prisma.SortOrder
-  time?: Prisma.SortOrder
-  difficulty?: Prisma.SortOrder
   prepTime?: Prisma.SortOrder
   cookTime?: Prisma.SortOrder
   servings?: Prisma.SortOrder
@@ -677,15 +673,19 @@ export type RecipeMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  difficulty?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
+  imagePath?: Prisma.SortOrder
+  time?: Prisma.SortOrder
 }
 
 export type RecipeSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  githubId?: Prisma.SortOrder
   prepTime?: Prisma.SortOrder
   cookTime?: Prisma.SortOrder
   servings?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  githubId?: Prisma.SortOrder
 }
 
 export type RecipeListRelationFilter = {
@@ -703,20 +703,20 @@ export type RecipeScalarRelationFilter = {
   isNot?: Prisma.RecipeWhereInput
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -806,46 +806,46 @@ export type RecipeUpdateOneRequiredWithoutInstructionSectionsNestedInput = {
 }
 
 export type RecipeCreateWithoutCategoryInput = {
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   ingredientSections?: Prisma.IngredientSectionCreateNestedManyWithoutRecipeInput
   instructionSections?: Prisma.InstructionSectionCreateNestedManyWithoutRecipeInput
 }
 
 export type RecipeUncheckedCreateWithoutCategoryInput = {
   id?: number
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   ingredientSections?: Prisma.IngredientSectionUncheckedCreateNestedManyWithoutRecipeInput
   instructionSections?: Prisma.InstructionSectionUncheckedCreateNestedManyWithoutRecipeInput
 }
@@ -881,68 +881,68 @@ export type RecipeScalarWhereInput = {
   OR?: Prisma.RecipeScalarWhereInput[]
   NOT?: Prisma.RecipeScalarWhereInput | Prisma.RecipeScalarWhereInput[]
   id?: Prisma.IntFilter<"Recipe"> | number
-  githubId?: Prisma.IntNullableFilter<"Recipe"> | number | null
   title?: Prisma.StringFilter<"Recipe"> | string
   slug?: Prisma.StringFilter<"Recipe"> | string
   description?: Prisma.StringNullableFilter<"Recipe"> | string | null
   image?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  imagePath?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  time?: Prisma.StringNullableFilter<"Recipe"> | string | null
-  difficulty?: Prisma.StringNullableFilter<"Recipe"> | string | null
   prepTime?: Prisma.IntNullableFilter<"Recipe"> | number | null
   cookTime?: Prisma.IntNullableFilter<"Recipe"> | number | null
   servings?: Prisma.IntNullableFilter<"Recipe"> | number | null
   featured?: Prisma.BoolFilter<"Recipe"> | boolean
   favorite?: Prisma.BoolFilter<"Recipe"> | boolean
-  servingSuggestions?: Prisma.JsonNullableFilter<"Recipe">
-  chefTips?: Prisma.JsonNullableFilter<"Recipe">
   createdAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recipe"> | Date | string
   categoryId?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  chefTips?: Prisma.JsonNullableFilter<"Recipe">
+  difficulty?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  githubId?: Prisma.IntNullableFilter<"Recipe"> | number | null
+  imagePath?: Prisma.StringNullableFilter<"Recipe"> | string | null
+  servingSuggestions?: Prisma.JsonNullableFilter<"Recipe">
+  time?: Prisma.StringNullableFilter<"Recipe"> | string | null
 }
 
 export type RecipeCreateWithoutIngredientSectionsInput = {
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  category?: Prisma.CategoryCreateNestedOneWithoutRecipesInput
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   instructionSections?: Prisma.InstructionSectionCreateNestedManyWithoutRecipeInput
+  category?: Prisma.CategoryCreateNestedOneWithoutRecipesInput
 }
 
 export type RecipeUncheckedCreateWithoutIngredientSectionsInput = {
   id?: number
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   categoryId?: number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   instructionSections?: Prisma.InstructionSectionUncheckedCreateNestedManyWithoutRecipeInput
 }
 
@@ -963,92 +963,92 @@ export type RecipeUpdateToOneWithWhereWithoutIngredientSectionsInput = {
 }
 
 export type RecipeUpdateWithoutIngredientSectionsInput = {
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneWithoutRecipesNestedInput
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   instructionSections?: Prisma.InstructionSectionUpdateManyWithoutRecipeNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutRecipesNestedInput
 }
 
 export type RecipeUncheckedUpdateWithoutIngredientSectionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   instructionSections?: Prisma.InstructionSectionUncheckedUpdateManyWithoutRecipeNestedInput
 }
 
 export type RecipeCreateWithoutInstructionSectionsInput = {
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  category?: Prisma.CategoryCreateNestedOneWithoutRecipesInput
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   ingredientSections?: Prisma.IngredientSectionCreateNestedManyWithoutRecipeInput
+  category?: Prisma.CategoryCreateNestedOneWithoutRecipesInput
 }
 
 export type RecipeUncheckedCreateWithoutInstructionSectionsInput = {
   id?: number
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   categoryId?: number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
   ingredientSections?: Prisma.IngredientSectionUncheckedCreateNestedManyWithoutRecipeInput
 }
 
@@ -1069,135 +1069,135 @@ export type RecipeUpdateToOneWithWhereWithoutInstructionSectionsInput = {
 }
 
 export type RecipeUpdateWithoutInstructionSectionsInput = {
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneWithoutRecipesNestedInput
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredientSections?: Prisma.IngredientSectionUpdateManyWithoutRecipeNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutRecipesNestedInput
 }
 
 export type RecipeUncheckedUpdateWithoutInstructionSectionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoryId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredientSections?: Prisma.IngredientSectionUncheckedUpdateManyWithoutRecipeNestedInput
 }
 
 export type RecipeCreateManyCategoryInput = {
   id?: number
-  githubId?: number | null
   title: string
   slug: string
   description?: string | null
   image?: string | null
-  imagePath?: string | null
-  time?: string | null
-  difficulty?: string | null
   prepTime?: number | null
   cookTime?: number | null
   servings?: number | null
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: string | null
+  githubId?: number | null
+  imagePath?: string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: string | null
 }
 
 export type RecipeUpdateWithoutCategoryInput = {
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredientSections?: Prisma.IngredientSectionUpdateManyWithoutRecipeNestedInput
   instructionSections?: Prisma.InstructionSectionUpdateManyWithoutRecipeNestedInput
 }
 
 export type RecipeUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ingredientSections?: Prisma.IngredientSectionUncheckedUpdateManyWithoutRecipeNestedInput
   instructionSections?: Prisma.InstructionSectionUncheckedUpdateManyWithoutRecipeNestedInput
 }
 
 export type RecipeUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prepTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cookTime?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   servings?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chefTips?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imagePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  servingSuggestions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  time?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1242,103 +1242,103 @@ export type RecipeCountOutputTypeCountInstructionSectionsArgs<ExtArgs extends ru
 
 export type RecipeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  githubId?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
   image?: boolean
-  imagePath?: boolean
-  time?: boolean
-  difficulty?: boolean
   prepTime?: boolean
   cookTime?: boolean
   servings?: boolean
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: boolean
-  chefTips?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   categoryId?: boolean
-  category?: boolean | Prisma.Recipe$categoryArgs<ExtArgs>
+  chefTips?: boolean
+  difficulty?: boolean
+  githubId?: boolean
+  imagePath?: boolean
+  servingSuggestions?: boolean
+  time?: boolean
   ingredientSections?: boolean | Prisma.Recipe$ingredientSectionsArgs<ExtArgs>
   instructionSections?: boolean | Prisma.Recipe$instructionSectionsArgs<ExtArgs>
+  category?: boolean | Prisma.Recipe$categoryArgs<ExtArgs>
   _count?: boolean | Prisma.RecipeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["recipe"]>
 
 export type RecipeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  githubId?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
   image?: boolean
-  imagePath?: boolean
-  time?: boolean
-  difficulty?: boolean
   prepTime?: boolean
   cookTime?: boolean
   servings?: boolean
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: boolean
-  chefTips?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   categoryId?: boolean
+  chefTips?: boolean
+  difficulty?: boolean
+  githubId?: boolean
+  imagePath?: boolean
+  servingSuggestions?: boolean
+  time?: boolean
   category?: boolean | Prisma.Recipe$categoryArgs<ExtArgs>
 }, ExtArgs["result"]["recipe"]>
 
 export type RecipeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  githubId?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
   image?: boolean
-  imagePath?: boolean
-  time?: boolean
-  difficulty?: boolean
   prepTime?: boolean
   cookTime?: boolean
   servings?: boolean
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: boolean
-  chefTips?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   categoryId?: boolean
+  chefTips?: boolean
+  difficulty?: boolean
+  githubId?: boolean
+  imagePath?: boolean
+  servingSuggestions?: boolean
+  time?: boolean
   category?: boolean | Prisma.Recipe$categoryArgs<ExtArgs>
 }, ExtArgs["result"]["recipe"]>
 
 export type RecipeSelectScalar = {
   id?: boolean
-  githubId?: boolean
   title?: boolean
   slug?: boolean
   description?: boolean
   image?: boolean
-  imagePath?: boolean
-  time?: boolean
-  difficulty?: boolean
   prepTime?: boolean
   cookTime?: boolean
   servings?: boolean
   featured?: boolean
   favorite?: boolean
-  servingSuggestions?: boolean
-  chefTips?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   categoryId?: boolean
+  chefTips?: boolean
+  difficulty?: boolean
+  githubId?: boolean
+  imagePath?: boolean
+  servingSuggestions?: boolean
+  time?: boolean
 }
 
-export type RecipeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "githubId" | "title" | "slug" | "description" | "image" | "imagePath" | "time" | "difficulty" | "prepTime" | "cookTime" | "servings" | "featured" | "favorite" | "servingSuggestions" | "chefTips" | "createdAt" | "updatedAt" | "categoryId", ExtArgs["result"]["recipe"]>
+export type RecipeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "image" | "prepTime" | "cookTime" | "servings" | "featured" | "favorite" | "createdAt" | "updatedAt" | "categoryId" | "chefTips" | "difficulty" | "githubId" | "imagePath" | "servingSuggestions" | "time", ExtArgs["result"]["recipe"]>
 export type RecipeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.Recipe$categoryArgs<ExtArgs>
   ingredientSections?: boolean | Prisma.Recipe$ingredientSectionsArgs<ExtArgs>
   instructionSections?: boolean | Prisma.Recipe$instructionSectionsArgs<ExtArgs>
+  category?: boolean | Prisma.Recipe$categoryArgs<ExtArgs>
   _count?: boolean | Prisma.RecipeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RecipeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1351,30 +1351,30 @@ export type RecipeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $RecipePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Recipe"
   objects: {
-    category: Prisma.$CategoryPayload<ExtArgs> | null
     ingredientSections: Prisma.$IngredientSectionPayload<ExtArgs>[]
     instructionSections: Prisma.$InstructionSectionPayload<ExtArgs>[]
+    category: Prisma.$CategoryPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    githubId: number | null
     title: string
     slug: string
     description: string | null
     image: string | null
-    imagePath: string | null
-    time: string | null
-    difficulty: string | null
     prepTime: number | null
     cookTime: number | null
     servings: number | null
     featured: boolean
     favorite: boolean
-    servingSuggestions: runtime.JsonValue | null
-    chefTips: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
     categoryId: number | null
+    chefTips: runtime.JsonValue | null
+    difficulty: string | null
+    githubId: number | null
+    imagePath: string | null
+    servingSuggestions: runtime.JsonValue | null
+    time: string | null
   }, ExtArgs["result"]["recipe"]>
   composites: {}
 }
@@ -1769,9 +1769,9 @@ readonly fields: RecipeFieldRefs;
  */
 export interface Prisma__RecipeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  category<T extends Prisma.Recipe$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recipe$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ingredientSections<T extends Prisma.Recipe$ingredientSectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recipe$ingredientSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IngredientSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   instructionSections<T extends Prisma.Recipe$instructionSectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recipe$instructionSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InstructionSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  category<T extends Prisma.Recipe$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recipe$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1802,24 +1802,24 @@ export interface Prisma__RecipeClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface RecipeFieldRefs {
   readonly id: Prisma.FieldRef<"Recipe", 'Int'>
-  readonly githubId: Prisma.FieldRef<"Recipe", 'Int'>
   readonly title: Prisma.FieldRef<"Recipe", 'String'>
   readonly slug: Prisma.FieldRef<"Recipe", 'String'>
   readonly description: Prisma.FieldRef<"Recipe", 'String'>
   readonly image: Prisma.FieldRef<"Recipe", 'String'>
-  readonly imagePath: Prisma.FieldRef<"Recipe", 'String'>
-  readonly time: Prisma.FieldRef<"Recipe", 'String'>
-  readonly difficulty: Prisma.FieldRef<"Recipe", 'String'>
   readonly prepTime: Prisma.FieldRef<"Recipe", 'Int'>
   readonly cookTime: Prisma.FieldRef<"Recipe", 'Int'>
   readonly servings: Prisma.FieldRef<"Recipe", 'Int'>
   readonly featured: Prisma.FieldRef<"Recipe", 'Boolean'>
   readonly favorite: Prisma.FieldRef<"Recipe", 'Boolean'>
-  readonly servingSuggestions: Prisma.FieldRef<"Recipe", 'Json'>
-  readonly chefTips: Prisma.FieldRef<"Recipe", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Recipe", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Recipe", 'DateTime'>
   readonly categoryId: Prisma.FieldRef<"Recipe", 'Int'>
+  readonly chefTips: Prisma.FieldRef<"Recipe", 'Json'>
+  readonly difficulty: Prisma.FieldRef<"Recipe", 'String'>
+  readonly githubId: Prisma.FieldRef<"Recipe", 'Int'>
+  readonly imagePath: Prisma.FieldRef<"Recipe", 'String'>
+  readonly servingSuggestions: Prisma.FieldRef<"Recipe", 'Json'>
+  readonly time: Prisma.FieldRef<"Recipe", 'String'>
 }
     
 
@@ -2221,25 +2221,6 @@ export type RecipeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Recipe.category
- */
-export type Recipe$categoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Category
-   */
-  select?: Prisma.CategorySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Category
-   */
-  omit?: Prisma.CategoryOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CategoryInclude<ExtArgs> | null
-  where?: Prisma.CategoryWhereInput
-}
-
-/**
  * Recipe.ingredientSections
  */
 export type Recipe$ingredientSectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2285,6 +2266,25 @@ export type Recipe$instructionSectionsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.InstructionSectionScalarFieldEnum | Prisma.InstructionSectionScalarFieldEnum[]
+}
+
+/**
+ * Recipe.category
+ */
+export type Recipe$categoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Category
+   */
+  select?: Prisma.CategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Category
+   */
+  omit?: Prisma.CategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryInclude<ExtArgs> | null
+  where?: Prisma.CategoryWhereInput
 }
 
 /**

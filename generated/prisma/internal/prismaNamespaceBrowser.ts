@@ -56,7 +56,8 @@ export const ModelName = {
   IngredientSection: 'IngredientSection',
   IngredientItem: 'IngredientItem',
   InstructionSection: 'InstructionSection',
-  InstructionStep: 'InstructionStep'
+  InstructionStep: 'InstructionStep',
+  Subscriber: 'Subscriber'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -77,24 +78,24 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const RecipeScalarFieldEnum = {
   id: 'id',
-  githubId: 'githubId',
   title: 'title',
   slug: 'slug',
   description: 'description',
   image: 'image',
-  imagePath: 'imagePath',
-  time: 'time',
-  difficulty: 'difficulty',
   prepTime: 'prepTime',
   cookTime: 'cookTime',
   servings: 'servings',
   featured: 'featured',
   favorite: 'favorite',
-  servingSuggestions: 'servingSuggestions',
-  chefTips: 'chefTips',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  categoryId: 'categoryId'
+  categoryId: 'categoryId',
+  chefTips: 'chefTips',
+  difficulty: 'difficulty',
+  githubId: 'githubId',
+  imagePath: 'imagePath',
+  servingSuggestions: 'servingSuggestions',
+  time: 'time'
 } as const
 
 export type RecipeScalarFieldEnum = (typeof RecipeScalarFieldEnum)[keyof typeof RecipeScalarFieldEnum]
@@ -151,6 +152,15 @@ export const InstructionStepScalarFieldEnum = {
 } as const
 
 export type InstructionStepScalarFieldEnum = (typeof InstructionStepScalarFieldEnum)[keyof typeof InstructionStepScalarFieldEnum]
+
+
+export const SubscriberScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt'
+} as const
+
+export type SubscriberScalarFieldEnum = (typeof SubscriberScalarFieldEnum)[keyof typeof SubscriberScalarFieldEnum]
 
 
 export const SortOrder = {
