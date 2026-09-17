@@ -1,4 +1,6 @@
 import SiteProtection from "./components/SiteProtection";
+import OfflineSupport from "./components/OfflineSupport";
+import OfflineDownloadButton from "./components/OfflineDownloadButton";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -30,6 +32,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SiteProtection />
+        <OfflineSupport />
+        <OfflineDownloadButton />
         {children}
       </body>
     </html>
