@@ -54,13 +54,13 @@ export default function FeaturedCarousel({ recipes }: Props) {
   }
 
   return (
-    <div className="w-full">
-      <div className="relative mx-auto flex h-[420px] w-full max-w-[1100px] items-center justify-center overflow-hidden px-10">
+    <div className="w-full overflow-hidden">
+      <div className="relative mx-auto flex h-[250px] w-full items-center justify-center overflow-hidden px-8 sm:h-[320px] sm:px-10 md:h-[420px] md:max-w-[1100px]">
         <button
           type="button"
           onClick={() => updateCarousel(currentIndex - 1)}
           aria-label="Previous recipe"
-          className="absolute left-2 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-2xl text-white shadow-lg transition hover:bg-[#082a7b]"
+          className="absolute left-1 top-1/2 z-30 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-xl text-white shadow-lg transition hover:bg-[#082a7b] sm:left-2 sm:h-10 sm:w-10 sm:text-2xl md:h-12 md:w-12"
         >
           ‹
         </button>
@@ -85,15 +85,20 @@ export default function FeaturedCarousel({ recipes }: Props) {
 
             const positionStyles: Record<string, string> = {
               center:
-                "translate-x-[-50%] translate-y-[-50%] scale-[1.15] opacity-100 z-20",
+                "translate-x-[-50%] translate-y-[-50%] scale-100 opacity-100 z-20 md:scale-[1.15]",
+
               "left-1":
-                "translate-x-[calc(-50%-200px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale",
+                "translate-x-[calc(-50%-62px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%-200px)]",
+
               "left-2":
-                "translate-x-[calc(-50%-400px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale",
+                "translate-x-[calc(-50%-124px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%-400px)]",
+
               "right-1":
-                "translate-x-[calc(-50%+200px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale",
+                "translate-x-[calc(-50%+62px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%+200px)]",
+
               "right-2":
-                "translate-x-[calc(-50%+400px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale",
+                "translate-x-[calc(-50%+124px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%+400px)]",
+
               hidden:
                 "translate-x-[-50%] translate-y-[-50%] scale-75 opacity-0 pointer-events-none",
             };
@@ -101,7 +106,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
             return (
               <div
                 key={recipe.id}
-                className={`absolute left-1/2 top-1/2 h-[360px] w-[260px] overflow-hidden rounded-[18px] shadow-[0_15px_35px_rgba(0,0,0,0.25)] transition-all duration-700 ease-out ${positionStyles[position]}`}
+                className={`absolute left-1/2 top-1/2 h-[190px] w-[54px] overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out sm:h-[260px] sm:w-[90px] sm:rounded-xl md:h-[360px] md:w-[260px] md:rounded-[18px] md:shadow-[0_15px_35px_rgba(0,0,0,0.25)] ${positionStyles[position]}`}
               >
                 {position === "center" ? (
                   <button
@@ -117,7 +122,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gray-200 text-gray-500">
+                      <div className="flex h-full w-full items-center justify-center bg-gray-200 text-xs text-gray-500">
                         No image
                       </div>
                     )}
@@ -136,7 +141,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gray-200 text-gray-500">
+                      <div className="flex h-full w-full items-center justify-center bg-gray-200 text-xs text-gray-500">
                         No image
                       </div>
                     )}
@@ -151,18 +156,18 @@ export default function FeaturedCarousel({ recipes }: Props) {
           type="button"
           onClick={() => updateCarousel(currentIndex + 1)}
           aria-label="Next recipe"
-          className="absolute right-2 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-2xl text-white shadow-lg transition hover:bg-[#082a7b]"
+          className="absolute right-1 top-1/2 z-30 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-xl text-white shadow-lg transition hover:bg-[#082a7b] sm:right-2 sm:h-10 sm:w-10 sm:text-2xl md:h-12 md:w-12"
         >
           ›
         </button>
       </div>
 
-      <div className="mt-5 text-center">
-        <h2 className="text-2xl font-bold text-[#082a7b]">
+      <div className="mt-3 text-center sm:mt-4 md:mt-5">
+        <h2 className="px-12 text-lg font-bold text-[#082a7b] sm:text-xl md:text-2xl">
           {currentRecipe.title}
         </h2>
 
-        <p className="mt-1 text-base text-gray-500">
+        <p className="mt-1 text-xs text-gray-500 sm:text-sm md:text-base">
           {currentRecipe.time || "Time not specified"}
           {" • "}
           {currentRecipe.difficulty || "Difficulty not specified"}
@@ -175,19 +180,19 @@ export default function FeaturedCarousel({ recipes }: Props) {
           onClick={() => setShowPopup(false)}
         >
           <div
-            className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl"
+            className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl sm:rounded-3xl"
             onClick={(event) => event.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => setShowPopup(false)}
               aria-label="Close recipe preview"
-              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-2xl text-white transition hover:bg-black/80"
+              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-xl text-white transition hover:bg-black/80 sm:right-4 sm:top-4 sm:h-10 sm:w-10 sm:text-2xl"
             >
               ×
             </button>
 
-            <div className="h-72 bg-gray-100">
+            <div className="h-56 bg-gray-100 sm:h-72">
               {currentRecipe.image ? (
                 <img
                   src={currentRecipe.image}
@@ -201,12 +206,12 @@ export default function FeaturedCarousel({ recipes }: Props) {
               )}
             </div>
 
-            <div className="p-7">
-              <h3 className="text-3xl font-bold text-gray-900">
+            <div className="p-5 sm:p-7">
+              <h3 className="text-2xl font-bold text-gray-900 sm:text-3xl">
                 {currentRecipe.title}
               </h3>
 
-              <div className="mt-3 flex gap-3 text-sm text-gray-500">
+              <div className="mt-3 flex gap-3 text-xs text-gray-500 sm:text-sm">
                 <span>
                   {currentRecipe.time || "Time not specified"}
                 </span>
@@ -219,14 +224,14 @@ export default function FeaturedCarousel({ recipes }: Props) {
               </div>
 
               {currentRecipe.description && (
-                <p className="mt-4 line-clamp-3 leading-6 text-gray-600">
+                <p className="mt-4 line-clamp-3 text-sm leading-6 text-gray-600">
                   {currentRecipe.description}
                 </p>
               )}
 
               <Link
                 href={`/recipes/${currentRecipe.slug}`}
-                className="mt-6 inline-block rounded-full bg-[#082a7b] px-6 py-3 font-semibold text-white transition hover:bg-[#061f5c]"
+                className="mt-5 inline-block rounded-full bg-[#082a7b] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#061f5c] sm:mt-6 sm:px-6 sm:py-3"
               >
                 View Full Recipe →
               </Link>

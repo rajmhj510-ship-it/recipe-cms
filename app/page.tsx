@@ -58,7 +58,7 @@ export default async function Home() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-5">
           <Link
             href="/"
-            className="text-xl font-bold tracking-tight sm:text-2xl"
+            className="text-lg font-bold tracking-tight sm:text-xl md:text-2xl"
           >
             Recipe<span className="text-orange-600">CMS</span>
           </Link>
@@ -120,7 +120,7 @@ export default async function Home() {
             Discover delicious recipes for every occasion
           </h1>
 
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8">
+          <p className="mx-auto mt-4 max-w-2xl text-xs leading-5 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8">
             Find simple, delicious recipes and discover your next favorite
             meal.
           </p>
@@ -269,7 +269,7 @@ export default async function Home() {
                   🍽️
                 </div>
 
-                <h3 className="mt-3 text-base font-bold group-hover:text-orange-600 sm:mt-5 sm:text-xl">
+                <h3 className="mt-3 text-sm font-bold group-hover:text-orange-600 sm:mt-5 sm:text-xl">
                   {category.name}
                 </h3>
 
