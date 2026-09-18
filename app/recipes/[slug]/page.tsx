@@ -110,14 +110,14 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
           <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none print:overflow-visible print:[width:100%]" id="print-recipe">
             {recipe.image ? (
-              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[18mm] print:block print:w-full print:object-cover" />
+              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[26mm] print:block print:w-full print:object-cover" />
             ) : (
               <div className="flex h-64 items-center justify-center bg-gray-200 text-gray-500 sm:h-80 md:h-[28rem]">
                 No image
               </div>
             )}
 
-            <div className="p-5 sm:p-8 md:p-12 print:p-[2mm]">
+            <div className="p-5 sm:p-8 md:p-12 print:p-[2.5mm]">
               {recipe.category && (
                 <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 print:text-[6.5pt]">
                   {recipe.category.name}
@@ -227,7 +227,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 </section>
               </div>
 
-              <div className="hidden print:block print:mt-1 print:w-full">
+              <div className="hidden print:block print:mt-2 print:w-full">
                 <table className="w-full table-fixed border-collapse">
                   <thead>
                     <tr>
