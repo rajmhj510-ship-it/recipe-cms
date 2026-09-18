@@ -209,7 +209,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   <h2 className="text-2xl font-bold text-gray-900 print:text-[11pt]">Instructions</h2>
                   <div className="mt-5 space-y-8">
                     {recipe.instructionSections.map((section) => (
-                      <div key={section.id} className="rounded-2xl bg-gray-50 p-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid"
+                      <div key={section.id} className="rounded-2xl bg-gray-50 p-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                         <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
                         <ol className="mt-4 space-y-5 print:mt-2 print:space-y-1.5">
                           {section.steps.map((step, index) => (
@@ -229,7 +229,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
               {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
                 <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-2 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
-                  <h2 className="text-2xl font-bold text-gray-900 print:text-[10.5pt]"</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 print:text-[10.5pt]">Serving Suggestions</h2>
                   <div className="mt-4 text-gray-700 print:mt-1 print:text-[7.6pt] print:leading-[1.18]">
                     {Array.isArray((recipe.servingSuggestions as { items?: unknown }).items) &&
                       (recipe.servingSuggestions as { items: unknown[] }).items.map((item, index) => (
@@ -245,7 +245,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
               {recipe.chefTips && Array.isArray(recipe.chefTips) && recipe.chefTips.length > 0 && (
                 <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6 print:mt-2 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
-                  <h2 className="text-2xl font-bold text-gray-900 print:text-[10.5pt]"</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 print:text-[10.5pt]">Chef Tips</h2>
                   <ul className="mt-4 space-y-3 text-gray-700 print:mt-1 print:space-y-0.5 print:text-[7.6pt] print:leading-[1.18]">
                     {recipe.chefTips.map((tip, index) => (
                       <li key={index}>• {String(tip)}</li>
