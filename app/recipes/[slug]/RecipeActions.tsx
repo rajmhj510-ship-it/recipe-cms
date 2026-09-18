@@ -20,7 +20,7 @@ export default function RecipeActions({ title }: { title: string }) {
     }
   }
 
-  return (
+  function openGraphic() {\n    const slug = window.location.pathname.split("/").pop() ?? "";\n    window.open(`/recipes/${slug}/social-image`, "_blank", "noopener,noreferrer");\n  }\n\n  return (
     <div className="flex flex-wrap gap-2 print:hidden">
       <button type="button" onClick={() => window.print()} className="rounded-full bg-gray-100 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-orange-50 hover:text-orange-700">
         Print Recipe
