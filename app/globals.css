@@ -69,8 +69,14 @@ body {
     text-decoration: none !important;
   }
 
+  main {
+    min-height: 0 !important;
+  }
+
   article {
-    page-break-inside: avoid;
+    page-break-inside: auto;
+    break-inside: auto;
+    page-break-after: avoid;
   }
 
   #print-recipe {
