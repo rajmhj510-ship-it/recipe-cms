@@ -98,7 +98,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
   return (
     <>
       <PublicHeader active="recipes" />
-      <main className="min-h-screen bg-gray-50 print:bg-white">
+      <main className="min-h-screen bg-gray-50 print:min-h-0 print:bg-white">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
