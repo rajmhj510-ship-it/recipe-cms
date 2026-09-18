@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 import { prisma } from "../../../lib/prisma";
 import FavoriteButton from "./FavoriteButton";
 import { COOKIE_NAME, verifyAdminSession } from "../../../lib/admin-auth";
+import PublicHeader from "../../components/PublicHeader";
+import PublicFooter from "../../components/PublicFooter";
 
 type RecipePageProps = {
   params: Promise<{
@@ -116,16 +118,15 @@ export default async function RecipePage({ params }: RecipePageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <>
+      <PublicHeader active="recipes" />
+      <main className="min-h-screen bg-gray-50">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
       />
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
-        <Link
-          href="/recipes"
-          className="text-sm font-semibold text-orange-600 hover:text-orange-700"
-        >
+        <Link href="/recipes" className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700">
           ← Back to Recipes
         </Link>
 
@@ -311,6 +312,8 @@ export default async function RecipePage({ params }: RecipePageProps) {
           </div>
         </article>
       </div>
-    </main>
+      </main>
+      <PublicFooter />
+    </>
   );
 }
