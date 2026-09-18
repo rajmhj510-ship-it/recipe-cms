@@ -13,7 +13,7 @@ async function deleteRecipe(formData: FormData) {
 
   const id = Number(formData.get("id"));
 
-  if (!id) {
+  if (!Number.isInteger(id) || id <= 0) {
     return;
   }
 
@@ -25,6 +25,7 @@ async function deleteRecipe(formData: FormData) {
 }
 
 export default async function AdminRecipesPage() {
+  await requireAdmin();
   const recipes = await prisma.recipe.findMany({
     include: {
       category: true,
