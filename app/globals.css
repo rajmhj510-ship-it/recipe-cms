@@ -72,9 +72,9 @@ body {
   }
 
   #print-recipe {
-    height: 196mm;
-    max-height: 196mm;
-    overflow: hidden;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
   }
 
   #print-recipe img {
