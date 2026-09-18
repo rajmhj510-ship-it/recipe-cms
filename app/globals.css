@@ -87,8 +87,13 @@ body {
     break-inside: auto;
   }
 
-  #print-recipe #ingredients > div > div,
-  #print-recipe #instructions > div > div {
-    break-inside: avoid;
+  #print-recipe table {
+    page-break-inside: auto;
+  }
+
+  #print-recipe tr,
+  #print-recipe td,
+  #print-recipe th {
+    page-break-inside: avoid;
   }
 }
