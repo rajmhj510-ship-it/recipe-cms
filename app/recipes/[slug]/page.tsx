@@ -110,16 +110,16 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
           <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none print:overflow-visible print:[width:100%]" id="print-recipe">
             {recipe.image ? (
-              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[25mm] print:block print:w-full print:object-cover" />
+              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[18mm] print:block print:w-full print:object-cover" />
             ) : (
               <div className="flex h-64 items-center justify-center bg-gray-200 text-gray-500 sm:h-80 md:h-[28rem]">
                 No image
               </div>
             )}
 
-            <div className="p-5 sm:p-8 md:p-12 print:p-[3mm]">
+            <div className="p-5 sm:p-8 md:p-12 print:p-[2mm]">
               {recipe.category && (
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 print:text-[7pt]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 print:text-[6.5pt]">
                   {recipe.category.name}
                 </p>
               )}
@@ -129,7 +129,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </h1>
 
               {recipe.description && (
-                <p className="mt-5 max-w-3xl text-lg leading-8 text-gray-600 print:mt-2 print:text-[8pt] print:leading-[1.2]">
+                <p className="mt-5 max-w-3xl text-lg leading-8 text-gray-600 print:mt-2 print:text-[7pt] print:leading-[1.1]">
                   {recipe.description}
                 </p>
               )}
@@ -181,16 +181,16 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 )}
               </nav>
 
-              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:mt-2 print:grid print:grid-cols-2 print:gap-[4mm] print:items-start">
-                <section id="ingredients" className="scroll-mt-24 print:break-inside-avoid print:min-w-0">
-                  <h2 className="text-2xl font-bold text-gray-900 print:text-[11pt]">Ingredients</h2>
+              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:mt-1 print:table print:w-full print:table-fixed print:border-separate print:border-spacing-x-[3mm] print:border-spacing-y-0">
+                <section id="ingredients" className="scroll-mt-24 print:table-cell print:align-top print:min-w-0 print:w-[40%]">
+                  <h2 className="text-2xl font-bold text-gray-900 print:text-[9pt]">Ingredients</h2>
                   {recipe.servings && recipe.servings > 0 ? (
                     <IngredientScaler sections={recipe.ingredientSections} originalServings={recipe.servings} />
                   ) : (
-                    <div className="mt-5 space-y-8 print:mt-2 print:space-y-2">
+                    <div className="mt-5 space-y-8 print:mt-1 print:space-y-1">
                       {recipe.ingredientSections.map((section) => (
                         <div key={section.id} className="rounded-2xl bg-gray-50 p-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
-                          <h3 className="text-lg font-bold text-gray-900 print:text-[8.5pt] print:leading-[1.1]">{section.title}</h3>
+                          <h3 className="text-lg font-bold text-gray-900 print:text-[7pt] print:leading-[1.05]">{section.title}</h3>
                           <ul className="mt-4 space-y-3">
                             {section.items.map((item) => (
                               <li key={item.id} className="flex gap-3 leading-7 text-gray-700">
@@ -205,13 +205,13 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   )}
                 </section>
 
-                <section id="instructions" className="scroll-mt-24 print:break-inside-avoid print:mt-0 print:min-w-0">
+                <section id="instructions" className="scroll-mt-24 print:table-cell print:align-top print:mt-0 print:min-w-0 print:w-[60%]">
                   <h2 className="text-2xl font-bold text-gray-900 print:text-[11pt]">Instructions</h2>
                   <div className="mt-5 space-y-8">
                     {recipe.instructionSections.map((section) => (
                       <div key={section.id} className="rounded-2xl bg-gray-50 p-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                         <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
-                        <ol className="mt-4 space-y-5 print:mt-2 print:space-y-1.5">
+                        <ol className="mt-4 space-y-5 print:mt-1 print:space-y-0.5">
                           {section.steps.map((step, index) => (
                             <li key={step.id} className="flex gap-4 leading-7 text-gray-700">
                               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange-100 text-sm font-bold text-orange-700">
@@ -228,9 +228,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
 
               {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
-                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-2 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
-                  <h2 className="text-2xl font-bold text-gray-900 print:text-[10.5pt]">Serving Suggestions</h2>
-                  <div className="mt-4 text-gray-700 print:mt-1 print:text-[7.6pt] print:leading-[1.18]">
+                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-1 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
+                  <h2 className="text-2xl font-bold text-gray-900 print:text-[8.5pt]">Serving Suggestions</h2>
+                  <div className="mt-4 text-gray-700 print:mt-1 print:text-[6.8pt] print:leading-[1.08]">
                     {Array.isArray((recipe.servingSuggestions as { items?: unknown }).items) &&
                       (recipe.servingSuggestions as { items: unknown[] }).items.map((item, index) => (
                         <p key={index} className="mb-2">• {String(item)}</p>
