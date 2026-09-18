@@ -52,16 +52,12 @@ async function createRecipe(formData: FormData) {
   }
 
   if (
-    (categoryId !== null && !Number.isInteger(categoryId)) ||
+    (categoryId !== null && (!Number.isInteger(categoryId) || categoryId <= 0)) ||
     (prepTime !== null && (!Number.isInteger(prepTime) || prepTime < 0)) ||
     (cookTime !== null && (!Number.isInteger(cookTime) || cookTime < 0)) ||
     (servings !== null && (!Number.isInteger(servings) || servings < 1))
   ) {
     throw new Error("Recipe numeric fields are invalid.");
-  }
-
-  if (ingredients.length === 0 || instructions.length === 0) {
-    throw new Error("At least one ingredient and instruction are required.");
   }
 
   const ingredients = ingredientsText
@@ -75,6 +71,21 @@ async function createRecipe(formData: FormData) {
     .filter(Boolean);
 
   await prisma.$transaction(async (tx) => {
+    if (categoryId !== null) {
+      const category = await tx.category.findUnique({
+        where: { id: categoryId },
+        select: { id: true },
+      });
+
+      if (!category) {
+        throw new Error("Selected category does not exist.");
+      }
+    }
+
+    if (ingredients.length === 0 || instructions.length === 0) {
+      throw new Error("At least one ingredient and instruction are required.");
+    }
+
     const recipe = await tx.recipe.create({
       data: {
         title,
