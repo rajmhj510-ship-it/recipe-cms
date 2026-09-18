@@ -71,14 +71,14 @@ export default function IngredientScaler({
           <button type="button" onClick={() => change(1)} disabled={servings >= 100} aria-label="Increase servings" className="h-10 w-10 rounded-full bg-white text-lg font-bold text-gray-700 shadow-sm ring-1 ring-gray-200 disabled:cursor-not-allowed disabled:opacity-40">+</button>
         </div>
       </div>
-      <div className="space-y-8">
+      <div className="space-y-8 print:space-y-2">
         {scaledSections.map((section) => (
           <div key={section.id} className="rounded-2xl bg-gray-50 p-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
-            <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
-            <ul className="mt-4 space-y-3">
+            <h3 className="text-lg font-bold text-gray-900 print:text-[8.5pt] print:leading-[1.1]">{section.title}</h3>
+            <ul className="mt-4 space-y-3 print:mt-1 print:space-y-0.5">
               {section.items.map((item) => (
-                <li key={item.id} className="flex gap-3 leading-7 text-gray-700">
-                  <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-500" />
+                <li key={item.id} className="flex gap-2 leading-7 text-gray-700 print:gap-1 print:text-[7.6pt] print:leading-[1.18]">
+                  <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-500 print:mt-[3px] print:h-1.5 print:w-1.5" />
                   <span>{item.text}</span>
                 </li>
               ))}
