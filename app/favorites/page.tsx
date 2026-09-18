@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { prisma } from "../../lib/prisma";
+import PublicHeader from "../components/PublicHeader";
+import PublicFooter from "../components/PublicFooter";
 
 export default async function FavoritesPage() {
   const recipes = await prisma.recipe.findMany({
@@ -16,9 +18,11 @@ export default async function FavoritesPage() {
   });
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-10">
+    <>
+      <PublicHeader active="favorites" />
+      <main className="min-h-screen bg-gray-50">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
+        <div className="mb-8 rounded-3xl bg-white p-6 shadow-sm sm:mb-10 sm:p-8">
           <Link
             href="/"
             className="text-sm font-semibold text-orange-600 hover:text-orange-700"
@@ -26,7 +30,9 @@ export default async function FavoritesPage() {
             ← Back to Home
           </Link>
 
-          <h1 className="mt-6 text-4xl font-bold text-gray-900">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Your collection</p>
+
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Favorite Recipes
           </h1>
 
@@ -53,7 +59,7 @@ export default async function FavoritesPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {recipes.map((recipe) => (
               <Link
                 href={`/recipes/${recipe.slug}`}
@@ -64,7 +70,7 @@ export default async function FavoritesPage() {
                   <img
                     src={recipe.image}
                     alt={recipe.title}
-                    className="h-56 w-full object-cover"
+                    className="h-52 w-full object-cover sm:h-56"
                   />
                 ) : (
                   <div className="flex h-56 items-center justify-center bg-gray-200 text-gray-500">
@@ -72,7 +78,7 @@ export default async function FavoritesPage() {
                   </div>
                 )}
 
-                <div className="p-6">
+                <div className="p-5 sm:p-6">
                   {recipe.category && (
                     <p className="text-sm font-semibold text-orange-600">
                       {recipe.category.name}
@@ -98,6 +104,8 @@ export default async function FavoritesPage() {
           </div>
         )}
       </div>
-    </main>
+      </main>
+      <PublicFooter />
+    </>
   );
 }
