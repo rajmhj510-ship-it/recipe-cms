@@ -6,6 +6,7 @@ import RecipeTitleSlugFields from "./RecipeTitleSlugFields";
 
 async function createRecipe(formData: FormData) {
   "use server";
+  await requireAdmin();
 
   const title = String(formData.get("title") || "").trim();
   const slug = String(formData.get("slug") || "").trim();
