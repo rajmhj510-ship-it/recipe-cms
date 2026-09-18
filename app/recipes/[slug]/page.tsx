@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { prisma } from "../../../lib/prisma";
 import FavoriteButton from "./FavoriteButton";
+import { COOKIE_NAME, verifyAdminSession } from "../../../lib/admin-auth";
 
 type RecipePageProps = {
   params: Promise<{
@@ -11,6 +13,9 @@ type RecipePageProps = {
 
 export default async function RecipePage({ params }: RecipePageProps) {
   const { slug } = await params;
+
+  const cookieStore = await cookies();
+  const isAdmin = await verifyAdminSession(cookieStore.get(COOKIE_NAME)?.value);
 
   const recipe = await prisma.recipe.findUnique({
     where: {
@@ -93,6 +98,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               <FavoriteButton
                 initialFavorite={recipe.favorite}
                 slug={recipe.slug}
+                canEdit={isAdmin}
               />
             </div>
 
