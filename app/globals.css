@@ -27,7 +27,7 @@ body {
 
 @page {
   size: A5 portrait;
-  margin: 7mm;
+  margin: 4mm;
 }
 
 @media print {
@@ -37,12 +37,12 @@ body {
   }
 
   body {
-    font-size: 8.2pt;
-    line-height: 1.22;
+    font-size: 7pt;
+    line-height: 1.1;
   }
 
   h1 {
-    font-size: 19pt !important;
+    font-size: 15pt !important;
     line-height: 1.05 !important;
   }
 
@@ -60,6 +60,8 @@ body {
   li {
     orphans: 1;
     widows: 1;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   a {
@@ -82,6 +84,11 @@ body {
   }
 
   #print-recipe section {
+    break-inside: auto;
+  }
+
+  #print-recipe #ingredients > div > div,
+  #print-recipe #instructions > div > div {
     break-inside: avoid;
   }
 }
