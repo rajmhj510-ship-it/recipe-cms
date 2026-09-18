@@ -91,12 +91,30 @@ export default async function Home() {
             </a>
           </nav>
 
-          <Link
-            href="/admin"
-            className="rounded-full bg-orange-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-700 sm:px-5 sm:py-2.5 sm:text-base"
-          >
-            Admin
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/admin"
+              className="hidden rounded-full bg-orange-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-700 sm:inline-flex sm:px-5 sm:py-2.5 sm:text-base"
+            >
+              Admin
+            </Link>
+
+            <details className="relative md:hidden">
+              <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm">
+                <span className="sr-only">Open menu</span>
+                <span aria-hidden="true" className="text-lg leading-none">☰</span>
+              </summary>
+
+              <nav className="absolute right-0 top-12 z-[60] w-56 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl">
+                <Link href="/" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Home</Link>
+                <Link href="/recipes" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Recipes</Link>
+                <Link href="/favorites" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Favorites</Link>
+                <Link href="/offline" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Offline Library</Link>
+                <a href="#categories" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Categories</a>
+                <a href="#blog" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Newsletter</a>
+              </nav>
+            </details>
+          </div>
         </div>
       </header>
 
