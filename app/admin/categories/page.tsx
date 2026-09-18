@@ -3,6 +3,7 @@ import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "../../../lib/prisma";
+import { requireAdmin } from "@/lib/admin-auth";
 
 async function deleteCategory(formData: FormData) {
   "use server";
@@ -10,7 +11,7 @@ async function deleteCategory(formData: FormData) {
 
   const id = Number(formData.get("id"));
 
-  if (!id) {
+  if (!Number.isInteger(id) || id <= 0) {
     throw new Error("Invalid category ID.");
   }
 
@@ -38,6 +39,7 @@ revalidatePath("/recipes");
 }
 
 export default async function CategoriesPage() {
+  await requireAdmin();
   const categories = await prisma.category.findMany({
     include: {
       _count: {
