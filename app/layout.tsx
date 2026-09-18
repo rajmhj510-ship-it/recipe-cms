@@ -16,7 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Recipe CMS",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://rcms26.vercel.app"
+  ),
+  title: {
+    default: "Recipe CMS",
+    template: "%s | Recipe CMS",
+  },
   description: "Discover delicious recipes for every occasion.",
 };
 
