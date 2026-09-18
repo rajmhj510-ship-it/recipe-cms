@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { prisma } from "../../../lib/prisma";
 import FavoriteButton from "./FavoriteButton";
+import IngredientScaler from "./IngredientScaler";
+import RecipeActions from "./RecipeActions";
 import { COOKIE_NAME, verifyAdminSession } from "../../../lib/admin-auth";
 import PublicHeader from "../../components/PublicHeader";
 import PublicFooter from "../../components/PublicFooter";
@@ -58,6 +60,16 @@ export default async function RecipePage({ params }: RecipePageProps) {
   });
 
   if (!recipe) notFound();
+
+  const relatedRecipes = await prisma.recipe.findMany({
+    where: {
+      slug: { not: recipe.slug },
+      ...(recipe.categoryId ? { categoryId: recipe.categoryId } : {}),
+    },
+    select: { slug: true, title: true, image: true, description: true },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
   const totalTime =
     recipe.prepTime !== null && recipe.cookTime !== null
@@ -122,8 +134,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 </p>
               )}
 
-              <div className="mt-6">
+              <div className="mt-6 flex flex-wrap items-center gap-3">
                 <FavoriteButton initialFavorite={recipe.favorite} slug={recipe.slug} canEdit={isAdmin} />
+                <RecipeActions title={recipe.title} />
               </div>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -171,21 +184,25 @@ export default async function RecipePage({ params }: RecipePageProps) {
               <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr]">
                 <section id="ingredients" className="scroll-mt-24">
                   <h2 className="text-2xl font-bold text-gray-900">Ingredients</h2>
-                  <div className="mt-5 space-y-8">
-                    {recipe.ingredientSections.map((section) => (
-                      <div key={section.id} className="rounded-2xl bg-gray-50 p-6">
-                        <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
-                        <ul className="mt-4 space-y-3">
-                          {section.items.map((item) => (
-                            <li key={item.id} className="flex gap-3 leading-7 text-gray-700">
-                              <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                              <span>{item.text}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
+                  {recipe.servings && recipe.servings > 0 ? (
+                    <IngredientScaler sections={recipe.ingredientSections} originalServings={recipe.servings} />
+                  ) : (
+                    <div className="mt-5 space-y-8">
+                      {recipe.ingredientSections.map((section) => (
+                        <div key={section.id} className="rounded-2xl bg-gray-50 p-6">
+                          <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
+                          <ul className="mt-4 space-y-3">
+                            {section.items.map((item) => (
+                              <li key={item.id} className="flex gap-3 leading-7 text-gray-700">
+                                <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-500" />
+                                <span>{item.text}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </section>
 
                 <section id="instructions" className="scroll-mt-24">
@@ -218,6 +235,27 @@ export default async function RecipePage({ params }: RecipePageProps) {
                       (recipe.servingSuggestions as { items: unknown[] }).items.map((item, index) => (
                         <p key={index} className="mb-2">• {String(item)}</p>
                       ))}
+                  </div>
+                </section>
+              )}
+
+              {relatedRecipes.length > 0 && (
+                <section className="mt-12 border-t border-gray-100 pt-10">
+                  <h2 className="text-2xl font-bold text-gray-900">You May Also Like</h2>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {relatedRecipes.map((related) => (
+                      <Link key={related.slug} href={`/recipes/${related.slug}`} className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                        {related.image ? (
+                          <img src={related.image} alt="" className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
+                        ) : (
+                          <div className="flex h-36 items-center justify-center bg-gray-100 text-sm text-gray-400">No image</div>
+                        )}
+                        <div className="p-4">
+                          <h3 className="font-bold text-gray-900 group-hover:text-orange-700">{related.title}</h3>
+                          {related.description && <p className="mt-1 line-clamp-2 text-sm text-gray-500">{related.description}</p>}
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </section>
               )}
