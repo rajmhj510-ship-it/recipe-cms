@@ -35,6 +35,7 @@ export default async function SubscribersPage() {
 
   async function updateSubscriber(formData: FormData) {
     "use server";
+    await requireAdmin();
 
     const id = Number(formData.get("id"));
     const email = String(formData.get("email") || "")
@@ -64,6 +65,7 @@ export default async function SubscribersPage() {
 
   async function deleteSubscriber(formData: FormData) {
     "use server";
+    await requireAdmin();
 
     const id = Number(formData.get("id"));
 
