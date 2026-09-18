@@ -1,4 +1,3 @@
-import SiteProtection from "./components/SiteProtection";
 import OfflineSupport from "./components/OfflineSupport";
 import OfflineDownloadButton from "./components/OfflineDownloadButton";
 import type { Metadata } from "next";
@@ -36,8 +35,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <SiteProtection />
+      <body className="min-h-full flex flex-col font-sans">
         <OfflineSupport />
         <OfflineDownloadButton />
         {children}
