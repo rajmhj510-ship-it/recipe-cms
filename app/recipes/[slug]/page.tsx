@@ -121,7 +121,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
       />
-      <div className="mx-auto max-w-6xl px-6 py-10">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
         <Link
           href="/recipes"
           className="text-sm font-semibold text-orange-600 hover:text-orange-700"
@@ -134,22 +134,22 @@ export default async function RecipePage({ params }: RecipePageProps) {
             <img
               src={recipe.image}
               alt={recipe.title}
-              className="h-80 w-full object-cover md:h-[28rem]"
+              className="h-64 w-full object-cover sm:h-80 md:h-[28rem]"
             />
           ) : (
-            <div className="flex h-80 items-center justify-center bg-gray-200 text-gray-500 md:h-[28rem]">
+            <div className="flex h-64 items-center justify-center bg-gray-200 text-gray-500 sm:h-80 md:h-[28rem]">
               No image
             </div>
           )}
 
-          <div className="p-8 md:p-12">
+          <div className="p-5 sm:p-8 md:p-12">
             {recipe.category && (
               <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
                 {recipe.category.name}
               </p>
             )}
 
-            <h1 className="mt-3 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
               {recipe.title}
             </h1>
 
@@ -202,7 +202,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               )}
             </div>
 
-            <div className="mt-12 grid gap-12 md:grid-cols-[0.8fr_1.2fr]">
+            <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr]">
               <section>
                 <h2 className="text-2xl font-bold text-gray-900">
                   Ingredients
