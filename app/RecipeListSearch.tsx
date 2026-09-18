@@ -18,10 +18,12 @@ type Recipe = {
 
 export default function RecipeListSearch({
   recipes,
+  initialSearch = "",
 }: {
   recipes: Recipe[];
+  initialSearch?: string;
 }) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialSearch);
 
   const query = search.trim().toLowerCase();
 
@@ -30,7 +32,11 @@ export default function RecipeListSearch({
       return true;
     }
 
-    return recipe.title.toLowerCase().includes(query);
+    return (
+      recipe.title.toLowerCase().includes(query) ||
+      recipe.description?.toLowerCase().includes(query) ||
+      recipe.category?.name.toLowerCase().includes(query)
+    );
   });
 
   return (
