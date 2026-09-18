@@ -98,7 +98,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
   return (
     <>
       <PublicHeader active="recipes" />
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen bg-gray-50 print:bg-white">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
@@ -108,7 +108,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
             ← Back to Recipes
           </Link>
 
-          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm">
+          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none">
             {recipe.image ? (
               <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem]" />
             ) : (
@@ -239,8 +239,13 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 </section>
               )}
 
+              <div className="sticky bottom-3 z-20 mt-8 flex justify-center gap-2 md:hidden print:hidden">
+                <a href="#ingredients" className="rounded-full bg-white px-4 py-2.5 text-sm font-bold text-gray-700 shadow-lg ring-1 ring-gray-200">Ingredients</a>
+                <a href="#instructions" className="rounded-full bg-orange-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg">Instructions</a>
+              </div>
+
               {relatedRecipes.length > 0 && (
-                <section className="mt-12 border-t border-gray-100 pt-10">
+                <section className="mt-12 border-t border-gray-100 pt-10 print:hidden">
                   <h2 className="text-2xl font-bold text-gray-900">You May Also Like</h2>
                   <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {relatedRecipes.map((related) => (
