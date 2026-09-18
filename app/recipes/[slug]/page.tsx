@@ -103,21 +103,21 @@ export default async function RecipePage({ params }: RecipePageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
         />
-        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
-          <Link href="/recipes" className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 print:max-w-none print:px-0 print:py-0">
+          <Link href="/recipes" className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700 print:hidden">
             ← Back to Recipes
           </Link>
 
-          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none">
+          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none print:overflow-visible">
             {recipe.image ? (
-              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem]" />
+              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:hidden" />
             ) : (
               <div className="flex h-64 items-center justify-center bg-gray-200 text-gray-500 sm:h-80 md:h-[28rem]">
                 No image
               </div>
             )}
 
-            <div className="p-5 sm:p-8 md:p-12">
+            <div className="p-5 sm:p-8 md:p-12 print:p-0">
               {recipe.category && (
                 <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
                   {recipe.category.name}
@@ -134,12 +134,12 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 </p>
               )}
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center gap-3 print:hidden">
                 <FavoriteButton initialFavorite={recipe.favorite} slug={recipe.slug} canEdit={isAdmin} />
                 <RecipeActions title={recipe.title} />
               </div>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div className="mt-8 grid gap-3 sm:grid-cols-3 print:hidden">
                 {recipe.prepTime !== null && (
                   <div className="rounded-2xl bg-orange-50 p-5">
                     <p className="text-sm font-medium text-gray-500">Prep Time</p>
@@ -167,10 +167,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
 
               {recipe.servings !== null && totalTime !== null && (
-                <p className="mt-3 text-sm text-gray-500">Makes {recipe.servings} servings</p>
+                <p className="mt-3 text-sm text-gray-500 print:hidden">Makes {recipe.servings} servings</p>
               )}
 
-              <nav aria-label="Recipe sections" className="mt-8 flex flex-wrap gap-2 border-y border-gray-100 py-4">
+              <nav aria-label="Recipe sections" className="mt-8 flex flex-wrap gap-2 border-y border-gray-100 py-4 print:hidden">
                 <a href="#ingredients" className="rounded-full bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-orange-50 hover:text-orange-700">Ingredients</a>
                 <a href="#instructions" className="rounded-full bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-orange-50 hover:text-orange-700">Instructions</a>
                 {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
@@ -181,15 +181,15 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 )}
               </nav>
 
-              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr]">
-                <section id="ingredients" className="scroll-mt-24">
+              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:block print:mt-8">
+                <section id="ingredients" className="scroll-mt-24 print:break-inside-avoid">
                   <h2 className="text-2xl font-bold text-gray-900">Ingredients</h2>
                   {recipe.servings && recipe.servings > 0 ? (
                     <IngredientScaler sections={recipe.ingredientSections} originalServings={recipe.servings} />
                   ) : (
                     <div className="mt-5 space-y-8">
                       {recipe.ingredientSections.map((section) => (
-                        <div key={section.id} className="rounded-2xl bg-gray-50 p-6">
+                        <div key={section.id} className="rounded-2xl bg-gray-50 p-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                           <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
                           <ul className="mt-4 space-y-3">
                             {section.items.map((item) => (
@@ -205,7 +205,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   )}
                 </section>
 
-                <section id="instructions" className="scroll-mt-24">
+                <section id="instructions" className="scroll-mt-24 print:break-inside-avoid print:mt-8">
                   <h2 className="text-2xl font-bold text-gray-900">Instructions</h2>
                   <div className="mt-5 space-y-8">
                     {recipe.instructionSections.map((section) => (
@@ -228,7 +228,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
 
               {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
-                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6">
+                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-8 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                   <h2 className="text-2xl font-bold text-gray-900">Serving Suggestions</h2>
                   <div className="mt-4 text-gray-700">
                     {Array.isArray((recipe.servingSuggestions as { items?: unknown }).items) &&
@@ -243,6 +243,17 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 <a href="#ingredients" className="rounded-full bg-white px-4 py-2.5 text-sm font-bold text-gray-700 shadow-lg ring-1 ring-gray-200">Ingredients</a>
                 <a href="#instructions" className="rounded-full bg-orange-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg">Instructions</a>
               </div>
+              {recipe.chefTips && Array.isArray(recipe.chefTips) && recipe.chefTips.length > 0 && (
+                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6 print:mt-8 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
+                  <h2 className="text-2xl font-bold text-gray-900">Chef Tips</h2>
+                  <ul className="mt-4 space-y-3 text-gray-700">
+                    {recipe.chefTips.map((tip, index) => (
+                      <li key={index}>• {String(tip)}</li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
 
               {relatedRecipes.length > 0 && (
                 <section className="mt-12 border-t border-gray-100 pt-10 print:hidden">
@@ -265,16 +276,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 </section>
               )}
 
-              {recipe.chefTips && Array.isArray(recipe.chefTips) && recipe.chefTips.length > 0 && (
-                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Chef Tips</h2>
-                  <ul className="mt-4 space-y-3 text-gray-700">
-                    {recipe.chefTips.map((tip, index) => (
-                      <li key={index}>• {String(tip)}</li>
-                    ))}
-                  </ul>
-                </section>
-              )}
+
             </div>
           </article>
         </div>
