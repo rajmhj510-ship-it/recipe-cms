@@ -24,24 +24,19 @@ export default async function RecipesPage({
 
   const recipes = await prisma.recipe.findMany({
     where: {
-      ...(search || selectedCategory
+      ...(search
         ? {
-            AND: [
-              ...(search
-                ? [{
-                    OR: [
-                      { title: { contains: search, mode: "insensitive" as const } },
-                      { description: { contains: search, mode: "insensitive" as const } },
-                      { category: { name: { contains: search, mode: "insensitive" as const } } },
-                    ],
-                  }]
-                : []),
-              ...(selectedCategory
-                ? [{ category: { slug: selectedCategory } }]
-                : []),
+            OR: [
+              { title: { contains: search, mode: "insensitive" } },
+              { description: { contains: search, mode: "insensitive" } },
+              {
+                category: {
+                  name: { contains: search, mode: "insensitive" },
+                },
+              },
             ],
           }
-        : {})
+        : {}),
       ...(selectedCategory
         ? {
             category: {
@@ -114,7 +109,7 @@ export default async function RecipesPage({
           ))}
         </div>
 
-        <RecipeListSearch recipes={recipes} />
+        <RecipeListSearch recipes={recipes} initialSearch={search} />
       </div>
     </main>
   );
