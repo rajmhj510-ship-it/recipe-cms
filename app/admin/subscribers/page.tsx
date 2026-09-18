@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/admin-auth";
 import { revalidatePath } from "next/cache";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -8,6 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function SubscribersPage() {
   async function addSubscriber(formData: FormData) {
     "use server";
+    await requireAdmin();
 
     const email = String(formData.get("email") || "")
       .trim()
