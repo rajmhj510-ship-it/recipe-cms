@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { prisma } from "../../../lib/prisma";
 import FavoriteButton from "./FavoriteButton";
+import IngredientScaler from "./IngredientScaler";
+import RecipeActions from "./RecipeActions";
 import { COOKIE_NAME, verifyAdminSession } from "../../../lib/admin-auth";
 import PublicHeader from "../../components/PublicHeader";
 import PublicFooter from "../../components/PublicFooter";
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
       title: recipe.title,
       description: recipe.description || `Learn how to make ${recipe.title} with Recipe CMS.`,
       type: "article",
-      images: recipe.image ? [{ url: recipe.image, alt: recipe.title }] : [],
+      images: [{ url: `/recipes/${slug}/social-image`, alt: recipe.title }],
     },
   };
 }
@@ -58,6 +60,16 @@ export default async function RecipePage({ params }: RecipePageProps) {
   });
 
   if (!recipe) notFound();
+
+  const relatedRecipes = await prisma.recipe.findMany({
+    where: {
+      slug: { not: recipe.slug },
+      ...(recipe.categoryId ? { categoryId: recipe.categoryId } : {}),
+    },
+    select: { slug: true, title: true, image: true, description: true },
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
   const totalTime =
     recipe.prepTime !== null && recipe.cookTime !== null
@@ -86,47 +98,48 @@ export default async function RecipePage({ params }: RecipePageProps) {
   return (
     <>
       <PublicHeader active="recipes" />
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen bg-gray-50 print:min-h-0 print:bg-white">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
         />
-        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
-          <Link href="/recipes" className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10 print:max-w-none print:px-0 print:py-0">
+          <Link href="/recipes" className="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700 print:hidden">
             ← Back to Recipes
           </Link>
 
-          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm">
+          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none print:overflow-visible print:[width:100%]" id="print-recipe">
             {recipe.image ? (
-              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem]" />
+              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[26mm] print:block print:w-full print:object-cover" />
             ) : (
               <div className="flex h-64 items-center justify-center bg-gray-200 text-gray-500 sm:h-80 md:h-[28rem]">
                 No image
               </div>
             )}
 
-            <div className="p-5 sm:p-8 md:p-12">
+            <div className="p-5 sm:p-8 md:p-12 print:p-[2.5mm]">
               {recipe.category && (
-                <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 print:text-[6.5pt]">
                   {recipe.category.name}
                 </p>
               )}
 
-              <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
+              <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl md:text-5xl print:mt-1">
                 {recipe.title}
               </h1>
 
               {recipe.description && (
-                <p className="mt-5 max-w-3xl text-lg leading-8 text-gray-600">
+                <p className="mt-5 max-w-3xl text-lg leading-8 text-gray-600 print:mt-2 print:text-[7pt] print:leading-[1.1]">
                   {recipe.description}
                 </p>
               )}
 
-              <div className="mt-6">
+              <div className="mt-6 flex flex-wrap items-center gap-3 print:hidden">
                 <FavoriteButton initialFavorite={recipe.favorite} slug={recipe.slug} canEdit={isAdmin} />
+                <RecipeActions title={recipe.title} />
               </div>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div className="mt-8 grid gap-3 sm:grid-cols-3 print:hidden">
                 {recipe.prepTime !== null && (
                   <div className="rounded-2xl bg-orange-50 p-5">
                     <p className="text-sm font-medium text-gray-500">Prep Time</p>
@@ -154,10 +167,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
 
               {recipe.servings !== null && totalTime !== null && (
-                <p className="mt-3 text-sm text-gray-500">Makes {recipe.servings} servings</p>
+                <p className="mt-3 text-sm text-gray-500 print:hidden">Makes {recipe.servings} servings</p>
               )}
 
-              <nav aria-label="Recipe sections" className="mt-8 flex flex-wrap gap-2 border-y border-gray-100 py-4">
+              <nav aria-label="Recipe sections" className="mt-8 flex flex-wrap gap-2 border-y border-gray-100 py-4 print:hidden">
                 <a href="#ingredients" className="rounded-full bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-orange-50 hover:text-orange-700">Ingredients</a>
                 <a href="#instructions" className="rounded-full bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-orange-50 hover:text-orange-700">Instructions</a>
                 {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
@@ -168,24 +181,28 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 )}
               </nav>
 
-              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr]">
+              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:hidden">
                 <section id="ingredients" className="scroll-mt-24">
                   <h2 className="text-2xl font-bold text-gray-900">Ingredients</h2>
-                  <div className="mt-5 space-y-8">
-                    {recipe.ingredientSections.map((section) => (
-                      <div key={section.id} className="rounded-2xl bg-gray-50 p-6">
-                        <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
-                        <ul className="mt-4 space-y-3">
-                          {section.items.map((item) => (
-                            <li key={item.id} className="flex gap-3 leading-7 text-gray-700">
-                              <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                              <span>{item.text}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
+                  {recipe.servings && recipe.servings > 0 ? (
+                    <IngredientScaler sections={recipe.ingredientSections} originalServings={recipe.servings} />
+                  ) : (
+                    <div className="mt-5 space-y-8">
+                      {recipe.ingredientSections.map((section) => (
+                        <div key={section.id} className="rounded-2xl bg-gray-50 p-6">
+                          <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
+                          <ul className="mt-4 space-y-3">
+                            {section.items.map((item) => (
+                              <li key={item.id} className="flex gap-3 leading-7 text-gray-700">
+                                <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-orange-500" />
+                                <span>{item.text}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </section>
 
                 <section id="instructions" className="scroll-mt-24">
@@ -210,28 +227,98 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 </section>
               </div>
 
+              <div className="hidden print:block print:mt-2 print:w-full">
+                <table className="w-full table-fixed border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="w-[38%] border-b border-gray-300 pb-1 pr-3 text-left text-[8pt] font-bold uppercase tracking-wide">Ingredients</th>
+                      <th className="w-[62%] border-b border-gray-300 pb-1 pl-3 text-left text-[8pt] font-bold uppercase tracking-wide">Instructions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="align-top pr-3">
+                        {recipe.ingredientSections.map((section) => (
+                          <div key={section.id} className="mb-1.5">
+                            <h3 className="text-[7pt] font-bold leading-tight">{section.title}</h3>
+                            <ul className="mt-0.5 space-y-0">
+                              {section.items.map((item) => (
+                                <li key={item.id} className="text-[6.5pt] leading-[1.05]">• {item.text}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </td>
+                      <td className="align-top pl-3">
+                        {recipe.instructionSections.map((section) => (
+                          <div key={section.id} className="mb-1.5">
+                            <h3 className="text-[7pt] font-bold leading-tight">{section.title}</h3>
+                            <ol className="mt-0.5 space-y-0">
+                              {section.steps.map((step, index) => (
+                                <li key={step.id} className="flex gap-1 text-[6.5pt] leading-[1.05]">
+                                  <span className="shrink-0 font-bold">{index + 1}.</span>
+                                  <span>{step.text}</span>
+                                </li>
+                              ))}
+                            </ol>
+                          </div>
+                        ))}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
               {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
-                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Serving Suggestions</h2>
-                  <div className="mt-4 text-gray-700">
+                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-2 print:rounded-none print:bg-white print:p-0">
+                  <h2 className="text-2xl font-bold text-gray-900 print:text-[8.5pt]">Serving Suggestions</h2>
+                  <div className="mt-4 text-gray-700 print:mt-0.5 print:text-[6.5pt] print:leading-[1.05]">
                     {Array.isArray((recipe.servingSuggestions as { items?: unknown }).items) &&
                       (recipe.servingSuggestions as { items: unknown[] }).items.map((item, index) => (
-                        <p key={index} className="mb-2">• {String(item)}</p>
+                        <p key={index} className="mb-1 print:mb-0">• {String(item)}</p>
                       ))}
                   </div>
                 </section>
               )}
 
+              <div className="sticky bottom-3 z-20 mt-8 flex justify-center gap-2 md:hidden print:hidden">
+                <a href="#ingredients" className="rounded-full bg-white px-4 py-2.5 text-sm font-bold text-gray-700 shadow-lg ring-1 ring-gray-200">Ingredients</a>
+                <a href="#instructions" className="rounded-full bg-orange-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg">Instructions</a>
+              </div>
               {recipe.chefTips && Array.isArray(recipe.chefTips) && recipe.chefTips.length > 0 && (
-                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Chef Tips</h2>
-                  <ul className="mt-4 space-y-3 text-gray-700">
+                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6 print:mt-2 print:rounded-none print:bg-white print:p-0">
+                  <h2 className="text-2xl font-bold text-gray-900 print:text-[8.5pt]">Chef Tips</h2>
+                  <ul className="mt-4 space-y-3 text-gray-700 print:mt-0.5 print:space-y-0 print:text-[6.5pt] print:leading-[1.05]">
                     {recipe.chefTips.map((tip, index) => (
                       <li key={index}>• {String(tip)}</li>
                     ))}
                   </ul>
                 </section>
               )}
+
+
+              {relatedRecipes.length > 0 && (
+                <section className="mt-12 border-t border-gray-100 pt-10 print:hidden">
+                  <h2 className="text-2xl font-bold text-gray-900">You May Also Like</h2>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {relatedRecipes.map((related) => (
+                      <Link key={related.slug} href={`/recipes/${related.slug}`} className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                        {related.image ? (
+                          <img src={related.image} alt="" className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
+                        ) : (
+                          <div className="flex h-36 items-center justify-center bg-gray-100 text-sm text-gray-400">No image</div>
+                        )}
+                        <div className="p-4">
+                          <h3 className="font-bold text-gray-900 group-hover:text-orange-700">{related.title}</h3>
+                          {related.description && <p className="mt-1 line-clamp-2 text-sm text-gray-500">{related.description}</p>}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+
             </div>
           </article>
         </div>
