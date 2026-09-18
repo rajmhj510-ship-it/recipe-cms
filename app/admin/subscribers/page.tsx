@@ -7,6 +7,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const dynamic = "force-dynamic";
 
 export default async function SubscribersPage() {
+  await requireAdmin();
   async function addSubscriber(formData: FormData) {
     "use server";
     await requireAdmin();
@@ -16,7 +17,7 @@ export default async function SubscribersPage() {
       .toLowerCase();
 
     if (!emailRegex.test(email)) {
-  return;
+      return;
     }
 
     try {
@@ -42,8 +43,8 @@ export default async function SubscribersPage() {
       .trim()
       .toLowerCase();
 
-    if (!id || !emailRegex.test(email)) {
-  return;
+    if (!Number.isInteger(id) || id <= 0 || !emailRegex.test(email)) {
+      return;
     }
 
     try {
@@ -69,7 +70,7 @@ export default async function SubscribersPage() {
 
     const id = Number(formData.get("id"));
 
-    if (!id) {
+    if (!Number.isInteger(id) || id <= 0) {
       return;
     }
 
