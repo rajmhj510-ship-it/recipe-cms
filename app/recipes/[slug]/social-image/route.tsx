@@ -6,7 +6,7 @@ export const alt = "Recipe social post";
 export const contentType = "image/png";
 export const size = { width: 1080, height: 1080 };
 
-export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
+export async function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const recipe = await prisma.recipe.findUnique({
     where: { slug },
