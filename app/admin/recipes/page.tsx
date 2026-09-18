@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireAdmin } from "@/lib/require-admin";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 import CategorySection from "./CategorySection";
 
