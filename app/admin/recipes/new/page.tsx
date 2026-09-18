@@ -31,6 +31,31 @@ async function createRecipe(formData: FormData) {
   const cookTime = cookTimeValue ? Number(cookTimeValue) : null;
   const servings = servingsValue ? Number(servingsValue) : null;
 
+  if (!/^[-a-z0-9]+$/.test(slug) || slug.length > 180) {
+    throw new Error("Slug must contain only lowercase letters, numbers, and hyphens.");
+  }
+
+  if (description.length > 5000 || title.length > 200) {
+    throw new Error("Title or description is too long.");
+  }
+
+  if (image && !/^https?:\\/\\//i.test(image)) {
+    throw new Error("Image must be a valid HTTP(S) URL.");
+  }
+
+  if (
+    (categoryId !== null && !Number.isInteger(categoryId)) ||
+    (prepTime !== null && (!Number.isInteger(prepTime) || prepTime < 0)) ||
+    (cookTime !== null && (!Number.isInteger(cookTime) || cookTime < 0)) ||
+    (servings !== null && (!Number.isInteger(servings) || servings < 1))
+  ) {
+    throw new Error("Recipe numeric fields are invalid.");
+  }
+
+  if (ingredients.length === 0 || instructions.length === 0) {
+    throw new Error("At least one ingredient and instruction are required.");
+  }
+
   const ingredients = ingredientsText
     .split("\n")
     .map((item) => item.trim())
@@ -41,51 +66,53 @@ async function createRecipe(formData: FormData) {
     .map((item) => item.trim())
     .filter(Boolean);
 
-  const recipe = await prisma.recipe.create({
-    data: {
-      title,
-      slug,
-      description: description || null,
-      image: image || null,
-      prepTime,
-      cookTime,
-      servings,
-      featured: formData.get("featured") === "on",
-      favorite: formData.get("favorite") === "on",
-      categoryId,
-    },
-  });
+  await prisma.$transaction(async (tx) => {
+    const recipe = await tx.recipe.create({
+      data: {
+        title,
+        slug,
+        description: description || null,
+        image: image || null,
+        prepTime,
+        cookTime,
+        servings,
+        featured: formData.get("featured") === "on",
+        favorite: formData.get("favorite") === "on",
+        categoryId,
+      },
+    });
 
-  const ingredientSection = await prisma.ingredientSection.create({
-    data: {
-      title: "Ingredients",
-      position: 0,
-      recipeId: recipe.id,
-    },
-  });
+    const ingredientSection = await tx.ingredientSection.create({
+      data: {
+        title: "Ingredients",
+        position: 0,
+        recipeId: recipe.id,
+      },
+    });
 
-  await prisma.ingredientItem.createMany({
-    data: ingredients.map((text, index) => ({
-      text,
-      position: index,
-      sectionId: ingredientSection.id,
-    })),
-  });
+    await tx.ingredientItem.createMany({
+      data: ingredients.map((text, index) => ({
+        text,
+        position: index,
+        sectionId: ingredientSection.id,
+      })),
+    });
 
-  const instructionSection = await prisma.instructionSection.create({
-    data: {
-      title: "Instructions",
-      position: 0,
-      recipeId: recipe.id,
-    },
-  });
+    const instructionSection = await tx.instructionSection.create({
+      data: {
+        title: "Instructions",
+        position: 0,
+        recipeId: recipe.id,
+      },
+    });
 
-  await prisma.instructionStep.createMany({
-    data: instructions.map((text, index) => ({
-      text,
-      position: index,
-      sectionId: instructionSection.id,
-    })),
+    await tx.instructionStep.createMany({
+      data: instructions.map((text, index) => ({
+        text,
+        position: index,
+        sectionId: instructionSection.id,
+      })),
+    });
   });
 
   redirect("/admin/recipes");
