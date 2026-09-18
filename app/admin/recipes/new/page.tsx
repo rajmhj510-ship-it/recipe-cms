@@ -127,6 +127,7 @@ async function createRecipe(formData: FormData) {
 }
 
 export default async function NewRecipePage() {
+  await requireAdmin();
   const categories = await prisma.category.findMany({
     orderBy: {
       name: "asc",
