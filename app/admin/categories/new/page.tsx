@@ -26,7 +26,8 @@ async function createCategory(formData: FormData) {
   redirect("/admin/categories");
 }
 
-export default function NewCategoryPage() {
+export default async function NewCategoryPage() {
+  await requireAdmin();
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="mx-auto max-w-4xl">
