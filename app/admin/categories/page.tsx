@@ -6,6 +6,7 @@ import { prisma } from "../../../lib/prisma";
 
 async function deleteCategory(formData: FormData) {
   "use server";
+  await requireAdmin();
 
   const id = Number(formData.get("id"));
 
