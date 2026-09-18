@@ -110,14 +110,14 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
           <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none print:overflow-visible print:[width:100%]" id="print-recipe">
             {recipe.image ? (
-              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[32mm] print:block print:w-full print:object-cover" />
+              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[25mm] print:block print:w-full print:object-cover" />
             ) : (
               <div className="flex h-64 items-center justify-center bg-gray-200 text-gray-500 sm:h-80 md:h-[28rem]">
                 No image
               </div>
             )}
 
-            <div className="p-5 sm:p-8 md:p-12 print:p-[4mm]">
+            <div className="p-5 sm:p-8 md:p-12 print:p-[3mm]">
               {recipe.category && (
                 <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-orange-600 print:text-[7pt]">
                   {recipe.category.name}
@@ -181,7 +181,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 )}
               </nav>
 
-              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:mt-4 print:grid print:grid-cols-2 print:gap-[5mm] print:items-start">
+              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:mt-2 print:grid print:grid-cols-2 print:gap-[4mm] print:items-start">
                 <section id="ingredients" className="scroll-mt-24 print:break-inside-avoid print:min-w-0">
                   <h2 className="text-2xl font-bold text-gray-900 print:text-[11pt]">Ingredients</h2>
                   {recipe.servings && recipe.servings > 0 ? (
@@ -228,7 +228,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
 
               {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
-                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-3 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
+                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-2 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                   <h2 className="text-2xl font-bold text-gray-900 print:text-[10.5pt]"</h2>
                   <div className="mt-4 text-gray-700 print:mt-1 print:text-[7.6pt] print:leading-[1.18]">
                     {Array.isArray((recipe.servingSuggestions as { items?: unknown }).items) &&
@@ -244,7 +244,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 <a href="#instructions" className="rounded-full bg-orange-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg">Instructions</a>
               </div>
               {recipe.chefTips && Array.isArray(recipe.chefTips) && recipe.chefTips.length > 0 && (
-                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6 print:mt-3 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
+                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6 print:mt-2 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                   <h2 className="text-2xl font-bold text-gray-900 print:text-[10.5pt]"</h2>
                   <ul className="mt-4 space-y-3 text-gray-700 print:mt-1 print:space-y-0.5 print:text-[7.6pt] print:leading-[1.18]">
                     {recipe.chefTips.map((tip, index) => (
