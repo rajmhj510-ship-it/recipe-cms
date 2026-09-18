@@ -1,9 +1,16 @@
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../../lib/prisma";
+import { requireAdmin } from "@/lib/admin-auth";
 
 async function updateCategory(id: number, formData: FormData) {
   "use server";
+  await requireAdmin();
+
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("Invalid category ID.");
+  }
 
   const name = String(formData.get("name") || "").trim();
   const slug = String(formData.get("slug") || "").trim();
@@ -12,6 +19,29 @@ async function updateCategory(id: number, formData: FormData) {
 
   if (!name || !slug) {
     throw new Error("Category name and slug are required.");
+  }
+
+  if (name.length > 120 || slug.length > 180) {
+    throw new Error("Category name or slug is too long.");
+  }
+
+  if (!/^[-a-z0-9]+$/.test(slug)) {
+    throw new Error("Slug must contain only lowercase letters, numbers, and hyphens.");
+  }
+
+  if (description.length > 5000) {
+    throw new Error("Category description is too long.");
+  }
+
+  if (image) {
+    try {
+      const url = new URL(image);
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        throw new Error("Invalid image URL.");
+      }
+    } catch {
+      throw new Error("Image must be a valid HTTP(S) URL.");
+    }
   }
 
   await prisma.category.update({
@@ -25,6 +55,8 @@ async function updateCategory(id: number, formData: FormData) {
       image: image || null,
     },
   });
+  revalidatePath("/");
+  revalidatePath("/recipes");
 
   redirect("/admin/categories");
 }
@@ -34,6 +66,8 @@ export default async function EditCategoryPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireAdmin();
+
   const { id } = await params;
   const categoryId = Number(id);
 
