@@ -3,6 +3,8 @@ import FeaturedCarousel from "./FeaturedCarousel";
 import Link from "next/link";
 import { prisma } from "../lib/prisma";
 import HomeSearch from "./HomeSearch";
+import PublicHeader from "./components/PublicHeader";
+import PublicFooter from "./components/PublicFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -45,78 +47,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-white text-gray-900">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-5">
-          <Link
-            href="/"
-            className="text-lg font-bold tracking-tight sm:text-xl md:text-2xl"
-          >
-            Recipe<span className="text-orange-600">CMS</span>
-          </Link>
-
-          <nav className="hidden items-center gap-8 md:flex">
-            <Link
-              href="/"
-              className="font-medium text-orange-600"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/recipes"
-              className="font-medium text-gray-600 transition hover:text-orange-600"
-            >
-              Recipes
-            </Link>
-
-            <Link
-              href="/favorites"
-              className="font-medium text-gray-600 transition hover:text-orange-600"
-            >
-              Favorites
-            </Link>
-
-            <a
-              href="#categories"
-              className="font-medium text-gray-600 transition hover:text-orange-600"
-            >
-              Categories
-            </a>
-
-            <a
-              href="#blog"
-              className="font-medium text-gray-600 transition hover:text-orange-600"
-            >
-              Blog
-            </a>
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <Link
-              href="/admin"
-              className="hidden rounded-full bg-orange-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-700 sm:inline-flex sm:px-5 sm:py-2.5 sm:text-base"
-            >
-              Admin
-            </Link>
-
-            <details className="relative md:hidden">
-              <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm">
-                <span className="sr-only">Open menu</span>
-                <span aria-hidden="true" className="text-lg leading-none">☰</span>
-              </summary>
-
-              <nav className="absolute right-0 top-12 z-[60] w-56 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl">
-                <Link href="/" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Home</Link>
-                <Link href="/recipes" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Recipes</Link>
-                <Link href="/favorites" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Favorites</Link>
-                <Link href="/offline" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Offline Library</Link>
-                <a href="#categories" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Categories</a>
-                <a href="#blog" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">Newsletter</a>
-              </nav>
-            </details>
-          </div>
-        </div>
-      </header>
+      <PublicHeader active="home" />
 
       {/* Hero */}
       <section className="bg-orange-50">
@@ -316,24 +247,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-950 px-4 py-8 text-gray-400 sm:px-6 sm:py-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
-          <div>
-            <p className="text-lg font-bold text-white sm:text-xl">
-              Recipe<span className="text-orange-500">CMS</span>
-            </p>
-
-            <p className="mt-1 text-xs sm:mt-2 sm:text-sm">
-              Delicious recipes made simple.
-            </p>
-          </div>
-
-          <p className="text-xs sm:text-sm">
-            © 2026 Recipe CMS. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <PublicFooter />
     </main>
   );
 }
