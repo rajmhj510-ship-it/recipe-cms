@@ -44,7 +44,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
 
     const timer = setInterval(() => {
       setCurrentIndex((index) => (index + 1) % total);
-    }, 1500);
+    }, 3000);
 
     return () => clearInterval(timer);
   }, [total, showPopup]);
@@ -55,12 +55,12 @@ export default function FeaturedCarousel({ recipes }: Props) {
 
   return (
     <div className="w-full overflow-hidden">
-      <div className="relative mx-auto flex h-[250px] w-full items-center justify-center overflow-hidden px-8 sm:h-[320px] sm:px-10 md:h-[420px] md:max-w-[1100px]">
+      <div className="relative mx-auto flex h-[clamp(300px,40vw,420px)] w-full max-w-[1100px] items-center justify-center overflow-hidden px-12 sm:px-16">
         <button
           type="button"
           onClick={() => updateCarousel(currentIndex - 1)}
           aria-label="Previous recipe"
-          className="absolute left-1 top-1/2 z-30 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-xl text-white shadow-lg transition hover:bg-[#082a7b] sm:left-2 sm:h-10 sm:w-10 sm:text-2xl md:h-12 md:w-12"
+          className="absolute left-2 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-2xl text-white shadow-lg transition hover:bg-[#082a7b] sm:left-3 sm:h-11 sm:w-11 md:left-4 md:h-12 md:w-12 md:text-3xl"
         >
           ‹
         </button>
@@ -88,16 +88,16 @@ export default function FeaturedCarousel({ recipes }: Props) {
                 "translate-x-[-50%] translate-y-[-50%] scale-100 opacity-100 z-20 md:scale-[1.15]",
 
               "left-1":
-                "translate-x-[calc(-50%-92px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%-200px)]",
+                "translate-x-[calc(-50%-clamp(115px,18vw,200px))] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale",
 
               "left-2":
-                "translate-x-[calc(-50%-176px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%-400px)]",
+                "translate-x-[calc(-50%-clamp(185px,34vw,390px))] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale",
 
               "right-1":
-                "translate-x-[calc(-50%+92px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%+200px)]",
+                "translate-x-[calc(-50%+clamp(115px,18vw,200px))] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale",
 
               "right-2":
-                "translate-x-[calc(-50%+176px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%+400px)]",
+                "translate-x-[calc(-50%+clamp(185px,34vw,390px))] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale",
 
               hidden:
                 "translate-x-[-50%] translate-y-[-50%] scale-75 opacity-0 pointer-events-none",
@@ -106,7 +106,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
             return (
               <div
                 key={recipe.id}
-                className={`absolute left-1/2 top-1/2 h-[190px] w-[90px] overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out sm:h-[260px] sm:w-[90px] sm:rounded-xl md:h-[360px] md:w-[260px] md:rounded-[18px] md:shadow-[0_15px_35px_rgba(0,0,0,0.25)] ${positionStyles[position]}`}
+                className={`absolute left-1/2 top-1/2 aspect-[7/10] w-[clamp(180px,30vw,260px)] overflow-hidden rounded-[16px] shadow-[0_12px_30px_rgba(0,0,0,0.2)] transition-all duration-700 ease-out ${positionStyles[position]}`}
               >
                 {position === "center" ? (
                   <button
@@ -156,7 +156,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
           type="button"
           onClick={() => updateCarousel(currentIndex + 1)}
           aria-label="Next recipe"
-          className="absolute right-1 top-1/2 z-30 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-xl text-white shadow-lg transition hover:bg-[#082a7b] sm:right-2 sm:h-10 sm:w-10 sm:text-2xl md:h-12 md:w-12"
+          className="absolute right-2 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#082a7b]/90 text-2xl text-white shadow-lg transition hover:bg-[#082a7b] sm:right-3 sm:h-11 sm:w-11 md:right-4 md:h-12 md:w-12 md:text-3xl"
         >
           ›
         </button>
