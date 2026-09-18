@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/admin-auth";
 import { prisma } from "../../../../lib/prisma";
 import RecipeTitleSlugFields from "./RecipeTitleSlugFields";
 
@@ -39,8 +40,15 @@ async function createRecipe(formData: FormData) {
     throw new Error("Title or description is too long.");
   }
 
-  if (image && !/^https?:\\/\\//i.test(image)) {
-    throw new Error("Image must be a valid HTTP(S) URL.");
+  if (image) {
+    try {
+      const url = new URL(image);
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        throw new Error("Image must be a valid HTTP(S) URL.");
+      }
+    } catch {
+      throw new Error("Image must be a valid HTTP(S) URL.");
+    }
   }
 
   if (
