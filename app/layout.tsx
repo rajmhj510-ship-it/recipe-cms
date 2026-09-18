@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     template: "%s | Recipe CMS",
   },
   description: "Discover delicious recipes for every occasion.",
+  applicationName: "Recipe CMS",
+  manifest: "/site.webmanifest",
+  keywords: ["recipes", "cooking", "food", "meal ideas"],
 };
 
 export default function RootLayout({
