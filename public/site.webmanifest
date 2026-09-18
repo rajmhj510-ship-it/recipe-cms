@@ -1,0 +1,10 @@
+{
+  "name": "Recipe CMS",
+  "short_name": "Recipe CMS",
+  "description": "Discover delicious recipes for every occasion.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316"
+}
