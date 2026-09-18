@@ -6,7 +6,11 @@ const links = [
   { href: "/favorites", label: "Favorites" },
 ];
 
-export default function PublicHeader() {
+type PublicHeaderProps = {
+  active?: "home" | "recipes" | "favorites";
+};
+
+export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200/80 bg-white/95 shadow-sm backdrop-blur">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:min-h-[72px] sm:px-6 lg:px-8">
