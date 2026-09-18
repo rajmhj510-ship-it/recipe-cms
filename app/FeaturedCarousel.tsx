@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Recipe = {
   id: number;
@@ -21,6 +21,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
   const total = recipes.length;
   const currentRecipe = recipes[currentIndex];
@@ -55,7 +56,22 @@ export default function FeaturedCarousel({ recipes }: Props) {
 
   return (
     <div className="w-full overflow-hidden">
-      <div className="relative mx-auto flex h-[clamp(300px,40vw,420px)] w-full max-w-[1100px] items-center justify-center overflow-hidden px-12 sm:px-16">
+      <div
+        className="relative mx-auto flex h-[clamp(300px,40vw,420px)] w-full max-w-[1100px] touch-pan-y items-center justify-center overflow-hidden px-12 sm:px-16"
+        onTouchStart={(event) => {
+          touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+        }}
+        onTouchEnd={(event) => {
+          const startX = touchStartX.current;
+          const endX = event.changedTouches[0]?.clientX ?? null;
+          touchStartX.current = null;
+          if (startX === null || endX === null) return;
+
+          const distance = endX - startX;
+          if (Math.abs(distance) < 50) return;
+          updateCarousel(distance < 0 ? currentIndex + 1 : currentIndex - 1);
+        }}
+      >
         <button
           type="button"
           onClick={() => updateCarousel(currentIndex - 1)}
@@ -75,11 +91,11 @@ export default function FeaturedCarousel({ recipes }: Props) {
               position = "center";
             } else if (offset === 1) {
               position = "right-1";
-            } else if (offset === 2) {
+            } else if (total >= 4 && offset === 2) {
               position = "right-2";
             } else if (offset === total - 1) {
               position = "left-1";
-            } else if (offset === total - 2) {
+            } else if (total >= 4 && offset === total - 2) {
               position = "left-2";
             }
 
