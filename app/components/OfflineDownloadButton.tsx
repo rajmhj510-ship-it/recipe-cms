@@ -2,15 +2,27 @@
 
 import { useEffect, useState } from "react";
 
-const CACHE_NAME = "recipe-cms-recipes-v1";
+const CACHE_NAME = "recipe-cms-recipes-v3";
 
 export default function OfflineDownloadButton() {
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState<"idle" | "downloading" | "ready" | "error">("idle");
 
   useEffect(() => {
-    caches.has(CACHE_NAME).then((exists) => {
-      if (exists) setStatus("ready");
-    });
+    async function checkSavedRecipes() {
+      if (!("caches" in window)) return;
+
+      try {
+        const cache = await caches.open(CACHE_NAME);
+        const requests = await cache.keys();
+        const saved = requests.some((request) => {
+          const url = new URL(request.url);
+          return url.origin === window.location.origin && /^\/recipes\/[^/]+$/.test(url.pathname);
+        });
+        if (saved) setStatus("ready");
+      } catch {}
+    }
+
+    checkSavedRecipes();
   }, []);
 
   async function downloadRecipes() {
@@ -20,60 +32,67 @@ export default function OfflineDownloadButton() {
 
     try {
       const cache = await caches.open(CACHE_NAME);
-
-      await cache.add("/");
-      await cache.add("/recipes");
+      await Promise.all([cache.add("/"), cache.add("/recipes"), cache.add("/offline")]);
 
       const response = await fetch("/recipes", { cache: "no-store" });
-      const html = await response.text();
+      if (!response.ok) throw new Error("Failed to load recipes");
 
-      const recipeUrls = [
-        ...html.matchAll(/href=["'](\/recipes\/[^"'?#]+)["']/g),
-      ]
+      const html = await response.text();
+      const recipeUrls = [...html.matchAll(/href=["'](\/recipes\/[^"'?#]+)["']/g)]
         .map((match) => match[1])
         .filter((url, index, list) => list.indexOf(url) === index);
+
+      let downloaded = 0;
 
       for (const url of recipeUrls) {
         try {
           const recipeResponse = await fetch(url, { cache: "no-store" });
-
           if (!recipeResponse.ok) continue;
-
           await cache.put(url, recipeResponse.clone());
+          downloaded += 1;
         } catch {}
       }
 
-      localStorage.setItem("recipe-cms-offline-ready", "true");
+      if (recipeUrls.length > 0 && downloaded === 0) {
+        throw new Error("No recipes could be saved");
+      }
+
+      localStorage.setItem(
+        "recipe-cms-offline-ready",
+        JSON.stringify({ version: 3, downloaded, updatedAt: new Date().toISOString() }),
+      );
+
       setStatus("ready");
     } catch {
       setStatus("error");
     }
   }
 
-  if (status === "ready") {
-    return (
-      <button
-        type="button"
-        disabled
-        className="fixed bottom-4 right-4 z-50 rounded-full bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-lg"
-      >
-        ✓ Available Offline
-      </button>
-    );
-  }
-
   return (
-    <button
-      type="button"
-      onClick={downloadRecipes}
-      disabled={status === "downloading"}
-      className="fixed bottom-4 right-4 z-50 rounded-full bg-[#082a7b] px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-[#061f5c] disabled:cursor-wait disabled:opacity-70"
-    >
-      {status === "downloading"
-        ? "Downloading recipes…"
-        : status === "error"
-          ? "Try Download Again"
-          : "Download for Offline"}
-    </button>
+    <div className="fixed inset-x-3 bottom-3 z-50 sm:inset-x-auto sm:right-4 sm:bottom-4">
+      <div className="flex flex-col items-stretch gap-2 sm:items-end">
+        <button
+          type="button"
+          onClick={downloadRecipes}
+          disabled={status === "downloading"}
+          className={`w-full rounded-full px-4 py-3 text-sm font-semibold shadow-lg transition sm:w-auto sm:px-5 ${status === "ready" ? "bg-green-600 text-white" : "bg-[#082a7b] text-white hover:bg-[#061f5c]"} disabled:cursor-wait disabled:opacity-70`}
+        >
+          {status === "downloading"
+            ? "Saving recipes…"
+            : status === "error"
+              ? "Try Download Again"
+              : status === "ready"
+                ? "✓ Available Offline"
+                : "Download for Offline"}
+        </button>
+
+        <a
+          href="/offline"
+          className="w-full rounded-full bg-white px-4 py-2 text-center text-xs font-semibold text-gray-700 shadow-lg ring-1 ring-gray-200 sm:w-auto"
+        >
+          Open Offline Library
+        </a>
+      </div>
+    </div>
   );
 }
