@@ -79,6 +79,8 @@ export default function HomeSearch({
           name="search"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
+          aria-label="Search recipes"
+          inputMode="search"
           placeholder="Search recipes..."
           autoComplete="off"
           className="min-w-0 flex-1 px-6 py-4 text-gray-900 outline-none"
