@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/admin-auth";
+import { revalidatePath } from "next/cache";
 import { prisma } from "../../../../lib/prisma";
 
 async function createCategory(formData: FormData) {
   "use server";
+  await requireAdmin();
 
   const name = String(formData.get("name") || "").trim();
   const slug = String(formData.get("slug") || "").trim();
@@ -14,6 +17,29 @@ async function createCategory(formData: FormData) {
     throw new Error("Category name and slug are required.");
   }
 
+  if (name.length > 120 || slug.length > 180) {
+    throw new Error("Category name or slug is too long.");
+  }
+
+  if (!/^[-a-z0-9]+$/.test(slug)) {
+    throw new Error("Slug must contain only lowercase letters, numbers, and hyphens.");
+  }
+
+  if (description.length > 5000) {
+    throw new Error("Category description is too long.");
+  }
+
+  if (image) {
+    try {
+      const url = new URL(image);
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        throw new Error("Invalid image URL.");
+      }
+    } catch {
+      throw new Error("Image must be a valid HTTP(S) URL.");
+    }
+  }
+
   await prisma.category.create({
     data: {
       name,
@@ -22,6 +48,8 @@ async function createCategory(formData: FormData) {
       image: image || null,
     },
   });
+  revalidatePath("/");
+  revalidatePath("/recipes");
 
   redirect("/admin/categories");
 }
