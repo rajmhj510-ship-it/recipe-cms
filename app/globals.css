@@ -25,6 +25,28 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@media (min-width: 0px) {
+  .content-protected,
+  .content-protected * {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .content-protected img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    pointer-events: none;
+  }
+
+  .content-protected input,
+  .content-protected textarea,
+  .content-protected button,
+  .content-protected a {
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
+}
+
 @page {
   size: A5 portrait;
   margin: 4mm;
