@@ -7,15 +7,6 @@ import HomeSearch from "./HomeSearch";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const recipes = await prisma.recipe.findMany({
-    include: {
-      category: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
   const featuredRecipes = await prisma.recipe.findMany({
     where: {
       featured: true,
@@ -158,7 +149,7 @@ export default async function Home() {
         {/* Carousel container */}
         <div className="w-full min-w-0 overflow-hidden">
           <FeaturedCarousel
-            recipes={recipes.map((recipe) => ({
+            recipes={featuredRecipes.map((recipe) => ({
               id: recipe.id,
               title: recipe.title,
               slug: recipe.slug,
