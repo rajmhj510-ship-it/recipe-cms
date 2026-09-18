@@ -64,8 +64,7 @@ export default function HomeSearch({ recipes }: { recipes: Recipe[] }) {
         />
         <button
           type="submit"
-          className="px-6 py-3 font-semibold text-white transition hover:bg-orange-700 sm:px-8 sm:py-0"
-          style={{ backgroundColor: "#ea580c" }}
+          className="bg-orange-600 px-6 py-3 font-semibold text-white transition hover:bg-orange-700 sm:px-8 sm:py-0"
         >
           Search
         </button>
