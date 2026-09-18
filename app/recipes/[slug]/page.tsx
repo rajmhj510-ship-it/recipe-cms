@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { prisma } from "../../../lib/prisma";
 import FavoriteButton from "./FavoriteButton";
@@ -10,6 +11,41 @@ type RecipePageProps = {
     slug: string;
   }>;
 };
+
+function minutesToIsoDuration(minutes: number | null): string | undefined {
+  return minutes === null ? undefined : `PT${minutes}M`;
+}
+
+export async function generateMetadata({
+  params,
+}: RecipePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const recipe = await prisma.recipe.findUnique({
+    where: { slug },
+    select: {
+      title: true,
+      description: true,
+      image: true,
+    },
+  });
+
+  if (!recipe) {
+    return {};
+  }
+
+  return {
+    title: recipe.title,
+    description:
+      recipe.description || `Learn how to make ${recipe.title} with Recipe CMS.`,
+    openGraph: {
+      title: recipe.title,
+      description:
+        recipe.description || `Learn how to make ${recipe.title} with Recipe CMS.`,
+      type: "article",
+      images: recipe.image ? [{ url: recipe.image, alt: recipe.title }] : [],
+    },
+  };
+}
 
 export default async function RecipePage({ params }: RecipePageProps) {
   const { slug } = await params;
@@ -54,8 +90,37 @@ export default async function RecipePage({ params }: RecipePageProps) {
     notFound();
   }
 
+  const recipeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    name: recipe.title,
+    description: recipe.description || undefined,
+    image: recipe.image ? [recipe.image] : undefined,
+    recipeCategory: recipe.category?.name || undefined,
+    prepTime: minutesToIsoDuration(recipe.prepTime),
+    cookTime: minutesToIsoDuration(recipe.cookTime),
+    totalTime:
+      recipe.prepTime !== null && recipe.cookTime !== null
+        ? `PT${recipe.prepTime + recipe.cookTime}M`
+        : undefined,
+    recipeYield: recipe.servings ? `${recipe.servings} servings` : undefined,
+    recipeIngredient: recipe.ingredientSections.flatMap((section) =>
+      section.items.map((item) => item.text)
+    ),
+    recipeInstructions: recipe.instructionSections.flatMap((section) =>
+      section.steps.map((step) => ({
+        "@type": "HowToStep",
+        text: step.text,
+      }))
+    ),
+  };
+
   return (
     <main className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
+      />
       <div className="mx-auto max-w-6xl px-6 py-10">
         <Link
           href="/recipes"
