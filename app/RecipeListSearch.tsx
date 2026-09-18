@@ -46,6 +46,8 @@ export default function RecipeListSearch({
           type="text"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
+          aria-label="Search recipes"
+          inputMode="search"
           placeholder="Search recipes..."
           autoComplete="off"
           className="w-full rounded-xl border border-gray-200 bg-white px-5 py-4 text-gray-900 shadow-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
