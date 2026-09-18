@@ -14,6 +14,7 @@ export default async function RecipesPage({
 }: RecipesPageProps) {
   const params = await searchParams;
   const selectedCategory = params.category;
+  const search = params.search?.trim() || "";
 
   const categories = await prisma.category.findMany({
     orderBy: {
@@ -23,6 +24,24 @@ export default async function RecipesPage({
 
   const recipes = await prisma.recipe.findMany({
     where: {
+      ...(search || selectedCategory
+        ? {
+            AND: [
+              ...(search
+                ? [{
+                    OR: [
+                      { title: { contains: search, mode: "insensitive" as const } },
+                      { description: { contains: search, mode: "insensitive" as const } },
+                      { category: { name: { contains: search, mode: "insensitive" as const } } },
+                    ],
+                  }]
+                : []),
+              ...(selectedCategory
+                ? [{ category: { slug: selectedCategory } }]
+                : []),
+            ],
+          }
+        : {})
       ...(selectedCategory
         ? {
             category: {
