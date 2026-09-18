@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/admin-auth";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 import CategorySection from "./CategorySection";
 
@@ -8,6 +9,7 @@ export const dynamic = "force-dynamic";
 
 async function deleteRecipe(formData: FormData) {
   "use server";
+  await requireAdmin();
 
   const id = Number(formData.get("id"));
 
