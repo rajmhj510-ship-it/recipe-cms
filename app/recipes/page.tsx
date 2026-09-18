@@ -65,7 +65,7 @@ export default async function RecipesPage({
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-6 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <Link
           href="/"
           className="mb-6 inline-block text-sm font-semibold text-gray-700 hover:text-orange-600"
@@ -73,8 +73,8 @@ export default async function RecipesPage({
           ← Back to Home
         </Link>
 
-        <div className="mb-10">
-          <h1 className="text-4xl font-bold text-gray-900">{heading}</h1>
+        <div className="mb-8 sm:mb-10">
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">{heading}</h1>
 
           <p className="mt-2 text-gray-600">
             {activeCategory?.description ||
@@ -82,7 +82,7 @@ export default async function RecipesPage({
           </p>
         </div>
 
-        <div className="mb-10 flex flex-wrap gap-3">
+        <div className="mb-8 flex flex-wrap gap-2 sm:mb-10 sm:gap-3">
           <Link
             href="/recipes"
             className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
