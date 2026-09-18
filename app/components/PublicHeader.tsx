@@ -29,12 +29,12 @@ export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
               {link.label}
             </Link>
           ))}
-          <a href="/#categories" className="font-semibold text-gray-600 transition hover:text-orange-600">
+          <Link href="/#categories" className="font-semibold text-gray-600 transition hover:text-orange-600">
             Categories
-          </a>
-          <a href="/#blog" className="font-semibold text-gray-600 transition hover:text-orange-600">
+          </Link>
+          <Link href="/#blog" className="font-semibold text-gray-600 transition hover:text-orange-600">
             Newsletter
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -51,41 +51,19 @@ export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
               <span aria-hidden="true" className="text-lg leading-none">☰</span>
             </summary>
 
-            <nav
-              aria-label="Mobile navigation"
-              className="absolute right-0 top-12 z-[60] w-56 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl"
-            >
+            <nav aria-label="Mobile navigation" className="absolute right-0 top-12 z-[60] w-56 rounded-2xl border border-gray-200 bg-white p-2 shadow-xl">
               {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
-                >
+                <Link key={link.href} href={link.href} className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/offline"
-                className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
-              >
-                Offline Library
-              </Link>
-              <a
-                href="/#categories"
-                className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
-              >
+              <Link href="/#categories" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">
                 Categories
-              </a>
-              <a
-                href="/#blog"
-                className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600"
-              >
+              </Link>
+              <Link href="/#blog" className="block rounded-xl px-4 py-3 font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600">
                 Newsletter
-              </a>
-              <Link
-                href="/admin"
-                className="mt-1 block rounded-xl bg-orange-600 px-4 py-3 font-semibold text-white hover:bg-orange-700"
-              >
+              </Link>
+              <Link href="/admin" className="mt-1 block rounded-xl bg-orange-600 px-4 py-3 font-semibold text-white hover:bg-orange-700">
                 Admin
               </Link>
             </nav>
