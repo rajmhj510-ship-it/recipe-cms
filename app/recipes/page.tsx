@@ -1,6 +1,8 @@
 import Link from "next/link";
 import RecipeListSearch from "../RecipeListSearch";
 import { prisma } from "../../lib/prisma";
+import PublicHeader from "../components/PublicHeader";
+import PublicFooter from "../components/PublicFooter";
 
 type RecipesPageProps = {
   searchParams: Promise<{
@@ -64,7 +66,9 @@ export default async function RecipesPage({
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <>
+      <PublicHeader active="recipes" />
+      <main className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <Link
           href="/"
@@ -73,8 +77,9 @@ export default async function RecipesPage({
           ← Back to Home
         </Link>
 
-        <div className="mb-8 sm:mb-10">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">{heading}</h1>
+        <div className="mb-8 rounded-3xl bg-white p-6 shadow-sm sm:mb-10 sm:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Browse the collection</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{heading}</h1>
 
           <p className="mt-2 text-gray-600">
             {activeCategory?.description ||
@@ -111,6 +116,8 @@ export default async function RecipesPage({
 
         <RecipeListSearch recipes={recipes} initialSearch={search} />
       </div>
-    </main>
+      </main>
+      <PublicFooter />
+    </>
   );
 }
