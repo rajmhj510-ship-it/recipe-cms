@@ -23,7 +23,8 @@ export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
             <Link
               key={link.href}
               href={link.href}
-              className={`font-semibold transition hover:text-orange-600 ${index === 0 ? "text-orange-600" : "text-gray-600"}`}
+              className={`font-semibold transition hover:text-orange-600 ${active === (["home", "recipes", "favorites"] as const)[index] ? "text-orange-600" : "text-gray-600"}`}
+              aria-current={active === (["home", "recipes", "favorites"] as const)[index] ? "page" : undefined}
             >
               {link.label}
             </Link>
