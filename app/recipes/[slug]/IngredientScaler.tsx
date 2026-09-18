@@ -60,7 +60,7 @@ export default function IngredientScaler({
 
   return (
     <div className="mt-5">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-orange-100 bg-orange-50 p-4">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-orange-100 bg-orange-50 p-4 print:hidden">
         <div>
           <p className="font-semibold text-gray-900">Adjust servings</p>
           <p className="text-sm text-gray-500">Quantities update automatically.</p>
@@ -73,7 +73,7 @@ export default function IngredientScaler({
       </div>
       <div className="space-y-8">
         {scaledSections.map((section) => (
-          <div key={section.id} className="rounded-2xl bg-gray-50 p-6">
+          <div key={section.id} className="rounded-2xl bg-gray-50 p-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
             <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
             <ul className="mt-4 space-y-3">
               {section.items.map((item) => (
