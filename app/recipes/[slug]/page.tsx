@@ -108,16 +108,16 @@ export default async function RecipePage({ params }: RecipePageProps) {
             ← Back to Recipes
           </Link>
 
-          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none print:overflow-visible">
+          <article className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm print:mt-0 print:rounded-none print:shadow-none print:overflow-visible print:[width:100%]">
             {recipe.image ? (
-              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:hidden" />
+              <img src={recipe.image} alt={recipe.title} className="h-64 w-full object-cover sm:h-80 md:h-[28rem] print:h-[62mm] print:block print:w-full print:object-cover" />
             ) : (
               <div className="flex h-64 items-center justify-center bg-gray-200 text-gray-500 sm:h-80 md:h-[28rem]">
                 No image
               </div>
             )}
 
-            <div className="p-5 sm:p-8 md:p-12 print:p-0">
+            <div className="p-5 sm:p-8 md:p-12 print:p-[9mm]">
               {recipe.category && (
                 <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
                   {recipe.category.name}
@@ -181,8 +181,8 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 )}
               </nav>
 
-              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:block print:mt-8">
-                <section id="ingredients" className="scroll-mt-24 print:break-inside-avoid">
+              <div className="mt-10 grid gap-8 md:mt-12 md:grid-cols-[0.8fr_1.2fr] print:mt-7 print:grid print:grid-cols-2 print:gap-[8mm] print:items-start">
+                <section id="ingredients" className="scroll-mt-24 print:break-inside-avoid print:min-w-0">
                   <h2 className="text-2xl font-bold text-gray-900">Ingredients</h2>
                   {recipe.servings && recipe.servings > 0 ? (
                     <IngredientScaler sections={recipe.ingredientSections} originalServings={recipe.servings} />
@@ -205,7 +205,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   )}
                 </section>
 
-                <section id="instructions" className="scroll-mt-24 print:break-inside-avoid print:mt-8">
+                <section id="instructions" className="scroll-mt-24 print:break-inside-avoid print:mt-0 print:min-w-0">
                   <h2 className="text-2xl font-bold text-gray-900">Instructions</h2>
                   <div className="mt-5 space-y-8">
                     {recipe.instructionSections.map((section) => (
@@ -228,7 +228,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               </div>
 
               {recipe.servingSuggestions && typeof recipe.servingSuggestions === "object" && (
-                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-8 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
+                <section id="serving-suggestions" className="mt-12 scroll-mt-24 rounded-2xl bg-orange-50 p-6 print:mt-7 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                   <h2 className="text-2xl font-bold text-gray-900">Serving Suggestions</h2>
                   <div className="mt-4 text-gray-700">
                     {Array.isArray((recipe.servingSuggestions as { items?: unknown }).items) &&
@@ -244,7 +244,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 <a href="#instructions" className="rounded-full bg-orange-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg">Instructions</a>
               </div>
               {recipe.chefTips && Array.isArray(recipe.chefTips) && recipe.chefTips.length > 0 && (
-                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6 print:mt-8 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
+                <section id="chef-tips" className="mt-8 scroll-mt-24 rounded-2xl bg-gray-50 p-6 print:mt-6 print:rounded-none print:bg-white print:p-0 print:break-inside-avoid">
                   <h2 className="text-2xl font-bold text-gray-900">Chef Tips</h2>
                   <ul className="mt-4 space-y-3 text-gray-700">
                     {recipe.chefTips.map((tip, index) => (
