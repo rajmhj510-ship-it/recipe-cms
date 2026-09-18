@@ -115,3 +115,16 @@ export const adminSessionCookieOptions = {
 };
 
 export { COOKIE_NAME };
+
+
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export async function requireAdmin(): Promise<void> {
+  const cookieStore = await cookies();
+  const session = cookieStore.get(COOKIE_NAME)?.value;
+
+  if (!(await verifyAdminSession(session))) {
+    redirect("/admin/login");
+  }
+}
