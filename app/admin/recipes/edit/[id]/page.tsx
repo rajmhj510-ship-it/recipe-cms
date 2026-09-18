@@ -1,10 +1,17 @@
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../../lib/prisma";
+import { requireAdmin } from "@/lib/admin-auth";
 import ImageUrlPreview from "../ImageUrlPreview";
 
 async function updateRecipe(id: number, formData: FormData) {
   "use server";
+  await requireAdmin();
+
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error("Invalid recipe ID.");
+  }
 
   const title = String(formData.get("title") || "").trim();
   const slug = String(formData.get("slug") || "").trim();
@@ -29,6 +36,34 @@ async function updateRecipe(id: number, formData: FormData) {
   const cookTime = cookTimeValue ? Number(cookTimeValue) : null;
   const servings = servingsValue ? Number(servingsValue) : null;
 
+  if (!/^[-a-z0-9]+$/.test(slug) || slug.length > 180) {
+    throw new Error("Slug must contain only lowercase letters, numbers, and hyphens.");
+  }
+
+  if (description.length > 5000 || title.length > 200) {
+    throw new Error("Title or description is too long.");
+  }
+
+  if (image) {
+    try {
+      const url = new URL(image);
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        throw new Error("Invalid image URL.");
+      }
+    } catch {
+      throw new Error("Image must be a valid HTTP(S) URL.");
+    }
+  }
+
+  if (
+    (categoryId !== null && (!Number.isInteger(categoryId) || categoryId <= 0)) ||
+    (prepTime !== null && (!Number.isInteger(prepTime) || prepTime < 0)) ||
+    (cookTime !== null && (!Number.isInteger(cookTime) || cookTime < 0)) ||
+    (servings !== null && (!Number.isInteger(servings) || servings < 1))
+  ) {
+    throw new Error("Recipe numeric fields are invalid.");
+  }
+
   const ingredients = ingredientsText
     .split("\n")
     .map((item) => item.trim())
@@ -39,7 +74,32 @@ async function updateRecipe(id: number, formData: FormData) {
     .map((item) => item.trim())
     .filter(Boolean);
 
-  await prisma.recipe.update({
+  if (ingredients.length === 0 || instructions.length === 0) {
+    throw new Error("At least one ingredient and instruction are required.");
+  }
+
+  const result = await prisma.$transaction(async (tx) => {
+    const existing = await tx.recipe.findUnique({
+      where: { id },
+      select: { slug: true },
+    });
+
+    if (!existing) {
+      throw new Error("Recipe not found.");
+    }
+
+    if (categoryId !== null) {
+      const category = await tx.category.findUnique({
+        where: { id: categoryId },
+        select: { id: true },
+      });
+
+      if (!category) {
+        throw new Error("Selected category does not exist.");
+      }
+    }
+
+    await tx.recipe.update({
     where: {
       id,
     },
@@ -54,16 +114,16 @@ async function updateRecipe(id: number, formData: FormData) {
       featured: formData.get("featured") === "on",
       favorite: formData.get("favorite") === "on",
       categoryId,
-    },
-  });
+      },
+    });
 
-  await prisma.ingredientSection.deleteMany({
+  await tx.ingredientSection.deleteMany({
     where: {
       recipeId: id,
     },
   });
 
-  const ingredientSection = await prisma.ingredientSection.create({
+  const ingredientSection = await tx.ingredientSection.create({
     data: {
       title: "Ingredients",
       position: 0,
@@ -71,7 +131,7 @@ async function updateRecipe(id: number, formData: FormData) {
     },
   });
 
-  await prisma.ingredientItem.createMany({
+  await tx.ingredientItem.createMany({
     data: ingredients.map((text, index) => ({
       text,
       position: index,
@@ -79,13 +139,13 @@ async function updateRecipe(id: number, formData: FormData) {
     })),
   });
 
-  await prisma.instructionSection.deleteMany({
+  await tx.instructionSection.deleteMany({
     where: {
       recipeId: id,
     },
   });
 
-  const instructionSection = await prisma.instructionSection.create({
+  const instructionSection = await tx.instructionSection.create({
     data: {
       title: "Instructions",
       position: 0,
@@ -93,7 +153,7 @@ async function updateRecipe(id: number, formData: FormData) {
     },
   });
 
-  await prisma.instructionStep.createMany({
+  await tx.instructionStep.createMany({
     data: instructions.map((text, index) => ({
       text,
       position: index,
@@ -101,6 +161,13 @@ async function updateRecipe(id: number, formData: FormData) {
     })),
   });
 
+    return { oldSlug: existing.slug };
+  });
+
+  revalidatePath("/");
+  revalidatePath("/recipes");
+  revalidatePath(`/recipes/${result.oldSlug}`);
+  revalidatePath(`/recipes/${slug}`);
   redirect("/admin/recipes");
 }
 
@@ -109,6 +176,8 @@ export default async function EditRecipePage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireAdmin();
+
   const { id } = await params;
   const recipeId = Number(id);
 
