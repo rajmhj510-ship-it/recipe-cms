@@ -98,8 +98,13 @@ body {
   }
 
   #print-recipe tr,
-  #print-recipe td,
+  #print-recipe td {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
   #print-recipe th {
     page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
