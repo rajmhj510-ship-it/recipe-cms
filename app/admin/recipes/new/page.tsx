@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "../../../../lib/prisma";
 import RecipeTitleSlugFields from "./RecipeTitleSlugFields";
 
