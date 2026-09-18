@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
       title: recipe.title,
       description: recipe.description || `Learn how to make ${recipe.title} with Recipe CMS.`,
       type: "article",
-      images: recipe.image ? [{ url: recipe.image, alt: recipe.title }] : [],
+      images: [{ url: `/recipes/${slug}/social-image`, alt: recipe.title }],
     },
   };
 }
