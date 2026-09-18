@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const CACHE_NAME = "recipe-cms-recipes-v3";
 
 export default function OfflineDownloadButton() {
   const [status, setStatus] = useState<"idle" | "downloading" | "ready" | "error">("idle");
+  const [savedCount, setSavedCount] = useState(0);
+  const pathname = usePathname();
 
   useEffect(() => {
     async function checkSavedRecipes() {
@@ -18,7 +21,11 @@ export default function OfflineDownloadButton() {
           const url = new URL(request.url);
           return url.origin === window.location.origin && /^\/recipes\/[^/]+$/.test(url.pathname);
         });
-        if (saved) setStatus("ready");
+        const count = requests.filter((request) => /^\\/recipes\\/[^/]+$/.test(new URL(request.url).pathname)).length;
+        if (saved) {
+          setSavedCount(count);
+          setStatus("ready");
+        }
       } catch {}
     }
 
@@ -57,6 +64,8 @@ export default function OfflineDownloadButton() {
         throw new Error("No recipes could be saved");
       }
 
+      setSavedCount(downloaded);
+
       localStorage.setItem(
         "recipe-cms-offline-ready",
         JSON.stringify({ version: 3, downloaded, updatedAt: new Date().toISOString() }),
@@ -67,6 +76,8 @@ export default function OfflineDownloadButton() {
       setStatus("error");
     }
   }
+
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <div className="fixed inset-x-3 bottom-3 z-50 sm:inset-x-auto sm:right-4 sm:bottom-4">
@@ -82,7 +93,7 @@ export default function OfflineDownloadButton() {
             : status === "error"
               ? "Try Download Again"
               : status === "ready"
-                ? "✓ Available Offline"
+                ? `✓ ${savedCount} ${savedCount === 1 ? "Recipe" : "Recipes"} Offline`
                 : "Download for Offline"}
         </button>
 
