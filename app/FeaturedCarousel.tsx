@@ -88,16 +88,16 @@ export default function FeaturedCarousel({ recipes }: Props) {
                 "translate-x-[-50%] translate-y-[-50%] scale-100 opacity-100 z-20 md:scale-[1.15]",
 
               "left-1":
-                "translate-x-[calc(-50%-62px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%-200px)]",
+                "translate-x-[calc(-50%-92px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%-200px)]",
 
               "left-2":
-                "translate-x-[calc(-50%-124px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%-400px)]",
+                "translate-x-[calc(-50%-176px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%-400px)]",
 
               "right-1":
-                "translate-x-[calc(-50%+62px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%+200px)]",
+                "translate-x-[calc(-50%+92px)] translate-y-[-50%] scale-90 opacity-90 z-10 grayscale md:translate-x-[calc(-50%+200px)]",
 
               "right-2":
-                "translate-x-[calc(-50%+124px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%+400px)]",
+                "translate-x-[calc(-50%+176px)] translate-y-[-50%] scale-80 opacity-50 z-[5] grayscale md:translate-x-[calc(-50%+400px)]",
 
               hidden:
                 "translate-x-[-50%] translate-y-[-50%] scale-75 opacity-0 pointer-events-none",
@@ -106,7 +106,7 @@ export default function FeaturedCarousel({ recipes }: Props) {
             return (
               <div
                 key={recipe.id}
-                className={`absolute left-1/2 top-1/2 h-[190px] w-[54px] overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out sm:h-[260px] sm:w-[90px] sm:rounded-xl md:h-[360px] md:w-[260px] md:rounded-[18px] md:shadow-[0_15px_35px_rgba(0,0,0,0.25)] ${positionStyles[position]}`}
+                className={`absolute left-1/2 top-1/2 h-[190px] w-[90px] overflow-hidden rounded-lg shadow-md transition-all duration-700 ease-out sm:h-[260px] sm:w-[90px] sm:rounded-xl md:h-[360px] md:w-[260px] md:rounded-[18px] md:shadow-[0_15px_35px_rgba(0,0,0,0.25)] ${positionStyles[position]}`}
               >
                 {position === "center" ? (
                   <button
