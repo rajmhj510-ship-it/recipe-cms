@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
+  await requireAdmin();
   const [recipeCount, categoryCount, subscriberCount] = await Promise.all([
     prisma.recipe.count(),
     prisma.category.count(),
