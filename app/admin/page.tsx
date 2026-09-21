@@ -6,12 +6,17 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   await requireAdmin();
-  const [recipeCount, categoryCount, subscriberCount, featuredCount, favoriteCount] = await Promise.all([
+  const [recipeCount, categoryCount, subscriberCount, featuredCount, favoriteCount, recentRecipes] = await Promise.all([
     prisma.recipe.count(),
     prisma.category.count(),
     prisma.subscriber.count(),
     prisma.recipe.count({ where: { featured: true } }),
     prisma.recipe.count({ where: { favorite: true } }),
+    prisma.recipe.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: { id: true, title: true, slug: true, createdAt: true },
+    }),
   ]);
 
   return (
@@ -106,6 +111,29 @@ export default async function AdminDashboard() {
             <p className="text-sm font-semibold text-red-700">Favorite Recipes</p>
             <p className="mt-1 text-2xl font-bold text-gray-900">{favoriteCount}</p>
             <p className="mt-1 text-sm text-gray-600">Recipes currently marked as favorites.</p>
+          </div>
+        </div>
+
+        <div className="mt-10 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
+            <div>
+              <h2 className="text-xl font-bold">Recently Added</h2>
+              <p className="mt-1 text-sm text-gray-500">Your latest recipe content.</p>
+            </div>
+            <Link href="/admin/recipes" className="text-sm font-semibold text-orange-600 hover:text-orange-700">View all →</Link>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {recentRecipes.length === 0 ? (
+              <p className="px-6 py-8 text-sm text-gray-500">No recipes added yet.</p>
+            ) : recentRecipes.map((recipe) => (
+              <div key={recipe.id} className="flex flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-gray-900">{recipe.title}</p>
+                  <p className="mt-1 text-xs text-gray-500">Added {recipe.createdAt.toLocaleDateString()}</p>
+                </div>
+                <Link href={`/admin/recipes/edit/${recipe.id}`} className="shrink-0 text-sm font-semibold text-gray-700 hover:text-orange-600">Edit →</Link>
+              </div>
+            ))}
           </div>
         </div>
 
