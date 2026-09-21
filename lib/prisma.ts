@@ -1,7 +1,14 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client";
 
-const connectionString = process.env.DATABASE_URL;
+const rawConnectionString = process.env.DATABASE_URL;
+
+// Keep the current pg-connection-string security semantics explicit and avoid
+// the deprecation warning emitted for the legacy sslmode aliases.
+const connectionString = rawConnectionString?.replace(
+  /([?&]sslmode=)(prefer|require|verify-ca)(?=(&|$))/i,
+  "$1verify-full",
+);
 
 const adapter = new PrismaPg({
   connectionString,
