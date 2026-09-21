@@ -6,18 +6,25 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   await requireAdmin();
-  const [recipeCount, categoryCount, subscriberCount] = await Promise.all([
+  const [recipeCount, categoryCount, subscriberCount, featuredCount, favoriteCount, recentRecipes] = await Promise.all([
     prisma.recipe.count(),
     prisma.category.count(),
     prisma.subscriber.count(),
+    prisma.recipe.count({ where: { featured: true } }),
+    prisma.recipe.count({ where: { favorite: true } }),
+    prisma.recipe.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: { id: true, title: true, slug: true, createdAt: true },
+    }),
   ]);
 
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-900">
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link href="/admin" className="text-2xl font-bold tracking-tight">
-            Recipe<span className="text-orange-600">CMS</span>
+    <main className="min-h-screen bg-[#f8f7f4] text-gray-900">
+      <header className="border-b border-orange-100/80 bg-white/90 shadow-sm backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5">
+          <Link href="/admin" className="flex items-center gap-3" aria-label="Recipe CMS admin home">
+            <img src="/logo.png" alt="" className="h-11 w-11 rounded-xl object-cover shadow-sm" />
           </Link>
 
           <div className="flex items-center gap-3">
@@ -40,13 +47,13 @@ export default async function AdminDashboard() {
         </div>
       </header>
 
-      <section className="mx-auto max-w-7xl px-6 py-12">
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <div>
           <p className="text-sm font-bold uppercase tracking-widest text-orange-600">
             Administration
           </p>
 
-          <h1 className="mt-2 text-4xl font-bold tracking-tight">
+          <h1 className="mt-2 text-4xl font-black tracking-[-0.04em] sm:text-5xl">
             Dashboard
           </h1>
 
@@ -56,7 +63,7 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-[0_10px_35px_rgba(17,24,39,0.05)] transition hover:-translate-y-0.5 hover:shadow-lg">
             <p className="text-sm font-semibold text-gray-500">Recipes</p>
             <p className="mt-2 text-4xl font-bold">{recipeCount}</p>
             <Link
@@ -91,6 +98,42 @@ export default async function AdminDashboard() {
             >
               Manage Subscribers →
             </Link>
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-orange-100 bg-orange-50 p-5">
+            <p className="text-sm font-semibold text-orange-700">Featured Recipes</p>
+            <p className="mt-1 text-2xl font-bold text-gray-900">{featuredCount}</p>
+            <p className="mt-1 text-sm text-gray-600">Currently featured on the website.</p>
+          </div>
+          <div className="rounded-2xl border border-red-100 bg-red-50 p-5">
+            <p className="text-sm font-semibold text-red-700">Favorite Recipes</p>
+            <p className="mt-1 text-2xl font-bold text-gray-900">{favoriteCount}</p>
+            <p className="mt-1 text-sm text-gray-600">Recipes currently marked as favorites.</p>
+          </div>
+        </div>
+
+        <div className="mt-10 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
+            <div>
+              <h2 className="text-xl font-bold">Recently Added</h2>
+              <p className="mt-1 text-sm text-gray-500">Your latest recipe content.</p>
+            </div>
+            <Link href="/admin/recipes" className="text-sm font-semibold text-orange-600 hover:text-orange-700">View all →</Link>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {recentRecipes.length === 0 ? (
+              <p className="px-6 py-8 text-sm text-gray-500">No recipes added yet.</p>
+            ) : recentRecipes.map((recipe) => (
+              <div key={recipe.id} className="flex flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-gray-900">{recipe.title}</p>
+                  <p className="mt-1 text-xs text-gray-500">Added {recipe.createdAt.toLocaleDateString()}</p>
+                </div>
+                <Link href={`/admin/recipes/edit/${recipe.id}`} className="shrink-0 text-sm font-semibold text-gray-700 hover:text-orange-600">Edit →</Link>
+              </div>
+            ))}
           </div>
         </div>
 

@@ -12,10 +12,11 @@ type PublicHeaderProps = {
 
 export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
   return (
-    <header className="print:hidden sticky top-0 z-50 border-b border-gray-200/80 bg-white/95 shadow-sm backdrop-blur">
+    <header className="print:hidden sticky top-0 z-50 border-b border-orange-100/80 bg-white/90 shadow-[0_4px_24px_rgba(124,45,18,0.06)] backdrop-blur-xl">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:min-h-[72px] sm:px-6 lg:px-8">
-        <Link href="/" className="shrink-0 text-xl font-extrabold tracking-tight sm:text-2xl">
-          Recipe<span className="text-orange-600">CMS</span>
+        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Recipe CMS home">
+          <img src="/logo.png" alt="" className="h-10 w-10 rounded-xl object-cover shadow-sm sm:h-11 sm:w-11" />
+          <span className="text-xl font-black tracking-[-0.04em] text-gray-950 sm:text-2xl">Recipe<span className="text-orange-600">CMS</span></span>
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary navigation">
@@ -23,7 +24,7 @@ export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
             <Link
               key={link.href}
               href={link.href}
-              className={`font-semibold transition hover:text-orange-600 ${active === (["home", "recipes", "favorites"] as const)[index] ? "text-orange-600" : "text-gray-600"}`}
+              className={`relative py-2 font-semibold transition hover:text-orange-600 ${active === (["home", "recipes", "favorites"] as const)[index] ? "text-orange-600" : "text-gray-600"}`}
               aria-current={active === (["home", "recipes", "favorites"] as const)[index] ? "page" : undefined}
             >
               {link.label}
@@ -40,7 +41,7 @@ export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
         <div className="flex items-center gap-2">
           <Link
             href="/admin"
-            className="hidden rounded-full bg-orange-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-700 sm:inline-flex sm:px-5"
+            className="hidden rounded-full bg-gray-950 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-lg sm:inline-flex sm:px-5"
           >
             Admin
           </Link>

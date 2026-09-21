@@ -6,7 +6,7 @@ export const alt = "Recipe social post";
 export const contentType = "image/png";
 export const size = { width: 1080, height: 1080 };
 
-export async function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const recipe = await prisma.recipe.findUnique({
     where: { slug },
@@ -27,6 +27,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
       ? recipe.prepTime + recipe.cookTime
       : recipe.prepTime ?? recipe.cookTime;
 
+  const logoResponse = await fetch(new URL("/logo.png", request.url));
+  const logoBuffer = await logoResponse.arrayBuffer();
+  const logoData = `data:image/png;base64,${Buffer.from(logoBuffer).toString("base64")}`;
+
   return new ImageResponse(
     <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: "#fff7ed", color: "#111827", fontFamily: "Arial" }}>
       {recipe.image ? (
@@ -35,9 +39,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
       <div style={{ position: "absolute", inset: 0, display: "flex", background: "rgba(0,0,0,0.42)" }} />
       <div style={{ position: "absolute", left: 72, right: 72, bottom: 72, display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 18, marginBottom: 24 }}>
-          <div style={{ background: "#ea580c", color: "white", borderRadius: 999, padding: "10px 20px", fontSize: 24, fontWeight: 700 }}>
-            RECIPE CMS
-          </div>
+          <img src={logoData} width="72" height="72" style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 18 }} />
           {recipe.category ? <div style={{ color: "white", fontSize: 26, fontWeight: 600 }}>{recipe.category.name}</div> : null}
         </div>
         <div style={{ color: "white", fontSize: 66, lineHeight: 1.05, fontWeight: 800, maxWidth: 900 }}>{recipe.title}</div>

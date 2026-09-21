@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-gray-50 px-6">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Login</h1>
+          <div className="flex items-center gap-3"><img src="/logo.png" alt="Recipe CMS" className="h-12 w-12 rounded-xl object-cover shadow-sm" /><h1 className="text-3xl font-bold text-gray-900">Admin Login</h1></div>
           <Link
             href="/"
             className="text-2xl font-semibold text-gray-500 hover:text-gray-900"

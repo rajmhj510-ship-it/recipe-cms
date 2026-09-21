@@ -6,8 +6,10 @@ import { revalidatePath } from "next/cache";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const dynamic = "force-dynamic";
 
-export default async function SubscribersPage() {
+export default async function SubscribersPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   await requireAdmin();
+  const params = await searchParams;
+  const query = (params.q || "").trim();
   async function addSubscriber(formData: FormData) {
     "use server";
     await requireAdmin();
@@ -89,9 +91,8 @@ export default async function SubscribersPage() {
   }
 
   const subscribers = await prisma.subscriber.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
+    where: query ? { email: { contains: query, mode: "insensitive" } } : undefined,
+    orderBy: { createdAt: "desc" },
   });
 
   return (
@@ -120,6 +121,13 @@ export default async function SubscribersPage() {
             Back to Dashboard
           </Link>
         </div>
+
+        <form method="GET" className="mb-6 flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:flex-row">
+          <label htmlFor="subscriber-search" className="sr-only">Search subscribers</label>
+          <input id="subscriber-search" name="q" type="search" defaultValue={query} placeholder="Search email address..." className="min-w-0 flex-1 rounded-xl border border-gray-200 px-4 py-3 text-gray-900 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100" />
+          <button type="submit" className="rounded-xl bg-gray-900 px-6 py-3 font-semibold text-white hover:bg-gray-800">Search</button>
+          {query && <Link href="/admin/subscribers" className="rounded-xl border border-gray-200 px-6 py-3 text-center font-semibold text-gray-700 hover:bg-gray-50">Clear</Link>}
+        </form>
 
         <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-bold text-gray-900">

@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Recipe CMS",
   },
   description: "Discover delicious recipes for every occasion.",
+  icons: { icon: "/logo.png", apple: "/logo.png" },
 };
 
 export default function RootLayout({

@@ -40,15 +40,15 @@ export default async function Home() {
     <main className="min-h-screen overflow-x-hidden bg-white text-gray-900">
       <PublicHeader active="home" />
 
-      <section className="bg-orange-50">
-        <div className="mx-auto max-w-7xl px-4 py-12 text-center sm:px-6 sm:py-20 md:py-24">
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_right,_#ffedd5_0,_#fff7ed_35%,_#ffffff_72%)]">
+        <div className="relative mx-auto max-w-7xl px-4 py-14 text-center sm:px-6 sm:py-24 md:py-28">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-orange-600 sm:mb-4 sm:text-sm sm:tracking-[0.25em]">
             Welcome to Recipe CMS
           </p>
-          <h1 className="mx-auto max-w-4xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+          <h1 className="mx-auto max-w-4xl text-4xl font-black leading-[1.02] tracking-[-0.05em] text-gray-950 sm:text-6xl md:text-7xl">
             Discover delicious recipes for every occasion
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-xs leading-5 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8">
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-6 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8">
             Find simple, delicious recipes and discover your next favorite meal.
           </p>
           <div className="mt-6 sm:mt-8">
@@ -58,10 +58,10 @@ export default async function Home() {
       </section>
 
       <section id="recipes" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 md:py-20">
-        <div className="mb-6 flex items-end justify-between sm:mb-10">
+        <div className="mb-7 flex items-end justify-between sm:mb-10">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-orange-600 sm:text-sm">Our picks</p>
-            <h2 className="mt-1 text-2xl font-bold tracking-tight sm:mt-2 sm:text-4xl">Featured Recipes</h2>
+            <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:mt-2 sm:text-4xl">Featured Recipes</h2>
           </div>
           <Link href="/recipes" className="hidden font-semibold text-orange-600 transition hover:text-orange-700 sm:block">
             View all →
@@ -101,7 +101,7 @@ export default async function Home() {
           ) : (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
               {featuredRecipes.map((recipe) => (
-                <Link href={`/recipes/${recipe.slug}`} key={recipe.id} className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <Link href={`/recipes/${recipe.slug}`} key={recipe.id} className="group overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-[0_8px_30px_rgba(17,24,39,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-xl">
                   <div className="aspect-[4/3] overflow-hidden bg-gray-100">
                     {recipe.image ? (
                       <img src={recipe.image} alt={recipe.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
@@ -138,7 +138,7 @@ export default async function Home() {
                 <Link
                   key={recipe.id}
                   href={`/recipes/${recipe.slug}`}
-                  className="group flex min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+                  className="group flex min-w-0 overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-[0_8px_30px_rgba(17,24,39,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="h-28 w-28 shrink-0 overflow-hidden bg-gray-100 sm:h-32 sm:w-32">
                     {recipe.image ? (
@@ -175,7 +175,7 @@ export default async function Home() {
 
           <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
             {categories.map((category) => (
-              <Link href={`/recipes?category=${category.slug}`} key={category.id} className="group rounded-xl border border-gray-200 bg-white p-4 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:rounded-2xl sm:p-8">
+              <Link href={`/recipes?category=${category.slug}`} key={category.id} className="group rounded-2xl border border-gray-200/80 bg-white p-4 text-center shadow-[0_8px_30px_rgba(17,24,39,0.05)] transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl sm:p-8">
                 <div className="text-3xl sm:text-5xl">🍽️</div>
                 <h3 className="mt-3 text-sm font-bold group-hover:text-orange-600 sm:mt-5 sm:text-xl">{category.name}</h3>
                 <p className="mt-1 text-xs text-gray-500 sm:mt-2 sm:text-base">Explore recipes →</p>
@@ -186,7 +186,7 @@ export default async function Home() {
       </section>
 
       <section id="blog" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 md:py-20">
-        <div className="rounded-2xl bg-orange-600 px-5 py-10 text-center text-white sm:rounded-3xl sm:px-8 sm:py-16 md:px-16">
+        <div className="rounded-3xl bg-gradient-to-br from-orange-600 via-orange-600 to-amber-500 px-5 py-10 text-center text-white shadow-[0_20px_60px_rgba(234,88,12,0.2)] sm:px-8 sm:py-16 md:px-16">
           <p className="text-xs font-bold uppercase tracking-widest sm:text-sm">Stay inspired</p>
           <h2 className="mt-2 text-2xl font-bold sm:mt-3 sm:text-4xl">Get delicious recipes in your inbox</h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-orange-100 sm:mt-4 sm:text-base">

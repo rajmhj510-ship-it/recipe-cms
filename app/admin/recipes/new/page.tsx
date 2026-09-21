@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/require-admin";
 import { prisma } from "../../../../lib/prisma";
 import RecipeTitleSlugFields from "./RecipeTitleSlugFields";
+import ImageUrlPreview from "../ImageUrlPreview";
 
 async function createRecipe(formData: FormData) {
   "use server";
@@ -243,17 +244,7 @@ export default async function NewRecipePage() {
             </div>
           </div>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Image URL
-            </label>
-            <input
-              type="url"
-              name="image"
-              placeholder="https://example.com/recipe-image.jpg"
-              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-black"
-            />
-          </div>
+          <ImageUrlPreview defaultValue="" />
 
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">

@@ -48,7 +48,7 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
   return (
     <>
       <PublicHeader active="recipes" />
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen bg-[#fafafa]">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
           <Link
             href="/"
@@ -57,11 +57,11 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
             ← Back to Home
           </Link>
 
-          <div className="mb-8 rounded-3xl bg-white p-6 shadow-sm sm:mb-10 sm:p-8">
+          <div className="mb-8 rounded-3xl border border-gray-200/80 bg-white p-6 shadow-[0_12px_40px_rgba(17,24,39,0.05)] sm:mb-10 sm:p-8">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
               Browse the collection
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h1 className="mt-2 text-4xl font-black tracking-[-0.04em] text-gray-950 sm:text-5xl">
               {heading}
             </h1>
             <p className="mt-2 text-gray-600">
@@ -73,7 +73,7 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
           <div className="mb-8 flex flex-wrap gap-2 sm:mb-10 sm:gap-3">
             <Link
               href="/recipes"
-              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+              className={`rounded-full border border-transparent px-5 py-2.5 text-sm font-semibold transition ${
                 !selectedCategory
                   ? "bg-orange-600 text-white"
                   : "bg-white text-gray-700 shadow-sm hover:bg-orange-50"
