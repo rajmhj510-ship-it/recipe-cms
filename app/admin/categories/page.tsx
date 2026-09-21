@@ -27,9 +27,12 @@ async function deleteCategory(formData: FormData) {
     );
   }
 
-  await prisma.category.delete({
+  await prisma.category.deleteMany({
     where: {
       id,
+      recipes: {
+        none: {},
+      },
     },
   });
 revalidatePath("/");
