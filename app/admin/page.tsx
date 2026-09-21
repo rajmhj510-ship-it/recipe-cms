@@ -23,8 +23,8 @@ export default async function AdminDashboard() {
     <main className="min-h-screen bg-[#f8f7f4] text-gray-900">
       <header className="border-b border-orange-100/80 bg-white/90 shadow-sm backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5">
-          <Link href="/admin" className="text-2xl font-black tracking-[-0.04em]">
-            Recipe<span className="text-orange-600">CMS</span>
+          <Link href="/admin" className="flex items-center gap-3" aria-label="Recipe CMS admin home">
+            <img src="/logo.png" alt="" className="h-11 w-11 rounded-xl object-cover shadow-sm" />
           </Link>
 
           <div className="flex items-center gap-3">
