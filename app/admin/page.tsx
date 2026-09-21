@@ -6,10 +6,12 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   await requireAdmin();
-  const [recipeCount, categoryCount, subscriberCount] = await Promise.all([
+  const [recipeCount, categoryCount, subscriberCount, featuredCount, favoriteCount] = await Promise.all([
     prisma.recipe.count(),
     prisma.category.count(),
     prisma.subscriber.count(),
+    prisma.recipe.count({ where: { featured: true } }),
+    prisma.recipe.count({ where: { favorite: true } }),
   ]);
 
   return (
@@ -91,6 +93,19 @@ export default async function AdminDashboard() {
             >
               Manage Subscribers →
             </Link>
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-orange-100 bg-orange-50 p-5">
+            <p className="text-sm font-semibold text-orange-700">Featured Recipes</p>
+            <p className="mt-1 text-2xl font-bold text-gray-900">{featuredCount}</p>
+            <p className="mt-1 text-sm text-gray-600">Currently featured on the website.</p>
+          </div>
+          <div className="rounded-2xl border border-red-100 bg-red-50 p-5">
+            <p className="text-sm font-semibold text-red-700">Favorite Recipes</p>
+            <p className="mt-1 text-2xl font-bold text-gray-900">{favoriteCount}</p>
+            <p className="mt-1 text-sm text-gray-600">Recipes currently marked as favorites.</p>
           </div>
         </div>
 
