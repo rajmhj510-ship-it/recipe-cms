@@ -14,9 +14,8 @@ export default function PublicHeader({ active = "home" }: PublicHeaderProps) {
   return (
     <header className="print:hidden sticky top-0 z-50 border-b border-orange-100/80 bg-white/90 shadow-[0_4px_24px_rgba(124,45,18,0.06)] backdrop-blur-xl">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:min-h-[72px] sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Recipe CMS home">
-          <img src="/logo.png" alt="" className="h-10 w-10 rounded-xl object-cover shadow-sm sm:h-11 sm:w-11" />
-          <span className="text-xl font-black tracking-[-0.04em] text-gray-950 sm:text-2xl">Recipe<span className="text-orange-600">CMS</span></span>
+        <Link href="/" className="flex shrink-0 items-center" aria-label="Recipe CMS home">
+          <img src="/logo.png" alt="Recipe CMS" className="h-10 w-10 rounded-xl object-cover shadow-sm sm:h-11 sm:w-11" />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary navigation">
