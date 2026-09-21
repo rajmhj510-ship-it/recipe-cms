@@ -54,9 +54,9 @@ export default async function CategoriesPage() {
   });
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
+    <main className="min-h-screen bg-gray-100 px-4 py-8 sm:p-8">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Link
               href="/admin"
@@ -76,7 +76,7 @@ export default async function CategoriesPage() {
 
           <Link
             href="/admin/categories/new"
-            className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white hover:bg-gray-800"
+            className="inline-flex items-center justify-center rounded-lg bg-black px-5 py-3 text-sm font-medium text-white hover:bg-gray-800"
           >
             Add Category
           </Link>
@@ -96,7 +96,7 @@ export default async function CategoriesPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[640px]">
                 <thead className="border-b bg-gray-50">
                   <tr>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
